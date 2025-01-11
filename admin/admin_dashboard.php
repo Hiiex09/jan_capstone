@@ -37,23 +37,11 @@ if ($schoolyear) {
 </head>
 
 <body>
-
-
   <div class="container-full flex justify-center items-center gap-2 bg-[#3C3D37]">
     <div>
       <?php if (isset($_SESSION['username'])): ?>
         <div class="p-4">
           <div class="p-4 bg-base-100 shadow text-black w-full rounded-md hidden md:block">
-
-            <div class="flex justify-start items-center">
-              <div class="mx-3">
-                <h2 class="text-3xl"><span class="font-bold">Welcome</span> <span class="text-slate-900 font-semibold"><?= htmlspecialchars($_SESSION['username']) ?></span></h2>
-              </div>
-              <div>
-                <img src="../admin/tools/Images/hello_admin.svg" alt="hello" class="w-10 h-20">
-              </div>
-            </div>
-
             <div class="flex justify-start items-center mx-4 mt-2">
               <div>
                 <p class="text-3xl">Academic Year:
@@ -82,16 +70,14 @@ if ($schoolyear) {
 
           </div>
         </div>
-        <div class="grid  sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 m-4 gap-8">
-
+        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 m-4 gap-8">
+          <!-- Manage Teacher Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/teacher_side_com.svg"
-                alt="teacher" />
+              <img src="../admin/tools/img_side/teacher_side_com.svg" alt="Teacher" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage Teacher</div>
+              <h2 class="card-title">Manage Teacher</h2>
               <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">
@@ -99,7 +85,6 @@ if ($schoolyear) {
                   $count = 0;
                   $sql = "SELECT COUNT(*) AS total FROM `tblteacher`";
                   $result = mysqli_query($conn, $sql);
-
                   if ($result) {
                     $row = mysqli_fetch_assoc($result);
                     $count = $row['total'];
@@ -112,14 +97,13 @@ if ($schoolyear) {
             </div>
           </div>
 
+          <!-- Manage Student Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/student_side.svg"
-                alt="student" />
+              <img src="../admin/tools/img_side/student_side.svg" alt="Student" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage Student</div>
+              <h2 class="card-title">Manage Student</h2>
               <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">
@@ -127,7 +111,6 @@ if ($schoolyear) {
                   $count = 0;
                   $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
                   $result = mysqli_query($conn, $sql);
-
                   if ($result) {
                     $row = mysqli_fetch_assoc($result);
                     $count = $row['total'];
@@ -140,22 +123,20 @@ if ($schoolyear) {
             </div>
           </div>
 
+          <!-- Manage User Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/user_side.svg"
-                alt="department" />
+              <img src="../admin/tools/img_side/user_side.svg" alt="User" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage User</div>
-              <div class="flex justify-center items-center gap-3 mt-7">
+              <h2 class="card-title">Manage User</h2>
+              <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">
                   <?php
                   $count = 0;
                   $sql = "SELECT COUNT(*) AS total FROM `admin`";
                   $result = mysqli_query($conn, $sql);
-
                   if ($result) {
                     $row = mysqli_fetch_assoc($result);
                     $count = $row['total'];
@@ -168,22 +149,20 @@ if ($schoolyear) {
             </div>
           </div>
 
+          <!-- Manage Department Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/department_side.svg"
-                alt="department" />
+              <img src="../admin/tools/img_side/department_side.svg" alt="Department" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage Department</div>
-              <div class="flex justify-center items-center gap-3 mt-1">
+              <h2 class="card-title">Manage Department</h2>
+              <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">
                   <?php
                   $count = 0;
                   $sql = "SELECT COUNT(*) AS total FROM `tbldepartment`";
                   $result = mysqli_query($conn, $sql);
-
                   if ($result) {
                     $row = mysqli_fetch_assoc($result);
                     $count = $row['total'];
@@ -196,14 +175,13 @@ if ($schoolyear) {
             </div>
           </div>
 
+          <!-- Manage Section Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/section_side.svg"
-                alt="section" />
+              <img src="../admin/tools/img_side/section_side.svg" alt="Section" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage Section</div>
+              <h2 class="card-title">Manage Section</h2>
               <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">
@@ -211,7 +189,6 @@ if ($schoolyear) {
                   $count = 0;
                   $sql = "SELECT COUNT(*) AS total FROM `tblsection`";
                   $result = mysqli_query($conn, $sql);
-
                   if ($result) {
                     $row = mysqli_fetch_assoc($result);
                     $count = $row['total'];
@@ -224,14 +201,13 @@ if ($schoolyear) {
             </div>
           </div>
 
+          <!-- Manage Criteria Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/criteria_side.svg"
-                alt="criteria" />
+              <img src="../admin/tools/img_side/criteria_side.svg" alt="Criteria" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage Criteria</div>
+              <h2 class="card-title">Manage Criteria</h2>
               <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">
@@ -239,7 +215,6 @@ if ($schoolyear) {
                   $count = 0;
                   $sql = "SELECT COUNT(*) AS total FROM `tblcriteria`";
                   $result = mysqli_query($conn, $sql);
-
                   if ($result) {
                     $row = mysqli_fetch_assoc($result);
                     $count = $row['total'];
@@ -252,14 +227,13 @@ if ($schoolyear) {
             </div>
           </div>
 
+          <!-- Manage Subject Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/subject_side.svg"
-                alt="subject" />
+              <img src="../admin/tools/img_side/subject_side.svg" alt="Subject" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage Subject</div>
+              <h2 class="card-title">Manage Subject</h2>
               <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">
@@ -267,7 +241,6 @@ if ($schoolyear) {
                   $count = 0;
                   $sql = "SELECT COUNT(*) AS total FROM `tblsubject`";
                   $result = mysqli_query($conn, $sql);
-
                   if ($result) {
                     $row = mysqli_fetch_assoc($result);
                     $count = $row['total'];
@@ -280,14 +253,13 @@ if ($schoolyear) {
             </div>
           </div>
 
+          <!-- Manage Archive Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>
-              <img
-                src="../admin/tools/img_side/archive_side.svg"
-                alt="subject" />
+              <img src="../admin/tools/img_side/archive_side.svg" alt="Archive" />
             </figure>
             <div class="card-body">
-              <div class="card-title">Manage Archive</div>
+              <h2 class="card-title">Manage Archive</h2>
               <div class="flex justify-center items-center gap-3 mt-8">
                 <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
                 <div class="text-6xl">0</div>
@@ -295,8 +267,8 @@ if ($schoolyear) {
               <a href="#viewArchive" class="btn btn-primary btn-outline w-[150px] mt-14">View Archive</a>
             </div>
           </div>
-
         </div>
+
     </div>
 
     <script src="https://cdn.tailwindcss.com"></script>
