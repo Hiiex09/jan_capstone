@@ -52,19 +52,25 @@ $conn->close();
 
 
 <body>
-  <div class="hero bg-blue-300 min-h-screen">
-    <div class="hero-content flex-col lg:flex-row-reverse">
-      <div class="text-center lg:text-left mx-4">
-        <h1 class="text-5xl font-bold" style="font-family: 'Teko';">Login</h1>
-        <p class="py-6 text-3xl text-justify leading-2 font-bold" style="font-family: 'Teko';">
-          Welcome to our <span class="text-blue-900 font-semibold">Teacher Evaluation Platform</span>,
-          Your feedback is incredibly valuable in helping us enhance the learning experience and recognize the hard work of our educators.
-          By sharing your honest thoughts, you contribute to a positive and thriving academic environment.
-          Remember, your input remains confidential and plays a vital role in shaping the future of our teaching methods.</br>
-        </p>
-        <span class="text-3xl mt-3 font-bold" style="font-family: 'Teko';">Thank you for taking the time to make a difference!</span>
-      </div>
-      <div class="card bg-base-100 w-full max-w-sm shrink-0 shadow-2xl">
+  <div class="navbar bg-blue-900 border">
+    <div class="text-2xl text-white" style="font-family: Outfit;">Cebu Eastern College</div>
+  </div>
+
+
+  <div class="hero min-h-screen relative z-50">
+    <div class="hero-content grid grid-cols-2 w-full rounded-md absolute">
+      <div class="card bg-base-100 w-full shrink-0 border p-20">
+        <div class="flex flex-col justify-center items-center">
+          <div class="text-center text-2xl">
+            <h1 class="text-3xl" style="font-family: Outfit;">Student Evaluation System</h1>
+          </div>
+          <div class="mt-5">
+            <img
+              src="../Capstone/admin/tools/Images/CEC.png"
+              alt="cec_logo"
+              class="h-40 w-40">
+          </div>
+        </div>
         <form
           action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>"
           method="post"
@@ -76,7 +82,7 @@ $conn->close();
             <input
               type="text"
               placeholder="Username"
-              class="input input-bordered text-1xl font-semibold"
+              class="input input-bordered text-1xl font-semibold w-full"
               required
               name="username"
               autocomplete="off" />
@@ -92,9 +98,6 @@ $conn->close();
               required
               name="password"
               autocomplete="off" />
-            <!-- <label class="label">
-              <a href="#" class="label-text-alt link link-hover">Forgot password?</a>
-            </label> -->
           </div>
           <div class="form-control mt-6">
             <button
@@ -109,6 +112,12 @@ $conn->close();
             </div>
           <?php endif; ?>
         </form>
+      </div>
+      <div class=" h-full">
+        <img
+          src="../Capstone/admin/tools/Images/front_page.png"
+          alt="cebu_eastern_college"
+          class=" h-full object-cover" />
       </div>
     </div>
   </div>

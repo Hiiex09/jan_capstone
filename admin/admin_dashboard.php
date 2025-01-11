@@ -39,7 +39,7 @@ if ($schoolyear) {
 <body>
 
 
-  <div class="container-full flex justify-center items-center gap-2 bg-blue-100">
+  <div class="container-full flex justify-center items-center gap-2 bg-[#3C3D37]">
     <div>
       <?php if (isset($_SESSION['username'])): ?>
         <div class="p-4">
@@ -108,7 +108,7 @@ if ($schoolyear) {
                   ?>
                 </div>
               </div>
-              <a href="../admin/teacher_table.php" class="btn btn-primary btn-outline w-[150px] mt-14">View Teacher</a>
+              <a href="../admin/manage_teacher.php" class="btn btn-primary btn-outline w-[150px] mt-14">View Teacher</a>
             </div>
           </div>
 
