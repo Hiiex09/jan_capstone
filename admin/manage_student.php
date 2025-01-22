@@ -1,4 +1,4 @@
-<?php
+<?php /*
 include('../database/models/dbconnect.php');
 session_start();
 ?>
@@ -16,7 +16,39 @@ if (isset($_GET['search']) && !empty($_GET['search'])) {
   $sql .= " WHERE s.name LIKE '%$searchTerm%' OR s.school_id LIKE '%$searchTerm%'";
 }
 
-$result = $conn->query($sql);
+$result = $conn->query($sql);*/
+
+include('../database/models/dbconnect.php');
+session_start();
+
+// Pagination settings
+$results_per_page = 10;
+if (isset($_GET["page"])) {
+  $page = $_GET["page"];
+} else {
+  $page = 1;
+}
+$start_from = ($page - 1) * $results_per_page;
+
+$sql = "SELECT s.student_id, s.school_id, s.name, s.email, s.year_level, s.image, 
+        d.department_name, sec.section_name, ss.is_regular
+        FROM tblstudent s
+        LEFT JOIN `tbldepartment` d ON s.department_id = d.department_id
+        LEFT JOIN `tblstudent_section` ss ON s.student_id = ss.student_id
+        LEFT JOIN `tblsection` sec ON ss.section_id = sec.section_id";
+
+// Search functionality with pagination
+if (isset($_GET['search']) && !empty($_GET['search'])) {
+  $searchTerm = $conn->real_escape_string($_GET['search']);
+  $sql .= " WHERE s.name LIKE '%$searchTerm%' OR s.school_id LIKE '%$searchTerm%'";
+}
+
+$sql_with_limit = $sql . " LIMIT $start_from, $results_per_page"; // Add LIMIT clause for pagination
+$result = $conn->query($sql_with_limit);
+
+// Get total number of results for pagination
+$total_results = $conn->query($sql);
+$total_pages = ceil($total_results->num_rows / $results_per_page);
 ?>
 
 <?php include('../admin/header.php'); ?>
@@ -363,26 +395,56 @@ $result = $conn->query($sql);
         </table>
       </div>
     </section>
+    <div class="m-5 p-4">
+      <section>
+        <div class="m-5">
+          <div class="flex justify-between items-center">
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="overflow-y-auto m-3">
+          <table class="table border border-2 shadow">
+            <thead>
+            </thead>
+            <tbody>
+              <?php if ($result->num_rows > 0): ?>
+                <?php while ($row = $result->fetch_assoc()): ?>
+                  <tr class="border-b hover:bg-gray-100 cursor-pointer">
+                  </tr>
+                <?php endwhile; ?>
+              <?php else: ?>
+                <!-- <tr>
+                  <td colspan="9">No students found.</td>
+                </tr> -->
+              <?php endif; ?>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <div class="flex justify-center mt-4">
+        <div class="btn-group">
+          <?php if ($page > 1): ?>
+            <a href="?page=<?php echo $page - 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn">«</a>
+          <?php endif; ?>
+
+          <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+            <a href="?page=<?php echo $i; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn <?php if ($i == $page) echo 'btn-active'; ?>"><?php echo $i; ?></a>
+          <?php endfor; ?>
+
+          <?php if ($page < $total_pages): ?>
+            <a href="?page=<?php echo $page + 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn">»</a>
+          <?php endif; ?>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    const btnModal = document.querySelector('.js-modal');
-    const modal = document.querySelector('.modal');
-    const btnClose = document.querySelectorAll('.js-close');
-
-    btnModal.addEventListener('click', () => {
-      modal.classList.remove('hidden');
-    });
-
-
-    btnClose.forEach((button) => {
-      button.addEventListener('click', () => {
-        modal.classList.add('hidden'); // Nya diri mawala ang modal
-      });
-    });
-
-
     function previewImage(event) {
       const file = event.target.files[0];
       const preview = document.getElementById('image-preview');
