@@ -307,7 +307,7 @@ $result = $conn->query($sql);
                   <td class="text-center text-black border">
                     <div class="w-full flex justify-center items-center">
                       <div class="m-1 w-full">
-                        <a href="../admin/manage_teacher_ratings.php">
+                        <a href="manage_teacher_ratings.php?teacher_id=<?php echo htmlspecialchars($row['teacher_id']); ?>">
                           <img src="../admin/tools/Images/view.svg" alt="School ID"
                             class="w-full h-8 px-2 rounded-md py-1 bg-green-900 hover:bg-green-500 top-1 left-8">
                         </a>

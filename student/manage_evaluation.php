@@ -32,7 +32,7 @@ if ($result->num_rows > 0) {
   // Handle the case where there is no active school year
   echo "<script>
   alert('No active school year found.');
-  window.location.href='../student/studentDashboard.php';
+  window.location.href='../student/student_dashboard.php';
   </script>";
 
   exit;

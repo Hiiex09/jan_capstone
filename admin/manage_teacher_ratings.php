@@ -83,13 +83,13 @@ if (isset($_GET['teacher_id'])) {
   exit;
 }
 ?>
-
+<?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
   <meta charset="UTF-8">
-  <title>Teacher Ratings</title>
+  <title>Teacher Ratings Status</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -101,11 +101,11 @@ if (isset($_GET['teacher_id'])) {
   </script>
 </head>
 
-<body class="bg-gray-100 p-6">
+<body class="bg-gray-100">
 
   <!-- Teacher's Information -->
   <div class="flex items-center bg-white shadow-lg rounded-lg p-4 mb-6">
-    <img src="../pic/pics/<?= htmlspecialchars($teacher_image); ?>" alt="Teacher's Image" class="w-20 h-20 rounded-full border border-gray-300">
+    <img src="../upload/pics/<?= htmlspecialchars($teacher_image); ?>" alt="Teacher's Image" class="w-20 h-20 rounded-full border border-gray-300">
     <div class="ml-4">
       <h1 class="text-2xl font-bold"><?= htmlspecialchars($teacher_name); ?></h1>
     </div>
