@@ -47,7 +47,8 @@ $conn->close();
   <link href="https://fonts.googleapis.com/css?family=Teko:300,regular,500,600,700" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Roboto:100,100italic,300,300italic,regular,italic,500,500italic,700,700italic,900,900italic" rel="stylesheet" />
   <link href="https://fonts.googleapis.com/css?family=Outfit:100,200,300,regular,500,600,700,800,900" rel="stylesheet" />
-  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.14/dist/full.min.css" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5.0.0-beta.2/daisyui.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
 </head>
 
 
@@ -76,33 +77,37 @@ $conn->close();
           method="post"
           class="card-body">
           <div class="form-control">
-            <label class="label" style="font-family: 'Outfit';">
-              <span class="label-text text-2xl font-semibold">Username</span>
+            <label class="floating-label">
+              <span>Username</span>
+              <input
+                type="text"
+                placeholder="Username"
+                class="input input-lg w-full"
+                required
+                autocomplete="off"
+                name="username" />
             </label>
-            <input
-              type="text"
-              placeholder="Username"
-              class="input input-bordered text-1xl font-semibold w-full"
-              required
-              name="username"
-              autocomplete="off" />
+
+
           </div>
           <div class="form-control">
-            <label class="label" style="font-family: 'Outfit';">
-              <span class="label-text text-2xl font-semibold">Password</span>
+
+            <label class="floating-label">
+              <span>Password</span>
+              <input
+                type="password"
+                placeholder="Password"
+                class="input input-lg w-full"
+                required
+                autocomplete="off"
+                name="password" />
             </label>
-            <input
-              type="password"
-              placeholder="************"
-              class="input input-bordered"
-              required
-              name="password"
-              autocomplete="off" />
+
           </div>
           <div class="form-control mt-6">
             <button
               type="submit"
-              class="btn bg-blue-900 btn-outline text-white text-lg"
+              class="btn bg-blue-900 btn-outline text-white text-lg w-full"
               name="submit"
               style="font-family: 'Outfit';">Login</button>
           </div>
@@ -113,7 +118,7 @@ $conn->close();
           <?php endif; ?>
         </form>
       </div>
-      <div class=" h-full">
+      <div class="h-full">
         <img
           src="../Capstone/admin/tools/Images/front_page.png"
           alt="cebu_eastern_college"
