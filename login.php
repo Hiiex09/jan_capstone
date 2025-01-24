@@ -85,10 +85,9 @@ $conn->close();
                 class="input input-lg w-full"
                 required
                 autocomplete="off"
-                name="username" />
+                name="username"
+                style="font-family: Outfit;" />
             </label>
-
-
           </div>
           <div class="form-control">
 
@@ -100,9 +99,9 @@ $conn->close();
                 class="input input-lg w-full"
                 required
                 autocomplete="off"
-                name="password" />
+                name="password"
+                style="font-family: Outfit;" />
             </label>
-
           </div>
           <div class="form-control mt-6">
             <button
