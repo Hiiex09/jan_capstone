@@ -16,9 +16,6 @@ function adminLogin($username, $password)
       while ($row = $result->fetch_assoc()) {
         $_SESSION['username'] = $row['username'];
         header('Location: ./admin/admin_dashboard.php');
-        echo "<script>
-             alert('Login Success. Admin login successful.');
-            </script>";
         exit();
       }
     }

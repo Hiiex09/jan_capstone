@@ -286,10 +286,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
 
-  <div class="w-full bg-white p-6 rounded-lg shadow-lg">
-    <h1 class="text-center text-4xl text-gray-800">Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?> - <span class="text-blue-500"><?php echo htmlspecialchars($_SESSION['school_id']); ?></span></h1>
-    <h2 class="text-center text-2xl text-slate-900 mt-2">Your Assigned Teachers and Subjects</h2>
+  <header class="flex flex-col justify-center items-center p-6">
+    <div>
+      <h1 class="text-center text-4xl text-gray-800">Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?> -
+        <span class="text-blue-500"><?php echo htmlspecialchars($_SESSION['school_id']); ?></span>
+      </h1>
+    </div>
+    <div>
+      <h2 class="text-center text-2xl text-slate-900 mt-2">Your Assigned Teachers and Subjects</h2>
+    </div>
+  </header>
 
+
+  <div class=" p-6 rounded-lg shadow-lg">
     <?php if (!empty($teachers)): ?>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 w-full">
         <?php foreach ($teachers as $teacher): ?>
