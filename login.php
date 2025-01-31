@@ -60,7 +60,7 @@ $conn->close();
 
   <div class="hero min-h-screen relative z-50">
     <div class="hero-content grid grid-cols-2 w-full rounded-md absolute">
-      <div class="card bg-base-100 w-full shrink-0 border p-20">
+      <div class="card bg-base-100 w-full shrink-0 border p-20 shadow-lg shadow-base-300">
         <div class="flex flex-col justify-center items-center">
           <div class="text-center text-2xl">
             <h1 class="text-3xl" style="font-family: Outfit;">Student Evaluation System</h1>
@@ -82,7 +82,7 @@ $conn->close();
               <input
                 type="text"
                 placeholder="Username"
-                class="input input-lg w-full"
+                class="input input-lg w-full shadow-lg"
                 required
                 autocomplete="off"
                 name="username"
@@ -96,7 +96,7 @@ $conn->close();
               <input
                 type="password"
                 placeholder="Password"
-                class="input input-lg w-full"
+                class="input input-lg w-full shadow-lg"
                 required
                 autocomplete="off"
                 name="password"
