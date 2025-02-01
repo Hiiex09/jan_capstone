@@ -14,7 +14,7 @@ include('../database/models/dbconnect.php');
 
 <body>
 
-  <div class="navbar bg-blue-900 shadow shadow-gray-800">
+  <div class="navbar bg-slate-900 shadow shadow-gray-800">
     <div class="flex-1 hover:border-s-4 border-white rounded-md">
       <a href="../admin/admin_dashboard.php" class="btn btn-ghost text-2xl text-white">Cebu Eastern College</a>
     </div>
@@ -48,162 +48,173 @@ include('../database/models/dbconnect.php');
         </ul>
       </div>
     </div>
-
+    <div>
+      <label class="grid cursor-pointer place-items-center">
+        <input
+          type="checkbox"
+          id="theme-toggle"
+          class="toggle theme-controller bg-base-content col-span-2 col-start-1" />
+        <svg class="stroke-base-100 fill-base-100 col-start-1 row-start-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5" />
+          <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
+        </svg>
+        <svg class="stroke-base-100 fill-base-100 col-start-2 row-start-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </label>
+    </div>
   </div>
+
   <div class="drawer z-50">
     <input id="my-drawer" type="checkbox" class="drawer-toggle" />
     <div class="drawer-content m-4 flex justify-start items-center gap-3">
       <div>
-        <img src="../admin/tools/Images/dashboard.svg" alt="logo" class="w-10 h-10">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 text-blue-900">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
+        </svg>
       </div>
       <div>
-        <label for="my-drawer" class="cursor-pointer drawer-button text-4xl font-bold">Dashboard</label>
+        <label for="my-drawer" class="cursor-pointer drawer-button text-4xl">Dashboard</label>
       </div>
     </div>
+
+
     <div class="drawer-side">
       <label for="my-drawer" aria-label="close sidebar" class="drawer-overlay"></label>
-      <ul class="menu bg-base-200 text-base-content min-h-full w-96">
+      <ul class="menu bg-base-200 text-base-content min-h-full w-80">
+
+
         <!-- Student Table & Management -->
-        <div class="collapse hover:bg-blue-200 w-full">
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50 pt-5">
           <input type="checkbox" />
-          <div class="collapse-title text-center text-xl flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/student_side.svg" alt="student" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Student
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-3-3h-2m-6 5H2v-2a3 3 0 013-3h2m6-6a3 3 0 100-6 3 3 0 000 6z" />
+            </svg>
+            <span class="text-lg text-black">Manage Student</span>
           </div>
-          <div class="collapse-content text-center">
-            <a href="../admin/manage_student.php" class="text-lg hover:font-semibold hover:text-red-900">View Student</a>
+          <div class="collapse-content p-2">
+            <a href="../admin/manage_student.php" class="hover:font-semibold text-sm ">View Student</a>
           </div>
         </div>
+
+
         <!-- Teacher Table & Management -->
-        <div class="collapse hover:bg-blue-200 w-full">
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/teacher_side_com.svg" alt="teacher" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Teacher
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 14.25c-4.97 0-9 1.567-9 3.5v2.25h18V17.75c0-1.933-4.03-3.5-9-3.5zM12 3.75a3 3 0 00-3 3V9c0 .818.393 1.5.75 1.5h4.5c.357 0 .75-.682.75-1.5V6.75a3 3 0 00-3-3z" />
+            </svg>
+            <span class="text-lg text-black">Manage Teacher</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center">
-            <a href="../admin/manage_teacher.php" class="text-lg hover:font-semibold hover:text-red-900">View Teacher</a>
-            <a href="../admin/manage_reg_student.php" class="hover:font-semibold text-lg flex justify-start items-center gap-4">
-              <img src="../admin/tools/img_side/assign_side.svg" alt="assing_side" class="w-7 h-7">
-              <p class="hover:text-red-900">Assign Regular Student</p>
-            </a>
-            <a href="../admin/manage_irreg_student.php" class="hover:font-semibold text-lg flex justify-start items-center gap-4">
-              <img src="../admin/tools/img_side/assign_side.svg" alt="assing_side" class="w-7 h-7">
-              <p class="hover:text-red-900">Assign Irregular Student</p>
-            </a>
+          <div class="collapse-content p-2 flex flex-col">
+            <a href="../admin/manage_teacher.php" class="hover:font-semibold hover:text-red-900">View Teacher</a>
+            <a href="../admin/manage_reg_student.php" class="hover:font-semibold hover:text-red-900">Assign Regular Student</a>
+            <a href="../admin/manage_irreg_student.php" class="hover:font-semibold hover:text-red-900">Assign Irregular Student</a>
           </div>
         </div>
 
-        <div class="collapse hover:bg-blue-200 w-full">
+        <!-- Manage Admin -->
+
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/teacher_side_com.svg" alt="teacher" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Admin
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75a3.75 3.75 0 01-3.75-3.75 3.75 3.75 0 017.5 0A3.75 3.75 0 0112 15.75zM8.25 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 018.25 12z" />
+            </svg>
+            <span class="text-lg text-black">Manage Admin</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center">
-            <a href="#viewStudent" class="text-lg hover:font-semibold hover:text-red-900">View Admin</a>
+          <div class="collapse-content p-2">
+            <a href="#viewAdmin" class="hover:font-semibold hover:text-red-900">View Admin</a>
           </div>
         </div>
 
-        <div class="collapse hover:bg-blue-200 w-full">
+        <!-- Manage Academic -->
+
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/academic_side.svg" alt="academic" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Academic
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75a3.75 3.75 0 01-3.75-3.75 3.75 3.75 0 017.5 0A3.75 3.75 0 0112 15.75zM8.25 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 018.25 12z" />
+            </svg>
+            <span class="text-lg text-black">Manage Academic</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center">
-            <a href="../admin/manage_academic.php" class="text-lg hover:font-semibold hover:text-red-900">View Academic</a>
+          <div class="collapse-content p-2">
+            <a href="../admin/manage_academic.php" class="hover:font-semibold hover:text-red-900">View Academic</a>
           </div>
         </div>
 
-        <div class="collapse hover:bg-blue-200 w-full">
+        <!-- Manage Department -->
+
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/department_side.svg" alt="department" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Department
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
+            </svg>
+            <span class="text-lg text-black">Manage Department</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center">
-            <a href="../admin/manage_department.php" class="text-lg hover:font-semibold hover:text-red-900">View Department</a>
+          <div class="collapse-content p-2">
+            <a href="../admin/manage_department.php" class="hover:font-semibold hover:text-red-900">View Department</a>
           </div>
         </div>
 
-        <div class="collapse hover:bg-blue-200 w-full">
+        <!-- Manage Section -->
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/section_side.svg" alt="section" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Section
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
+            </svg>
+            <span class="text-lg text-black">Manage Section</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center">
-            <a href="../admin/manage_section.php" class="text-lg hover:font-semibold hover:text-red-900">View Section</a>
+          <div class="collapse-content p-2">
+            <a href="../admin/manage_section.php" class="hover:font-semibold hover:text-red-900">View Section</a>
           </div>
         </div>
 
-        <div class="collapse hover:bg-blue-200 w-full">
+        <!-- Manage Criteria -->
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/criteria_side.svg" alt="criteria" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Criteria
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
+            </svg>
+            <span class="text-lg text-black">Manage Criteria</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center">
-            <a href="../admin/criteria.php" class="text-lg hover:font-semibold hover:text-red-900">View Criteria</a>
+          <div class="collapse-content p-2">
+            <a href="../admin/criteria.php" class="hover:font-semibold hover:text-red-900">View Criteria</a>
           </div>
         </div>
 
-        <div class="collapse hover:bg-blue-200 w-full">
+
+        <!-- Manage Subject -->
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/subject_side.svg" alt="subject" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Subject
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16M4 5a2 2 0 012-2h12a2 2 0 012 2M4 5a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2m-4 6H8m4 4H8" />
+            </svg>
+            <span class="text-lg text-black">Manage Subject</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center">
-            <a href="../admin/manage_subject.php" class="text-lg hover:font-semibold hover:text-red-900">View Subject</a>
+          <div class="collapse-content p-2">
+            <a href="../admin/manage_subject.php" class="hover:font-semibold hover:text-red-900">View Subject</a>
           </div>
         </div>
 
-        <div class="collapse hover:bg-blue-200 w-full">
+
+        <!-- Manage Archive -->
+        <div class="collapse hover:shadow-lg hover:shadow-base-300/50">
           <input type="checkbox" />
-          <div class="collapse-title text-center  flex justify-center items-center">
-            <div>
-              <img src="../admin/tools/img_side/archive_side.svg" alt="archive" class="w-16 h-16">
-            </div>
-            <div class="text-xl text-black flex-1">
-              Manage Archive
-            </div>
+          <div class="collapse-title flex items-center gap-3 p-3">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16M4 5a2 2 0 012-2h12a2 2 0 012 2M4 5a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2m-4 6H8m4 4H8" />
+            </svg>
+            <span class="text-lg text-black">Manage Archive</span>
           </div>
-          <div class="collapse-content text-center flex flex-col justify-start items-center gap-4">
-            <a href="#viewStudent" class="text-lg hover:font-semibold hover:text-red-900">View Archive</a>
+          <div class="collapse-content p-2">
+            <a href="#viewArchive" class="hover:font-semibold hover:text-red-900">View Archive</a>
           </div>
         </div>
 
@@ -211,6 +222,26 @@ include('../database/models/dbconnect.php');
     </div>
   </div>
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Function to apply theme
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+    }
+
+    // Load theme from localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "light";
+      applyTheme(savedTheme);
+      document.getElementById("theme-toggle").checked = savedTheme === "dark";
+    });
+
+    // Toggle theme and save to localStorage
+    document.getElementById("theme-toggle").addEventListener("change", function() {
+      const newTheme = this.checked ? "dark" : "light";
+      applyTheme(newTheme);
+    });
+  </script>
 </body>
 
 </html>

@@ -37,7 +37,7 @@ if ($schoolyear) {
 </head>
 
 <body>
-  <div class="container-full flex justify-center items-center gap-2 bg-[#3C3D37]">
+  <div class="container-full flex justify-center items-center gap-2 bg-[#3C3D37] p-20">
     <div>
       <?php if (isset($_SESSION['username'])): ?>
         <div class="p-4">
