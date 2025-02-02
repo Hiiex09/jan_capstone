@@ -37,40 +37,40 @@ if ($schoolyear) {
 </head>
 
 <body>
-  <div class="container-full flex justify-center items-center gap-2 bg-[#3C3D37] p-20">
+  <div class="container-full flex justify-center items-center gap-2 p-20">
     <div>
       <?php if (isset($_SESSION['username'])): ?>
         <div class="p-4">
           <div class="p-4 bg-base-100 shadow text-black w-full rounded-md hidden md:block">
             <div class="flex justify-start items-center mx-4 mt-2">
               <div>
-                <p class="text-3xl">Academic Year:
+                <div class="text-2xl">Academic Year:
                   <?= htmlspecialchars($_SESSION['school_year'] === "Not Set" ? "Not Set" : $_SESSION['school_year']) ?>
-                </p>
+                </div>
               </div>
             </div>
 
             <div class="flex justify-start items-center mx-4 mt-2">
               <div>
-                <p class="text-3xl">Semester:
+                <div class="text-3xl">Semester:
                   <?= $_SESSION['semester'] == '1' ? 'First Semester' : ($_SESSION['semester'] == '2' ? 'Second Semester' : 'Not Yet Started') ?>
-                </p>
+                </div>
               </div>
             </div>
 
             <div class="flex justify-start items-center mx-4 mt-2">
               <div>
                 <!-- Display status -->
-                <p class="text-3xl relative">Status: <?= htmlspecialchars($_SESSION['is_status']) ?></p>
+                <div class="text-3xl relative">Status: <?= htmlspecialchars($_SESSION['is_status']) ?></div>
               <?php else: ?>
-                <p>Academic year and semester not set. Please set the active semester.</p>
+                <div>Academic year and semester not set. Please set the active semester.</div>
               <?php endif; ?>
               </div>
             </div>
 
           </div>
         </div>
-        <div class="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-4 m-4 gap-8">
+        <div class="grid grid-cols-3 m-4 gap-8">
           <!-- Manage Teacher Card -->
           <div class="card card-side bg-base-100 shadow-xl border p-4">
             <figure>

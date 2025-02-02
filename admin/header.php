@@ -48,7 +48,7 @@ include('../database/models/dbconnect.php');
         </ul>
       </div>
     </div>
-    <div>
+    <div class="mx-5">
       <label class="grid cursor-pointer place-items-center">
         <input
           type="checkbox"
@@ -231,14 +231,14 @@ include('../database/models/dbconnect.php');
 
     // Load theme from localStorage
     document.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme") || "light";
+      const savedTheme = localStorage.getItem("theme") || "nord";
       applyTheme(savedTheme);
-      document.getElementById("theme-toggle").checked = savedTheme === "dark";
+      document.getElementById("theme-toggle").checked = savedTheme === "luxury";
     });
 
     // Toggle theme and save to localStorage
     document.getElementById("theme-toggle").addEventListener("change", function() {
-      const newTheme = this.checked ? "dark" : "light";
+      const newTheme = this.checked ? "luxury" : "nord";
       applyTheme(newTheme);
     });
   </script>
