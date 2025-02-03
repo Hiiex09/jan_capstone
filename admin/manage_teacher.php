@@ -37,7 +37,7 @@ $result = $conn->query($sql);
       <!-- You can open the modal using ID.showModal() method -->
       <button class="btn btn-neutral btn-outline" onclick="my_modal_4.showModal()">Add Teacher</button>
       <dialog id="my_modal_4" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl bg-slate-900">
+        <div class="modal-box w-11/12 max-w-5xl bg-secondary-content">
           <h3 class="text-lg font-bold text-white">Teacher Profile</h3>
           <form
             action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>"
@@ -160,7 +160,7 @@ $result = $conn->query($sql);
                     placeholder="Year Level"
                     name="year" autocomplete="off">
                 </div> -->
-                  <div class="mt-2 flex flex-col justify-center items-start">
+                  <div class="mt-3 flex flex-col justify-center items-start">
                     <div class="m-1 w-full flex justify-between items-start">
                       <div>
                         <label class="text-white text-lg">Department</label>
@@ -218,10 +218,8 @@ $result = $conn->query($sql);
 
                     <div>
                       <button type="submit" name="submit"
-                        class="w-full relative text-center text-white bg-blue-900 hover:bg-blue-500  relative py-2 mt-3 rounded-md hover:border-s-4 border-white">
+                        class="w-full relative text-center text-white btn btn-sm btn-outline btn-primary mt-3 rounded-md hover:border-s-4 border-white">
                         Submit
-                        <img src="../admin/tools/Images/send.svg" alt="School ID"
-                          class="w-7 h-7 absolute top-2 left-16">
                       </button>
 
                     </div>
@@ -250,12 +248,12 @@ $result = $conn->query($sql);
           <div>
             <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">
               <div class="flex justify-center item-center w-full mt-6 mb-2">
-                <div class="flex-1">
+                <div class="w-full">
                   <input type="text" name="search"
                     placeholder="Search teachers name, school id..."
                     autocomplete="off" value="<?php echo isset($_GET['search']) ?
                                                 htmlspecialchars($_GET['search']) : ''; ?>"
-                    class="input input-bordered w-full max-w-xs">
+                    class="input input-bordered w-full">
                 </div>
                 <div class="mx-1">
                   <input
@@ -416,8 +414,8 @@ VALUES (?, ?, ?, ?)";
     // Execute the prepared statement
     if ($stmt->execute()) {
       echo "<script>
-  alert('Teacher created successfully!');
-</script>";
+            window.location.href='../admin/manage_teacher.php'; 
+            </script>";
     } else {
       echo "<script>
   alert('Error creating teacher: " . $stmt->error . "');
