@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   // Create action
   if ($action == "create" && !empty($department)) {
     createDepartment($department);
-    header('Location:../admin/department.php'); // Redirect to the same page after creation
+    header('Location:../admin/manage_department.php'); // Redirect to the same page after creation
     exit();
   }
 
@@ -54,7 +54,7 @@ if (isset($_GET['delete'])) {
   deleteDepartment($deptId);
   // header('Location: ../admin/department.php'); // Redirect to the same page after deletion
   echo "<script>
-        window.location.href='../admin/department.php'; 
+        window.location.href='../admin/manage_department.php'; 
         </script>";
   exit();
 }
@@ -163,7 +163,7 @@ function createDepartment($department)
     if ($stmtc->num_rows() > 0) {
       echo "<script>
               // alert('Department already exists.');
-              window.location.href='../admin/department.php';
+              window.location.href='../admin/manage_department.php';
             </script>";
     } else {
       $sql = "INSERT INTO tbldepartment (department_name) VALUES (?)";
@@ -173,7 +173,7 @@ function createDepartment($department)
         // Success message
         echo "<script>
              alert('Department successfully created.');
-              window.location.href='../admin/department.php';
+              window.location.href='../admin/manage_department.php';
             </script>";
       } else {
         // Handle the failure
