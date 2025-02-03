@@ -306,7 +306,7 @@ $result = $conn->query($sql);
                     <div class="w-full flex justify-between items-center gap-2 p-1">
                       <a href="manage_teacher_ratings.php?teacher_id=<?php echo htmlspecialchars($row['teacher_id']); ?>"
                         class="btn btn-sm btn-success flex-1">
-                        Edit
+                        View
                       </a>
                       <a href="#"
                         class="btn btn-sm btn-primary flex-1">

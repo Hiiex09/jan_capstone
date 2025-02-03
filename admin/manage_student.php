@@ -440,15 +440,15 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
       <div class="flex justify-center mt-4">
         <div class="btn-group">
           <?php if ($page > 1): ?>
-            <a href="?page=<?php echo $page - 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn">«</a>
+            <a href="?page=<?php echo $page - 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm">previous</a>
           <?php endif; ?>
 
           <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="?page=<?php echo $i; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn <?php if ($i == $page) echo 'btn-active'; ?>"><?php echo $i; ?></a>
+            <a href="?page=<?php echo $i; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm <?php if ($i == $page) echo 'btn-active'; ?>"><?php echo $i; ?></a>
           <?php endfor; ?>
 
           <?php if ($page < $total_pages): ?>
-            <a href="?page=<?php echo $page + 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn">»</a>
+            <a href="?page=<?php echo $page + 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm">next</a>
           <?php endif; ?>
         </div>
       </div>

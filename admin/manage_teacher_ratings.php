@@ -38,8 +38,8 @@ if (isset($_GET['teacher_id'])) {
   while ($row = mysqli_fetch_assoc($result)) {
     if (empty($teacher_name)) {
       // Store teacher details (name and image) only once
-      $teacher_name = $row['teacher_name'];
-      $teacher_image = $row['teacher_image'];
+      $teacher_name = $row['name'];
+      $teacher_image = $row['image'];
     }
 
     $criteria = $row['criteria'];
@@ -105,7 +105,8 @@ if (isset($_GET['teacher_id'])) {
 
   <!-- Teacher's Information -->
   <div class="flex items-center bg-white shadow-lg rounded-lg p-4 mb-6">
-    <img src="../upload/pics/<?= htmlspecialchars($teacher_image); ?>" alt="Teacher's Image" class="w-20 h-20 rounded-full border border-gray-300">
+    <img src="<?php echo !empty($teacher_image) ? '../upload/pics/' . htmlspecialchars($teacher_image) : '../upload/pics/default.jpg'; ?>"
+      alt="Teacher's Image" class="w-20 h-20 rounded-full border border-gray-300">
     <div class="ml-4">
       <h1 class="text-2xl font-bold"><?= htmlspecialchars($teacher_name); ?></h1>
     </div>
