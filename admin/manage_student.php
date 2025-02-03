@@ -559,6 +559,9 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
 
           if ($stmt_section->execute()) {
             echo "<script>alert('Student created successfully!');</script>";
+            echo "<script>
+                  window.location.href='../admin/manage_student.php'; 
+                  </script>";
           } else {
             echo "Error: " . $stmt_section->error;
           }
@@ -575,9 +578,13 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
         $stmt_section->bind_param("iii", $student_id, $section_id, $is_regular);
 
         if ($stmt_section->execute()) {
+          echo "<script>
+                window.location.href='../admin/manage_student.php'; 
+                </script>";
+
           echo " <div class='alert alert-success'>
-                    <span>Irregular student added successfully without section!</span>
-                  </div>";
+                <span>Irregular student added successfully without section!</span>
+              </div>";
         } else {
           echo "Error: " . $stmt_section->error;
         }
