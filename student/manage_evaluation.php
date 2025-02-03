@@ -4,6 +4,7 @@ include('../database/models/dbconnect.php'); // Include database connection
 session_start();
 
 // Check if the student is logged in
+
 if (!isset($_SESSION['student_id']) && !isset($_SESSION['school_id']) || !isset($_SESSION['name'])) {
   echo "Please log in as a student to view your teachers.";
   exit;

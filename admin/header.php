@@ -126,7 +126,7 @@ include('../database/models/dbconnect.php');
             <span class="text-lg text-black">Manage Admin</span>
           </div>
           <div class="collapse-content p-2">
-            <a href="#viewAdmin" class="hover:font-semibold hover:text-red-900">View Admin</a>
+            <a href="../admin/manage_admin.php" class="hover:font-semibold hover:text-red-900">View Admin</a>
           </div>
         </div>
 

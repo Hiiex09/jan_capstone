@@ -62,14 +62,14 @@ $conn->close();
     <div class="hero-content grid grid-cols-2 w-full rounded-md absolute">
       <div class="card bg-base-100 w-full shrink-0 border p-20 shadow-lg shadow-base-300">
         <div class="flex flex-col justify-center items-center">
-          <div class="text-center text-2xl">
+          <div class="text-center text-2xl p-5">
             <h1 class="text-3xl" style="font-family: Outfit;">Student Evaluation System</h1>
           </div>
           <div class="mt-5">
             <img
               src="../Capstone/admin/tools/Images/CEC.png"
               alt="cec_logo"
-              class="h-40 w-40">
+              class="h-40 w-40 rounded-full">
           </div>
         </div>
         <form
@@ -121,7 +121,7 @@ $conn->close();
         <img
           src="../Capstone/admin/tools/Images/front_page.png"
           alt="cebu_eastern_college"
-          class=" h-full object-cover" />
+          class=" h-full object-cover animate-pulse" />
       </div>
     </div>
   </div>
