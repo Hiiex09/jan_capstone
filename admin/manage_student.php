@@ -67,11 +67,21 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
 
   <div class="m-5 p-4">
     <section class="m-5">
-      <!-- You can open the modal using ID.showModal() method -->
-      <button class="btn btn-neutral btn-outline" onclick="my_modal_4.showModal()">Add Student</button>
-      <dialog id="my_modal_4" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl bg-slate-900">
-          <h3 class="text-lg text-white font-bold">Student Details</h3>
+      <!-- Open the modal using ID.showModal() method -->
+      <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Student</button>
+      <dialog id="my_modal_2" class="modal">
+        <div class="modal-box w-11/12 max-w-5xl bg-primary-content">
+          <h3 class="text-lg text-white font-bold">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="h-8 w-8 opacity-70 animate-bounce">
+              <path
+                d="M8 .5a1 1 0 0 1 .515.14l5 3A1 1 0 0 1 14 4.5v3a7.5 7.5 0 0 1-6.22 7.426 1 1 0 0 1-.56 0A7.5 7.5 0 0 1 1 7.5v-3a1 1 0 0 1 .485-.86l5-3A1 1 0 0 1 8 .5Zm0 1.234L3 4.18V7.5a6.5 6.5 0 0 0 5 6.326A6.5 6.5 0 0 0 13 7.5V4.18l-5-2.446Z" />
+            </svg>
+            Student Details
+          </h3>
           <form
             action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>"
             method="post"
@@ -112,76 +122,93 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
                     <div>
                       <label class="text-white">School ID</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/id.svg" alt="School ID"
-                          class="w-7 h-7">
-                      </span>
-                    </div>
                   </div>
                   <div>
-                    <input
-                      type="text"
-                      class="w-full px-3 py-2 border-s-4 shadow text-black border-blue-900 rounded-sm"
-                      placeholder="School ID"
-                      minlength="7" maxlength="7" name="school_id"
-                      autocomplete="off" value="<?php echo isset($schoolId); ?>">
+                    <!-- School ID -->
+                    <label class="input input-bordered flex items-center gap-2 mt-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 opacity-70"
+                        id="id-icon">
+                        <path
+                          d="M1 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3z" />
+                        <path
+                          d="M4 6h8v2H4V6zm0 4h5v2H4v-2z" />
+                      </svg>
+                      <input type="text" class="grow" placeholder="School ID" minlength="7" maxlength="7" name="school_id"
+                        autocomplete="off" value="<?php echo isset($schoolId); ?>" />
+                    </label>
                   </div>
                   <div class="m-1 flex justify-between items-center">
                     <div>
                       <label class="text-white">First Name</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/user.svg" alt="School ID"
-                          class="w-7 h-7">
-                      </span>
-                    </div>
                   </div>
                   <div>
-                    <input
-                      type="text"
-                      class="w-full px-3 py-2 border-s-4 shadow text-black border-blue-900 rounded-sm"
-                      placeholder="First Name"
-                      name="fname" autocomplete="off">
+                    <!-- First Name -->
+                    <label class="input input-bordered flex items-center gap-2 mt-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 opacity-70"
+                        id="notebook-icon">
+                        <path
+                          d="M3 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3zM4 2h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
+                        <path
+                          d="M6 3v10h4V3H6z" />
+                      </svg>
+                      <input type="text" class="grow" placeholder="First Name" name="fname" autocomplete="off" />
+                    </label>
                   </div>
                   <div class="m-1 flex justify-between items-center">
                     <div>
                       <label class="text-lg text-white">Last Name</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/user.svg" alt="School ID"
-                          class="w-7 h-7">
-                      </span>
-                    </div>
+
                   </div>
                   <div>
-                    <input
-                      type="text"
-                      class="w-full px-3 py-2 border-s-4 shadow text-black border-blue-900 rounded-sm"
-                      placeholder="Last Name"
-                      name="lname" autocomplete="off">
+
+                    <!-- Last Name -->
+                    <label class="input input-bordered flex items-center gap-2 mt-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 opacity-70"
+                        id="notebook-icon">
+                        <path
+                          d="M3 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3zM4 2h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
+                        <path
+                          d="M6 3v10h4V3H6z" />
+                      </svg>
+                      <input type="text" class="grow" placeholder="Last Name" name="lname" autocomplete="off" />
+                    </label>
                   </div>
                   <div class="m-1 flex justify-between items-center">
                     <div>
                       <label class="text-lg text-white">Email</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/email.svg" alt="School ID"
-                          class="w-7 h-7">
-                      </span>
-                    </div>
                   </div>
                   <div>
+                    <!-- Email -->
+                    <label class="input input-bordered flex items-center gap-2 mt-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 opacity-70">
+                        <path
+                          d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                        <path
+                          d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                      </svg>
+                      <input type="text" class="grow" placeholder="Email" name="email" autocomplete="off" />
+                    </label>
                     <input
-                      type="text"
-                      class="w-full px-3 py-2 border-s-4 shadow text-black border-blue-900 rounded-sm"
-                      placeholder="Email"
-                      name="email" autocomplete="off">
-                    <input
-                      class="w-full px-3 py-2 border-s-4 shadow text-black border-blue-900 rounded-sm"
+                      class="w-full px-3 py-2 border-s-4 shadow text-white border-blue-900 rounded-sm"
                       type="hidden"
                       name="password"
                       autocomplete="off" value="<?php echo isset($schoolId); ?>" readonly>
@@ -192,37 +219,30 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
                     <div>
                       <label class="text-lg text-white">Year</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/number.svg" alt="School ID"
-                          class="w-7 h-7">
-                      </span>
-                    </div>
                   </div>
-                  <div class="m-1 flex justify-start items-center">
-                    <input
-                      type="text"
-                      class="w-full text-black px-3 py-2 border-s-4 shadow border-blue-900 rounded-sm"
-                      placeholder="Year"
-                      name="year">
-                  </div>
+                  <!-- Year -->
+                  <label class="input input-bordered flex items-center gap-2 mt-3">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="h-4 w-4 opacity-70">
+                      <path
+                        d="M3 0a1 1 0 0 1 1 1v1h8V1a1 1 0 0 1 2 0v1h1a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h1V1a1 1 0 0 1 1-1zm0 3v10h10V3H3z" />
+                    </svg>
+                    <input type="text" class="grow" placeholder="Year" name="year" />
+                  </label>
                   <div class="mt-2 flex flex-col justify-center items-startw-full">
                     <div class="m-1 flex justify-between items-center">
                       <div>
                         <label class="text-lg text-white">Department</label>
                       </div>
-                      <div>
-                        <span>
-                          <img src="../admin/tools/Images/department.svg" alt="School ID"
-                            class="w-7 h-7">
-                        </span>
-                      </div>
+
                     </div>
                     <div>
-                      <select
+                      <select class="select select-bordered w-full max-w-xs"
                         name="department_id"
-                        required
-                        class="px-3 py-2 w-full border-s-4 shadow border-blue-900 text-black rounded-sm">
+                        required>
                         <option value="" disabled selected class="text-white">Select Department</option>
                         <?php
                         $department = $conn->query("SELECT * FROM tbldepartment");
@@ -235,16 +255,9 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
                       <div>
                         <label class="text-lg text-white">Section</label>
                       </div>
-                      <div>
-                        <span>
-                          <img src="../admin/tools/Images/section.svg" alt="School ID"
-                            class="w-7 h-7">
-                        </span>
-                      </div>
                     </div>
                     <div>
-                      <select name="section_id" id="section" class="w-full text-black px-3 py-2 
-                      border-s-4 border-blue-900 rounded-sm" required>
+                      <select class="select select-bordered w-full max-w-xs" name="section_id" id="section">
                         <option value="" disabled selected>Select Section</option>
                         <?php
                         $section = $conn->query("SELECT * FROM tblsection");
@@ -270,11 +283,8 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
                   <div class="mt-2">
                     <div>
                       <button type="submit" name="submit"
-                        class="px-8 py-2 w-full text-lg text-white
-                         bg-blue-600 rounded-md mb-1 relative hover:border-s-4 border-white">
+                        class="px-8 py-2 w-full btn  btn-primary rounded-md">
                         Submit
-                        <img src="../admin/tools/Images/send.svg" alt="School ID"
-                          class="w-7 h-7 absolute top-2 left-16">
                       </button>
                     </div>
 
@@ -289,6 +299,9 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
             </form>
           </div>
         </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
     </section>
 

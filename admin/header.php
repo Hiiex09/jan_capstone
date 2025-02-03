@@ -233,12 +233,12 @@ include('../database/models/dbconnect.php');
     document.addEventListener("DOMContentLoaded", () => {
       const savedTheme = localStorage.getItem("theme") || "nord";
       applyTheme(savedTheme);
-      document.getElementById("theme-toggle").checked = savedTheme === "luxury";
+      document.getElementById("theme-toggle").checked = savedTheme === "coffee";
     });
 
     // Toggle theme and save to localStorage
     document.getElementById("theme-toggle").addEventListener("change", function() {
-      const newTheme = this.checked ? "luxury" : "nord";
+      const newTheme = this.checked ? "coffee" : "nord";
       applyTheme(newTheme);
     });
   </script>
