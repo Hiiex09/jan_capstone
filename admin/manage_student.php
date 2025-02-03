@@ -315,7 +315,7 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
                     type="submit"
                     value="Search"
                     name="enter"
-                    class="px-8 py-3 rounded-md cursor-pointer bg-blue-900 text-white">
+                    class="px-8 py-3 rounded-md cursor-pointer btn btn-md btn-outline">
                 </div>
               </div>
             </form>
@@ -329,24 +329,24 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
       <div class="overflow-y-auto m-3">
         <table class="table border border-2 shadow">
           <thead>
-            <tr>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">School ID</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Profile</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Name</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Email</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Department</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Section</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Year</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Is_Regular</th>
-              <th class="text-center bg-blue-900 text-white text-sm text-black font-bold">Action</th>
+            <tr class="text-center">
+              <th>School ID</th>
+              <th>Profile</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Department</th>
+              <th>Section</th>
+              <th>Year</th>
+              <th>Is_Regular</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
             <?php if ($result->num_rows > 0): ?>
               <?php while ($row = $result->fetch_assoc()): ?>
-                <tr class="border-b hover:bg-gray-100 cursor-pointer">
-                  <td class="px-4 py-2 text-center border"><?php echo htmlspecialchars($row['school_id']); ?></td>
-                  <td class="px-4 py-2 text-center border">
+                <tr class="border-b hover:bg-gray-100 cursor-pointer text-center">
+                  <td class="border"><?php echo htmlspecialchars($row['school_id']); ?></td>
+                  <td class="border">
                     <div class="flex justify-center items-center">
                       <div>
                         <?php if ($row['image']): ?>
@@ -359,12 +359,12 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
 
                     </div>
                   </td>
-                  <td class="px-4 py-2 text-center border"><?php echo htmlspecialchars($row['name']); ?></td>
-                  <td class="px-4 py-2 text-center border"><?php echo htmlspecialchars($row['email']); ?></td>
-                  <td class="px-4 py-2 text-center border"><?php echo htmlspecialchars($row['department_name']); ?></td>
-                  <td class="px-4 py-2 text-center border"><?php echo htmlspecialchars($row['section_name']); ?></td>
-                  <td class="px-4 py-2 text-center border"><?php echo htmlspecialchars($row['year_level']); ?></td>
-                  <td class="px-4 py-2 text-center border"><?php echo $row['is_regular'] ? 'Yes' : 'No'; ?></td>
+                  <td class="border"><?php echo htmlspecialchars($row['name']); ?></td>
+                  <td class="border"><?php echo htmlspecialchars($row['email']); ?></td>
+                  <td class="border"><?php echo htmlspecialchars($row['department_name']); ?></td>
+                  <td class="border"><?php echo htmlspecialchars($row['section_name']); ?></td>
+                  <td class="border"><?php echo htmlspecialchars($row['year_level']); ?></td>
+                  <td class="border"><?php echo $row['is_regular'] ? 'Yes' : 'No'; ?></td>
                   <td class="px-4 py-2 text-center border hover:bg-red-900 hover:text-lg hover:text-white">
                     <div class="flex justify-center items-center gap-3">
                       <!-- <div class="w-full">
