@@ -260,7 +260,7 @@ $result = $conn->query($sql);
                     type="submit"
                     name="enter"
                     value="Search"
-                    class="px-8 py-3 rounded-md cursor-pointer bg-blue-900 text-white">
+                    class="px-8 py-3 rounded-md cursor-pointer btn btn-md btn-outline">
                 </div>
               </div>
             </form>
@@ -273,21 +273,21 @@ $result = $conn->query($sql);
     <section>
       <div class="overflow-x-auto m-3">
         <table class="table-auto w-full border shadow">
-          <thead class=" bg-blue-900 text-white">
-            <tr>
-              <th class="px-4 py-2 text-center">School ID</th>
-              <th class="px-4 py-2 text-center">Profile</th>
-              <th class="px-4 py-2 text-center">Name</th>
-              <th class="px-4 py-2 text-center">Department</th>
-              <th class="px-4 py-2 text-center">Action</th>
+          <thead>
+            <tr class="text-center h-10">
+              <th class=" border">School ID</th>
+              <th class=" border">Profile</th>
+              <th class=" border">Name</th>
+              <th class=" border">Department</th>
+              <th class=" border">Action</th>
             </tr>
           </thead>
           <tbody>
             <?php if ($result->num_rows > 0): ?>
               <?php while ($row = $result->fetch_assoc()): ?>
-                <tr class="border-b hover:bg-pink-50">
-                  <td class="text-center text-black border"><?php echo htmlspecialchars($row['school_id']); ?></td>
-                  <td class="text-center text-black border">
+                <tr class="text-center">
+                  <td class="border border-2"><?php echo htmlspecialchars($row['school_id']); ?></td>
+                  <td class="border border-2">
                     <div class="flex justify-center item-center">
                       <div class="m-1">
                         <?php if ($row['image']): ?>
@@ -299,43 +299,37 @@ $result = $conn->query($sql);
                       </div>
                     </div>
                   </td>
-                  <td class="text-center text-black border"><?php echo htmlspecialchars($row['name']); ?></td>
-                  <td class="text-center text-black border"><?php echo htmlspecialchars($row['department_name']); ?></td>
-                  <!-- <td class="text-center text-black border hidden"><?php echo htmlspecialchars($row['section_name']); ?></td> -->
-                  <td class="text-center text-black border">
-                    <div class="w-full flex justify-center items-center">
-                      <div class="m-1 w-full">
-                        <a href="manage_teacher_ratings.php?teacher_id=<?php echo htmlspecialchars($row['teacher_id']); ?>">
-                          <img src="../admin/tools/Images/view.svg" alt="School ID"
-                            class="w-full h-8 px-2 rounded-md py-1 bg-green-900 hover:bg-green-500 top-1 left-8">
-                        </a>
-                      </div>
-                      <div class="m-1 w-full">
-                        <a href="#">
-                          <img src="../admin/tools/Images/update.svg" alt="School ID"
-                            class="w-full h-8 px-2 rounded-md py-1 bg-blue-900 hover:bg-blue-500 top-1 left-8">
-                        </a>
-                      </div>
-                      <div class="m-1 w-full">
-                        <a href="../admin/delete.php?deleteId=<?php echo $row['teacher_id']; ?>">
-                          <img src="../admin/tools/Images/delete.svg" alt="Delete Teacher"
-                            class="w-full h-8 px-2 rounded-md py-1 bg-red-900 hover:bg-red-500 top-1 left-8">
-                        </a>
-
-                      </div>
+                  <td class="border border-2"><?php echo htmlspecialchars($row['name']); ?></td>
+                  <td class="border border-2"><?php echo htmlspecialchars($row['department_name']); ?></td>
+                  <!-- <td class="text-center text-black border border-2 hidden"><?php echo htmlspecialchars($row['section_name']); ?></td> -->
+                  <td class="border border-2">
+                    <div class="w-full flex justify-between items-center gap-2 p-1">
+                      <a href="manage_teacher_ratings.php?teacher_id=<?php echo htmlspecialchars($row['teacher_id']); ?>"
+                        class="btn btn-sm btn-success flex-1">
+                        Edit
+                      </a>
+                      <a href="#"
+                        class="btn btn-sm btn-primary flex-1">
+                        Update
+                      </a>
+                      <a href="../admin/delete.php?deleteId=<?php echo $row['teacher_id']; ?>"
+                        class="btn btn-sm btn-error flex-1">
+                        Delete
+                      </a>
                     </div>
-                  </td>
-                </tr>
-              <?php endwhile; ?>
-            <?php else: ?>
-              <tr>
-                <td colspan="8">No students found.</td>
-              </tr>
-            <?php endif; ?>
-          </tbody>
-        </table>
       </div>
-    </section>
+      </td>
+      </tr>
+    <?php endwhile; ?>
+  <?php else: ?>
+    <tr>
+      <td colspan="8">No students found.</td>
+    </tr>
+  <?php endif; ?>
+  </tbody>
+  </table>
+  </div>
+  </section>
   </div>
   <script>
     function previewImage(event) {
