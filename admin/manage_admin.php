@@ -72,6 +72,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class=" p-5">
     <h1 class="text-2xl font-bold">Admin Table</h1>
   </div>
+  <div>
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">
+      <div class="flex justify-center item-center w-full mt-6 mb-2">
+        <div class="w-full">
+          <input type="text" name="search"
+            placeholder="Search teachers name, school id..."
+            autocomplete="off" value="<?php echo isset($_GET['search']) ?
+                                        htmlspecialchars($_GET['search']) : ''; ?>"
+            class="input input-bordered w-full">
+        </div>
+        <div class="mx-1">
+          <input
+            type="submit"
+            name="enter"
+            value="Search"
+            class="px-8 py-3 rounded-md cursor-pointer btn btn-md btn-outline">
+        </div>
+      </div>
+    </form>
+  </div>
   <div class="p-5">
     <!-- Open the modal using ID.showModal() method -->
     <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Admin</button>

@@ -1,25 +1,37 @@
 <?php
 include('../database/models/dbconnect.php');
 session_start();
-// include('../admin/aside.php');
-?>
 
-<?php
-$sql = "SELECT t.teacher_id, t.school_id, t.name, t.image, 
-d.department_name, sec.section_name
+$limit = 5; // Number of records per page
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// Count total records
+$totalQuery = "SELECT COUNT(*) as total FROM tblteacher";
+$totalResult = $conn->query($totalQuery);
+$totalRow = $totalResult->fetch_assoc();
+$totalRecords = $totalRow['total'];
+$totalPages = ceil($totalRecords / $limit);
+
+// Modify SQL query to include LIMIT and OFFSET
+$sql = "SELECT t.teacher_id, t.school_id, t.name, t.image, d.department_name
 FROM tblteacher t
 LEFT JOIN tbldepartment d ON t.department_id = d.department_id
 LEFT JOIN tblteacher_section ts ON t.teacher_id = ts.teacher_id
 LEFT JOIN tblsection sec ON ts.section_id = sec.section_id";
 
-// Check if search term exists and modify the query accordingly
+// Check if search term exists
 if (isset($_GET['search']) && !empty($_GET['search'])) {
   $searchTerm = $conn->real_escape_string($_GET['search']);
   $sql .= " WHERE t.name LIKE '%$searchTerm%' OR t.school_id LIKE '%$searchTerm%'";
 }
 
+// Add pagination
+$sql .= " LIMIT $limit OFFSET $offset";
+
 $result = $conn->query($sql);
 ?>
+
 <?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -34,11 +46,21 @@ $result = $conn->query($sql);
 
   <div class="m-5">
     <section class="m-5">
-      <!-- You can open the modal using ID.showModal() method -->
-      <button class="btn btn-neutral btn-outline" onclick="my_modal_4.showModal()">Add Teacher</button>
-      <dialog id="my_modal_4" class="modal">
+      <!-- Open the modal using ID.showModal() method -->
+      <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Teacher</button>
+      <dialog id="my_modal_2" class="modal">
         <div class="modal-box w-11/12 max-w-5xl bg-secondary-content">
-          <h3 class="text-lg font-bold text-white">Teacher Profile</h3>
+          <h3 class="text-lg font-bold text-white">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              fill="currentColor"
+              class="h-8 w-8 opacity-70 animate-bounce">
+              <path
+                d="M8 .5a1 1 0 0 1 .515.14l5 3A1 1 0 0 1 14 4.5v3a7.5 7.5 0 0 1-6.22 7.426 1 1 0 0 1-.56 0A7.5 7.5 0 0 1 1 7.5v-3a1 1 0 0 1 .485-.86l5-3A1 1 0 0 1 8 .5Zm0 1.234L3 4.18V7.5a6.5 6.5 0 0 0 5 6.326A6.5 6.5 0 0 0 13 7.5V4.18l-5-2.446Z" />
+            </svg>
+            Teacher Profile
+          </h3>
           <form
             action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>"
             method="post"
@@ -82,84 +104,79 @@ $result = $conn->query($sql);
                     <div>
                       <label class="text-white">School ID</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/id.svg" alt="School ID"
-                          class="w-9 h-9">
-                      </span>
-                    </div>
+
                   </div>
                   <div>
-                    <input
-                      type="text"
-                      class="w-full px-3 py-2 border-s-8 text-black border-blue-700 rounded-sm"
-                      placeholder="School ID"
-                      minlength="7" maxlength="7" name="school_id"
-                      autocomplete="off" value="<?php echo isset($schoolId); ?>">
+                    <!-- School ID -->
+                    <label class="input input-bordered flex items-center gap-2 mt-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 opacity-70"
+                        id="id-icon">
+                        <path
+                          d="M1 3a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3z" />
+                        <path
+                          d="M4 6h8v2H4V6zm0 4h5v2H4v-2z" />
+                      </svg>
+                      <input type="text" class="grow" placeholder="School ID" minlength="7" maxlength="7" name="school_id"
+                        autocomplete="off" value="<?php echo isset($schoolId); ?>" />
+                    </label>
+
                   </div>
                   <div class="m-1 flex justify-between items-center">
                     <div>
                       <label class="text-white">First Name</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/user.svg" alt="School ID"
-                          class="w-7 h-7">
-                      </span>
-                    </div>
+
                   </div>
                   <div>
-                    <input
-                      type="text"
-                      class="w-full px-3 py-2 border-s-8 text-black border-blue-700 rounded-sm"
-                      placeholder="First Name"
-                      name="fname" autocomplete="off">
+                    <!-- First Name -->
+                    <label class="input input-bordered flex items-center gap-2 mt-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 opacity-70"
+                        id="notebook-icon">
+                        <path
+                          d="M3 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3zM4 2h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
+                        <path
+                          d="M6 3v10h4V3H6z" />
+                      </svg>
+                      <input type="text" class="grow" placeholder="First Name" name="fname" autocomplete="off" />
+                    </label>
                   </div>
                   <div class="m-1 flex justify-between items-center">
                     <div>
                       <label class="text-white">Last Name</label>
                     </div>
-                    <div>
-                      <span>
-                        <img src="../admin/tools/Images/user.svg" alt="School ID"
-                          class="w-7 h-7">
-                      </span>
-                    </div>
-                  </div>
-                  <div>
-                    <input
-                      type="text"
-                      class="w-full px-3 py-2 border-s-8 text-black border-blue-700 rounded-sm"
-                      placeholder="Last Name"
-                      name="lname" autocomplete="off">
-                  </div>
-                  <div class="hidden m-1 flex justify-center items-center">
 
                   </div>
-                  <!-- <div>
-                  <input
-                    type="text"
-                    class="hidden w-full px-3 py-2 border-s-4 text-black border-blue-900 rounded-sm"
-                    placeholder="Email"
-                    name="email" autocomplete="off">
-                  <input
-                    class="w-full px-3 py-2 border-s-4 text-black border-blue-900 rounded-sm"
-                    type="hidden"
-                    name="password"
-                    autocomplete="off" value="<?php echo isset($schoolId); ?>" readonly>
-                </div> -->
+                  <div>
+
+                    <!-- Last Name -->
+                    <label class="input input-bordered flex items-center gap-2 mt-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 16 16"
+                        fill="currentColor"
+                        class="h-4 w-4 opacity-70"
+                        id="notebook-icon">
+                        <path
+                          d="M3 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H3zM4 2h8a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V3a1 1 0 0 1 1-1z" />
+                        <path
+                          d="M6 3v10h4V3H6z" />
+                      </svg>
+                      <input type="text" class="grow" placeholder="Last Name" name="lname" autocomplete="off" />
+                    </label>
+
+                  </div>
+
                 </div>
                 <div class="mt-5">
-                  <!-- <div class="hidden m-1 flex justify-start items-center">
-                  <label>Year Level</label>
-                </div>
-                <div class="m-1 flex justify-start items-center">
-                  <input
-                    type="text"
-                    class="hidden w-full text-black px-3 py-2 border-s-4 border-blue-900 rounded-sm"
-                    placeholder="Year Level"
-                    name="year" autocomplete="off">
-                </div> -->
+
                   <div class="mt-3 flex flex-col justify-center items-start">
                     <div class="m-1 w-full flex justify-between items-start">
                       <div>
@@ -173,11 +190,10 @@ $result = $conn->query($sql);
                       </div>
                     </div>
                     <div>
-                      <select
+                      <select class="select select-bordered w-full max-w-xs"
                         name="department_id"
-                        required
-                        class="px-3 py-2 w-full border-s-8 border-blue-700 text-black rounded-sm cursor-pointer">
-                        <option value="" disabled selected>Select Department</option>
+                        required>
+                        <option value="" disabled selected class="text-white">Select Department</option>
                         <?php
                         $department = $conn->query("SELECT * FROM tbldepartment");
                         while ($row = $department->fetch_assoc()): ?>
@@ -186,36 +202,9 @@ $result = $conn->query($sql);
                       </select>
                     </div>
 
-                    <!-- <div class="hidden m-1 flex justify-start items-center">
-                    <label>Section</label>
-                  </div>
-                  <div>
-                    <select name="section_id" id="section" class="hidden w-full text-black px-3 py-2 
-                      border-s-4 border-blue-900 rounded-sm cursor-pointer" required>
-                      <option value="" disabled selected>Select Section</option>
-                      <?php
-                      $section = $conn->query("SELECT * FROM tblsection");
-                      while ($row = $section->fetch_assoc()): ?>
-                        <option value="<?php echo $row['section_id']; ?>"><?php echo htmlspecialchars($row['section_name']); ?></option>
-                      <?php endwhile; ?>
-                    </select>
-                  </div> -->
-
-                    <!-- <div class="hidden m-1 flex justify-start items-center">
-                    <label class="text-lg">Is Regular: </label>
-                    <div class="mx-2 mt-1">
-                      <input
-                        type="checkbox"
-                        class="hidden w-full text-black border-s-4 border-blue-900 rounded-sm cursor-pointer"
-                        placeholder="Section"
-                        name="is_regular"
-                        value="1">
-                    </div>
-                  </div> -->
 
                   </div>
                   <div class="mt-8">
-
                     <div>
                       <button type="submit" name="submit"
                         class="w-full relative text-center text-white btn btn-sm btn-outline btn-primary mt-3 rounded-md hover:border-s-4 border-white">
@@ -234,6 +223,9 @@ $result = $conn->query($sql);
             </form>
           </div>
         </div>
+        <form method="dialog" class="modal-backdrop">
+          <button>close</button>
+        </form>
       </dialog>
     </section>
 
@@ -271,7 +263,7 @@ $result = $conn->query($sql);
     </section>
 
     <section>
-      <div class="overflow-x-auto m-3">
+      <div class=" m-3">
         <table class="table-auto w-full border shadow">
           <thead>
             <tr class="text-center h-10">
@@ -328,6 +320,30 @@ $result = $conn->query($sql);
   <?php endif; ?>
   </tbody>
   </table>
+  <div class="flex justify-center mt-4">
+    <ul class="flex space-x-2">
+      <?php if ($page > 1): ?>
+        <li>
+          <a href="?page=<?php echo ($page - 1); ?>" class="btn btn-sm  border rounded bg-gray-200 hover:bg-gray-300">Previous</a>
+        </li>
+      <?php endif; ?>
+
+      <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+        <li>
+          <a href="?page=<?php echo $i; ?>" class="btn btn-sm  border rounded <?php echo $i == $page ? 'bg-blue-500 text-white' : 'bg-gray-200 hover:bg-gray-300'; ?>">
+            <?php echo $i; ?>
+          </a>
+        </li>
+      <?php endfor; ?>
+
+      <?php if ($page < $totalPages): ?>
+        <li>
+          <a href="?page=<?php echo ($page + 1); ?>" class="btn btn-sm  border rounded bg-gray-200 hover:bg-gray-300">Next</a>
+        </li>
+      <?php endif; ?>
+    </ul>
+  </div>
+
   </div>
   </section>
   </div>
