@@ -49,7 +49,7 @@ $result = $conn->query($sql);
       <!-- Open the modal using ID.showModal() method -->
       <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Teacher</button>
       <dialog id="my_modal_2" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl bg-secondary-content">
+        <div class="modal-box w-11/12 max-w-5xl">
           <h3 class="text-lg font-bold text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -300,7 +300,7 @@ $result = $conn->query($sql);
                         class="btn btn-sm btn-success flex-1">
                         View
                       </a>
-                      <a href="#"
+                      <a href="../admin/manage_update_teacher.php?teacher_id=<?php echo htmlspecialchars($row['teacher_id']); ?>"
                         class="btn btn-sm btn-primary flex-1">
                         Update
                       </a>
