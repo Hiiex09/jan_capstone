@@ -46,7 +46,30 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
   // Combine first and last names
   $name = $fname . " " . $lname;
 
-  // Set default password as school_id
+  // IYA I-CHECK KUNG ANG STUDENT KAY NAG-EXIST NA PARA IWAS DUPLICATE BA 
+  $checkQuery = "SELECT student_id FROM tblstudent WHERE school_id = ?";
+  $stmtCheck = $conn->prepare($checkQuery);
+  $stmtCheck->bind_param("s", $school_id);
+  $stmtCheck->execute();
+  $stmtCheck->store_result();
+
+
+  if ($stmtCheck->num_rows > 0) {
+    echo "<script>
+    document.addEventListener('DOMContentLoaded', ()=>{
+     showToast('Student already exists!');
+    });
+    setTimeout(()=>{
+    window.location.href = 'manage_student.php';
+    },1500);
+               
+              </script>";
+    $stmtCheck->close();
+    return; // KUNG ANG STUDENT KAY NAG-EXIST NA IYA DAYON I-HUNONG ANG PAG CREATE SA STUDENT
+  }
+  $stmtCheck->close();
+
+  // KANI KAY KUNG UNSA ANG IMONG STUDENT ID MAO RASAD ANG IMONG PASSWORD
   $default_password = $school_id;
 
   // Password verification
@@ -57,7 +80,7 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
 
   // Check if an image file is uploaded
   if ($file['error'] === 4) {
-    echo "<script>alert('Image not exist');</script>";
+    echo "<script>showToast('Image not found!');</script>";
     return;
   }
 
@@ -66,29 +89,29 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
   $imgsize = $file['size'];
   $imgtmp = $file['tmp_name'];
 
-  // Validate image extension
+  // MGA IMAGE NA PWEDE I UPLOAD
   $imgvalid = ['jpeg', 'jpg', 'png', 'svg'];
   $imgEx = strtolower(pathinfo($imgname, PATHINFO_EXTENSION));
 
   // Validate extension and size
   if (!in_array($imgEx, $imgvalid)) {
-    echo "<script>alert('Invalid extension');</script>";
+    echo "<script>showToast('Invalid image extension');</script>";
     return;
   } elseif ($imgsize > 1000000) {
-    echo "<script>alert('Image is too large');</script>";
+    echo "<script>showToast('Image is too large');</script>";
     return;
   }
 
   // Create a unique filename and move the file
   $newimg = uniqid() . '.' . $imgEx;
-  if (!move_uploaded_file($imgtmp, "../pic/pics/$newimg")) {
-    echo "<script>alert('Image upload failed');</script>";
+  if (!move_uploaded_file($imgtmp, "../upload/pics/$newimg")) {
+    echo "<script>showToast('Image upload failed');</script>";
     return;
   }
 
-  // Prepared statement to insert student data
+  // KANI KAY SA PAG HIMO NI OG STUDENT NA MA BUTANG SA DATABASE
   $sql = "INSERT INTO tblstudent (school_id, name, email, password, department_id, year_level, image) 
-          VALUES (?, ?, ?, ?, ?, ?, ?)";
+            VALUES (?, ?, ?, ?, ?, ?, ?)";
 
   if ($stmt = $conn->prepare($sql)) {
     // Bind parameters to the prepared statement
@@ -96,10 +119,9 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
 
     // Execute the prepared statement
     if ($stmt->execute()) {
-      // Get the student_id of the newly inserted student
       $student_id = $stmt->insert_id;
 
-      // Handle irregular students (if no section)
+      // Handle section assignment
       if ($is_regular) {
         // Insert into tblstudent_section if regular student and section is selected
         if (isset($section_id) && !empty($section_id)) {
@@ -107,15 +129,19 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
           $stmt_section->bind_param("iii", $student_id, $section_id, $is_regular);
 
           if ($stmt_section->execute()) {
-            // echo "Student and section information added successfully!";
-            echo '<div class="fixed bottom-0 left-[260px] right-0 top-0 z-10 p-10 bg-blue-900">
-                    <h1>Student and section information added successfully!</h1>
-                    </div>';
+            echo "<script>
+            document.addEventListener('DOMContentLoaded', function() {
+                showToast('Regular student added successfully with section!');
+            });
+            setTimeout(function() {
+                window.location.href = 'manage_student.php';
+            }, 1500);
+          </script>";
           } else {
             echo "Error: " . $stmt_section->error;
           }
 
-          // Close the stmt_section
+          // Close the statement
           $stmt_section->close();
         } else {
           echo "<script>alert('Section is required for regular students.');</script>";
@@ -127,29 +153,33 @@ function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $
         $stmt_section->bind_param("iii", $student_id, $section_id, $is_regular);
 
         if ($stmt_section->execute()) {
-          echo "Irregular student added successfully without section!";
+          echo "<script>
+          document.addEventListener('DOMContentLoaded', function() {
+              showToast('Irregular student added successfully without section!');
+          });
+          setTimeout(function() {
+              window.location.href = 'manage_student.php';
+          }, 1500);
+        </script>";
         } else {
           echo "Error: " . $stmt_section->error;
         }
 
-        // Close the stmt_section
+        // Close the statement
         $stmt_section->close();
       }
     } else {
       echo "Error: " . $stmt->error;
     }
-
-    // Close the statement
     $stmt->close();
   } else {
-    echo "<script>alert('Error: Could not prepare query.');</script>";
+    echo "<script>showToast('Error: Could not prepare query.');</script>";
   }
 }
 
-
-// Call the function with form data
+// Call the function when the form is submitted
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-  $section_id = isset($_POST['section_id']) ? $_POST['section_id'] : null; // Check if section_id is provided
+  $section_id = isset($_POST['section_id']) ? $_POST['section_id'] : null;
   addStudent(
     $conn,
     $_POST['school_id'],
@@ -164,6 +194,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     $_FILES['hen']
   );
 }
+
 ?>
 <?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
@@ -174,10 +205,58 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Table</title>
 
+  <style>
+    /* #toast-container {
+      position: fixed;
+      top: 20px;
+      left: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    } */
+
+    /* Toast style */
+    .toast {
+      background-color: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      animation: fadeIn 0.5s, fadeOut 0.5s 3s forwards;
+
+    }
+
+    /* Keyframes for fade-in and fade-out effect */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
+
 </head>
 
 <body>
 
+  <div id="toast-container" class="flex justify-end me-10 items-center text-2xl text-red-900"></div>
 
   <div class="m-5 p-4">
     <section class="m-5">
@@ -334,7 +413,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                       autocomplete="off" value="<?php echo isset($schoolId); ?>" readonly>
                   </div>
                 </div>
-                <div class="mt-8">
+                <div class="mt-7">
                   <div class="m-1 flex justify-between items-center">
                     <div>
                       <label class="text-lg text-white">Year</label>
@@ -357,7 +436,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                       <div>
                         <label class="text-lg text-white">Department</label>
                       </div>
-
                     </div>
                     <div>
                       <select class="select select-bordered w-full max-w-xs"
@@ -415,7 +493,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
           </form>
           <div class="modal-action">
             <form method="dialog">
-              <button class="btn">Close</button>
+              <button class="btn btn-sm btn-outline">Close</button>
             </form>
           </div>
         </div>
@@ -619,6 +697,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
       // Listen for changes to the checkbox
       isRegularCheckbox.addEventListener('change', toggleSectionVisibility);
     });
+
+
+
+    function showToast(message) {
+      const toastContainer = document.getElementById('toast-container');
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.classList.add('toast');
+      toast.innerText = message;
+
+      // Append to container
+      toastContainer.appendChild(toast);
+
+      // Remove toast after animation ends (4s total)
+      setTimeout(() => {
+        toast.remove();
+      }, 1500);
+    }
   </script>
 </body>
 

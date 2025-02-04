@@ -64,7 +64,7 @@ if (isset($_POST['update'])) {
       <div class="mt-4">
         <div class="m-1 flex justify-between items-center">
           <div>
-            <h1 class="text-white text-2xl">Image Preview</h1>
+            <h1 class=" text-2xl">Image Preview</h1>
           </div>
         </div>
         <div>
@@ -97,7 +97,7 @@ if (isset($_POST['update'])) {
         <div class="mt-8">
           <div class="m-1 flex justify-between items-center">
             <div>
-              <label class="text-white">School ID</label>
+              <label class="">School ID</label>
             </div>
 
           </div>
@@ -122,7 +122,7 @@ if (isset($_POST['update'])) {
           </div>
           <div class="m-1 flex justify-between items-center">
             <div>
-              <label class="text-white">First Name</label>
+              <label class="">First Name</label>
             </div>
 
           </div>
@@ -149,32 +149,24 @@ if (isset($_POST['update'])) {
           <div class="mt-3 flex flex-col justify-center items-start">
             <div class="m-1 w-full flex justify-between items-start">
               <div>
-                <label class="text-white text-lg">Department</label>
-              </div>
-              <div>
-                <span>
-                  <img src="../admin/tools/Images/department.svg" alt="School ID"
-                    class="w-9 h-9">
-                </span>
+                <label class=" text-lg">Department</label>
               </div>
             </div>
-            <div>
-              <select class="select select-bordered w-full max-w-xs"
-                name="department_id"
-                required>
-                <option value="" disabled selected class="text-white">Select Department</option>
-                <?php
-                $department = $conn->query("SELECT * FROM tbldepartment");
-                while ($row = $department->fetch_assoc()): ?>
-                  <option value="<?php echo $row['department_id']; ?>"><?php echo htmlspecialchars($row['department_name']); ?></option>
-                <?php endwhile; ?>
-              </select>
-            </div>
+            <select class="select select-bordered w-full"
+              name="department_id"
+              required>
+              <option value="" disabled selected>Select Department</option>
+              <?php
+              $department = $conn->query("SELECT * FROM tbldepartment");
+              while ($row = $department->fetch_assoc()): ?>
+                <option value="<?php echo $row['department_id']; ?>"><?php echo htmlspecialchars($row['department_name']); ?></option>
+              <?php endwhile; ?>
+            </select>
           </div>
           <div class="mt-8">
             <div>
               <button type="submit" name="update"
-                class="w-full relative text-center text-white btn btn-sm btn-outline btn-primary mt-3 rounded-md hover:border-s-4 border-white">
+                class=" btn btn-md btn-outline btn-primary mt-3 rounded-md w-full">
                 Submit
               </button>
             </div>

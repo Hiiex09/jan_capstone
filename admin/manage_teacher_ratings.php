@@ -38,8 +38,8 @@ if (isset($_GET['teacher_id'])) {
   while ($row = mysqli_fetch_assoc($result)) {
     if (empty($teacher_name)) {
       // Store teacher details (name and image) only once
-      $teacher_name = $row['name'];
-      $teacher_image = $row['image'];
+      $teacher_name = $row['fname'];
+      $teacher_image = $row['teacher_image'];
     }
 
     $criteria = $row['criteria'];

@@ -7,8 +7,6 @@ if (!isset($_SESSION['name']) && !isset($_SESSION['school_year']) && !isset($_SE
   exit();
 }
 
-
-
 $schoolyear_query = $conn->query("SELECT school_year, semester, is_status FROM tblschoolyear WHERE is_status = 'Started'");
 $schoolyear = $schoolyear_query->fetch_assoc();
 
@@ -71,7 +69,7 @@ if ($schoolyear) {
         </p>
         <div class="mt-10">
           <a
-            href="../student/manage_evaluation.php  "
+            href="../student/manage_evaluation.php?student_id=<?php echo $_SESSION['school_id']; ?>"
             class="relative px-20 py-4 bg-blue-900 
               hover:bg-blue-500 
               text-white text-center text-2xl rounded-md

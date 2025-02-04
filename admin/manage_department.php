@@ -101,7 +101,7 @@ include('../admin/header.php');
         <input
           type="submit"
           value="Submit"
-          class="px-5 py-3 bg-blue-900 text-white rounded-md cursor-pointer" /> <!-- Combined submit button -->
+          class="btn btn-md btn-outline rounded-md cursor-pointer" /> <!-- Combined submit button -->
       </form>
     </div>
 

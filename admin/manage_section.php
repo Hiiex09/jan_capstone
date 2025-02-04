@@ -21,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
   $stmt->execute();
   $stmt->close();
-  header("Location:../admin/section.php"); // Redirect to avoid resubmission
+  header("Location:../admin/manage_section.php"); // Redirect to avoid resubmission
   exit();
 }
 
@@ -51,12 +51,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
 </head>
 
 <body>
-  <div class="p-5">
 
+  <div>
     <div class="m-4">
       <h1 class="text-4xl">Manage Sections</h1>
     </div>
-
     <div class="m-4">
       <form method="post" action="">
         <input type="hidden" name="action" value="<?php echo $form_action; ?>">
@@ -72,7 +71,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
               value="<?php echo $section_name; ?>"
               required
               autocomplete="off"
-              class="px-4 py-2 rounded-md border-2 w-[500px] text-black">
+              class="px-4 py-2 rounded-md border-2 w-[500px]">
           </div>
         </div>
         <div class="mt-1">
@@ -86,72 +85,50 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
               value="<?php echo $year_level; ?>"
               required
               autocomplete="off"
-              class="px-4 py-2 rounded-md border-2 w-[500px] text-black">
+              class="px-4 py-2 rounded-md border-2 w-full">
           </div>
         </div>
-        <div class="relative">
+        <div>
           <input
             type="submit"
             value="<?php echo $form_action == 'add' ? 'Add Section' : 'Update Section'; ?>"
-            class="bg-blue-900 hover:bg-blue-500 px-4 py-3 rounded-md w-[500px] mt-4 text-white
-           cursor-pointer hover:border-s-8 border-yellow-300">
-          <img
-            src="../admin/tools/Images/send.svg"
-            alt="send"
-            class="h-8 w-8 absolute top-6 left-40">
+            class="btn btn-md btn-outline mt-2 mx-1">
         </div>
       </form>
     </div>
     <!-- Single form for adding, editing, and deleting -->
-
-    <div class="m-4">
-      <div class="mt-4 mb-2">
-        <h3 class="text-2xl">Existing Sections</h3>
-      </div>
+    <div class="mt-4 mb-2">
+      <h3 class="text-2xl">Existing Sections</h3>
       <table class="table-auto w-full border shadow">
-        <thead class="border bg-blue-900 text-white text-sm">
+        <thead class="border text-sm">
           <tr>
-            <th class="px-4 py-2 text-start">Section ID</th>
-            <th class="px-4 py-2 text-start">Section Name</th>
-            <th class="px-4 py-2 text-start">Year Level</th>
-            <th class="px-4 py-2 text-start">Actions</th>
+            <th class="px-4 py-2 text-center border">Section ID</th>
+            <th class="px-4 py-2 text-center border">Section Name</th>
+            <th class="px-4 py-2 text-center border">Year Level</th>
+            <th class="px-4 py-2 text-center border">Actions</th>
           </tr>
         </thead>
         <tbody>
           <?php while ($row = $sections->fetch_assoc()) { ?>
             <tr class="border-b hover:bg-pink-50">
-              <td class="px-4 py-2 text-start border"><?php echo $row['section_id']; ?></td>
-              <td class="px-4 py-2 text-start border"><?php echo $row['section_name']; ?></td>
-              <td class="px-4 py-2 text-start border"><?php echo $row['year_level']; ?></td>
-              <td class="px-4 py-2 text-start border">
-                <div class="flex justify-center items-center gap-2">
-                  <div class="bg-blue-900 hover:bg-blue-500 px-2 py-1 rounded-md">
-                    <!-- Update link -->
-                    <a href="?action=edit&section_id=<?php echo $row['section_id']; ?>&section_name=<?php echo $row['section_name']; ?>&year_level=<?php echo $row['year_level']; ?>">
-                      <img src="../admin/tools/Images/update.svg" alt="School ID"
-                        class="w-6 h-6">
-                    </a>
-                  </div>
-                  <div class="bg-red-900 hover:bg-red-500 px-2 py-1 rounded-md">
-                    <!-- Delete link triggers the form submission with delete action -->
-                    <a href="#" onclick="deleteSection(<?php echo $row['section_id']; ?>)">
-                      <img src="../admin/tools/Images/delete.svg" alt="School ID"
-                        class="w-6 h-6">
-                    </a>
-
-                  </div>
-                </div>
+              <td class="px-4 py-2 text-center border"><?php echo $row['section_id']; ?></td>
+              <td class="px-4 py-2 text-center border"><?php echo $row['section_name']; ?></td>
+              <td class="px-4 py-2 text-center border"><?php echo $row['year_level']; ?></td>
+              <td class="px-4 py-2 text-center border flex flex-col gap-2">
+                <!-- Update link -->
+                <a href="?action=edit&section_id=<?php echo $row['section_id']; ?>&section_name=<?php echo $row['section_name']; ?>&year_level=<?php echo $row['year_level']; ?>"
+                  class="text-sm btn btn-xs btn-success w-full">
+                  Update
+                </a>
+                <a href="#" onclick="deleteSection(<?php echo $row['section_id']; ?>)" class="text-sm text-sm btn btn-xs btn-error w-full">
+                  Remove
+                </a>
               </td>
             </tr>
           <?php } ?>
         </tbody>
-
-
       </table>
-
     </div>
-
-
   </div>
 
 

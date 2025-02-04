@@ -1,6 +1,6 @@
 
 <?php
-include('./database/dbconnect.php');
+include('./database/models/dbconnect.php');
 session_start();
 session_unset();
 if (session_destroy()) {

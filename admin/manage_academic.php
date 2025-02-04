@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
       $stmt = $conn->prepare("UPDATE tblschoolyear SET school_year = ?, semester = ? WHERE schoolyear_id = ?");
       $stmt->bind_param("ssi", $years, $semester, $edit_id);
       if ($stmt->execute()) {
-        echo "<script>alert('School year updated successfully!'); window.location.href='academic_create.php';</script>";
+        echo "<script>alert('School year updated successfully!'); window.location.href='manage_academic.php';</script>";
       } else {
         echo "<script>alert('Error updating school year.');</script>";
       }
@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
         $stmt = $conn->prepare("INSERT INTO tblschoolyear (school_year, semester, is_status) VALUES (?, ?, 'Not Yet Started')");
         $stmt->bind_param("ss", $years, $semester);
         if ($stmt->execute()) {
-          echo "<script>window.location.href='academic_create.php'; alert('School year saved successfully!'); </script>";
+          echo "<script>window.location.href='manage_academic.php'; alert('School year saved successfully!'); </script>";
         } else {
           echo "<script>alert('Error: " . $stmt->error . "');</script>";
         }
@@ -67,7 +67,7 @@ if (isset($_GET['delete_id'])) {
   $stmt = $conn->prepare("DELETE FROM tblschoolyear WHERE schoolyear_id = ?");
   $stmt->bind_param("i", $delete_id);
   if ($stmt->execute()) {
-    echo "<script>window.location.href='academic_create.php';</script>";
+    echo "<script>window.location.href='manage_academic.php';</script>";
   } else {
     echo "<script>alert('Error deleting school year.');</script>";
   }

@@ -1,25 +1,15 @@
 <?php
-
-include('../database/models/dbconnect.php'); // Include database connection
 session_start();
+include('../database/models/dbconnect.php'); // Include database connection
+include("../admin/criteria.php");
 
 // Check if the student is logged in
-
 if (!isset($_SESSION['student_id']) && !isset($_SESSION['school_id']) || !isset($_SESSION['name'])) {
   echo "Please log in as a student to view your teachers.";
   exit;
 }
-// echo "<pre>";
-// print_r($_SESSION);
-// echo "</pre>";
 
-// echo '<pre>';
-// print_r($_POST);
-// echo '</pre>';
-
-
-
-// $student_id = $_SESSION['student_id']; // Assuming student_id is passed in the form via POST
+$student_id = $_SESSION['student_id']; // Assuming student_id is passed in the form via POST
 $school_id = $_SESSION['school_id']; // Get the school_id from the session
 $fname = $_SESSION['name']; // Get the student name from the session
 
@@ -40,7 +30,7 @@ if ($result->num_rows > 0) {
 }
 
 // Check if the student is regular or irregular
-$checkStudentStatus = $conn->prepare("SELECT is_regular FROM tblstudent_section WHERE student_id = (SELECT student_id FROM tblstudent WHERE school_id = ?)");
+$checkStudentStatus = $conn->prepare("SELECT is_regular FROM tblstudent_section WHERE student_id = (SELECT student_id FROM tblstudent WHERE school_id = ? LIMIT 1)");
 $checkStudentStatus->bind_param("i", $school_id);
 $checkStudentStatus->execute();
 $statusResult = $checkStudentStatus->get_result();
@@ -79,10 +69,60 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 // Fetch teachers and subjects
-if ($result->num_rows > 0) {
-  while ($row = $result->fetch_assoc()) {
-    $teachers[] = $row;
-  }
+if ($result->num_rows === 0) {
+  $errorMessage = 'You do not have any teachers assigned. Please contact your administrators.';
+  echo "
+  <!DOCTYPE html>
+  <html lang='en'>
+  <head>
+      <meta charset='UTF-8'>
+      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+      <title>Error</title>
+      <!-- Ensure Tailwind CSS or your styles are linked -->
+      <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'>
+      <style>
+          /* Ensure modal is properly centered */
+          .modal {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: fixed;
+              inset: 0;
+              
+              z-index: 50;
+          }
+      </style>
+  </head>
+  <body>
+
+  <div id='errorModal' class='modal'>
+      <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 relative'>
+          <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
+          <div class='flex justify-center'>
+              <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
+          </div>
+      </div>
+  </div>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          document.getElementById('errorModal').style.display = 'flex';
+      });
+      setTimeout(()=>{
+      window.location.href='../student/student_dashboard.php';
+      },1000);
+  </script>
+
+  </body>
+  </html>
+  ";
+  exit;
+}
+
+// Fetch teachers and subjects into an array
+$teachers = [];
+while ($row = $result->fetch_assoc()) {
+  $teachers[] = $row;
 }
 
 $stmt->close();
@@ -93,37 +133,27 @@ $currentTeacherIndex = isset($_SESSION['current_teacher_index']) ? $_SESSION['cu
 
 // Check if all teachers have been evaluated
 if ($currentTeacherIndex >= count($teachers)) {
+
+  $errorMessage = 'You do not have any teachers assigned. Please contact your administrator.';
   // Reset index if all teachers have been evaluated
   unset($_SESSION['current_teacher_index']);
-  echo "<h2>All teachers have been evaluated. Thank you!</h2>";
+  echo "<div id='errorModal' class='fixed inset-0 bg-gray-500 bg-opacity-30 flex justify-center items-center z-50'>
+            <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 absolute top-72 left-1/3'>
+                <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
+                <div class='flex justify-between'>
+                    <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
+                    <a href='student_dashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
+                </div>
+            </div>
+        </div>
+        <script>document.getElementById('errorModal').style.display = 'block';</script>";
   exit;
 }
 
 // Get current teacher
 $currentTeacher = $teachers[$currentTeacherIndex];
 
-function displayCriteria()
-{
-  global $conn; // Access the $conn variable from the global scope
-  try {
-    $sql = "SELECT criteria_id, criteria FROM tblcriteria";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $criteriaList = [];
-
-    if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-        $criteriaList[] = $row; // Assuming 'criteria' is the column name
-      }
-    }
-    return $criteriaList;
-  } catch (mysqli_sql_exception $e) {
-    error_log("Error fetching criteria: " . $e->getMessage());
-    return [];
-  }
-}
+// Function to store evaluation
 function storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id)
 {
   global $conn;  // Ensure the connection variable is available
@@ -143,12 +173,31 @@ function storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id)
     $stmt->bind_param("iis", $teacher_id, $student_id, $schoolyear_id);
     $stmt->execute();
     $result = $stmt->get_result();
+    $errorMessage = 'You have already evaluated this teacher for this school years.';
 
     // If evaluation already exists, stop further processing
     if ($result->num_rows > 0) {
-      throw new Exception(" <script>alert('You have already evaluated this teacher for this school year.');</script>");
-    }
+      $all_evaluated = allTeachersEvaluated($_SESSION['student_id'], $schoolyear_id);
 
+      if ($all_evaluated) {
+
+        $student_id = $_SESSION['school_id'];
+
+        throw new Exception($all_evaluated);
+      } else {
+        throw new Exception("<div id='errorModal' class='fixed inset-0 bg-gray-500 bg-opacity-30 flex justify-center items-center z-50'>
+            <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 absolute top-72 left-1/3'>
+                <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
+                <div class='flex justify-between'>
+                    <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
+                    <a href='student_dashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
+                </div>
+            </div>
+        </div>
+        <script>document.getElementById('errorModal').style.display = 'block';</script>
+    ");
+      }
+    }
 
     // Insert evaluation data into tblevaluate
     $evaluate_query = "INSERT INTO tblevaluate (teacher_id, student_id, schoolyear_id) VALUES (?, ?, ?)";
@@ -184,92 +233,146 @@ function storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id)
   } catch (Exception $e) {
     // Rollback the transaction if there's an error
     $conn->rollback();
-    die("<script>alert('Error: You have already evaluated this teacher for this school year.');
-    window.location.href='tryanderror.php';
-    </script>" . $e->getMessage());
+    $errorMessage = 'You have already evaluated this teacher for this school year.';
+
+    echo "
+        <div id='errorModal' class='fixed inset-0 bg-gray-500 bg-opacity-30 flex justify-center items-center z-50'>
+        <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 absolute top-72 left-1/3'>
+            <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
+            <div class='flex justify-between'>
+                <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
+                <a href='student_dashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
+            </div>
+        </div>
+    </div>
+    <script>document.getElementById('errorModal').style.display = 'block';</script>
+    ";
   }
 }
 
 
-// If the form is submitted, handle the evaluation
-// Increment the current_teacher_index after evaluation
-
-$offensiveWords = ['badword1', 'badword2', 'badword3', 'b a d w o r d 1']; // Replace with actual offensive words
+$offensiveWords = ['badword1', 'badword2', 'badword3']; // Replace with actual offensive words
 $maxLetters = 50;
 $filteredComment = "";
 
+// Sanitize input by removing special characters except letters, numbers, and whitespace
 function sanitizeInput($input)
 {
   return preg_replace('/[^a-zA-Z0-9\s.,]/', '', $input);
 }
-
-// if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-//   $teacher_id = $_POST['teacher_id'];
-//   $ratings = $_POST['rating'];  // Array of ratings for different criteria
-//   $comment = $_POST['comment'];  // Array of comments for different criteria
-//   $schoolyear_id = $_POST['schoolyear_id'];
-//   $criteria_id = $_POST['criteria_id'];
-
-//   // Store the evaluation 
-//   storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id);
-
-//   // Increment teacher index after evaluation
-//   if (isset($_SESSION['current_teacher_index'])) {
-//     $_SESSION['current_teacher_index'] += 1;
-//   } else {
-//     $_SESSION['current_teacher_index'] = 1;
-//   }
-
-//   // Redirect to refresh the page and move to the next teacher
-//   header("Location: " . $_SERVER['PHP_SELF']);
-//   exit;
-// }
-
-
-
-// // Sanitize input by removing special characters except letters, numbers, and whitespace
-
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   $teacher_id = $_POST['teacher_id'];
   $ratings = $_POST['rating'];  // Array of ratings for different criteria
   $comments = $_POST['comment']; // Array of comments for different criteria
   $schoolyear_id = $_POST['schoolyear_id'];
-  $criteria_id = $_POST['criteria_id'];
 
-  $filteredComments = [];
-  $hasOffensiveContent = false;
+  // Sanitize comments
+  foreach ($comments as $key => $comment) {
+    $filteredComment = sanitizeInput($comment);
 
-  foreach ($comments as $index => $comment) {
-    $sanitizedComment = sanitizeInput($comment);
-    $letterCount = strlen($sanitizedComment);
-
-    // Check if comment exceeds max letters
-    if ($letterCount > $maxLetters) {
-      $filteredComments[$index] = "Comment is too long. Maximum allowed characters: $maxLetters";
-    } else {
-      // Check for offensive words
-      foreach ($offensiveWords as $word) {
-        if (stripos($sanitizedComment, $word) !== false) {
-          $hasOffensiveContent = true;
-          break 2;  // Stop further processing if offensive content is detected
-        }
+    // Check for offensive words
+    foreach ($offensiveWords as $offensiveWord) {
+      if (stripos($filteredComment, $offensiveWord) !== false) {
+        echo "<script>alert('Your comment contains offensive words.');</script>";
+        exit;
       }
-      $filteredComments[$index] = htmlspecialchars($sanitizedComment);
+    }
+
+    // If the comment exceeds the max character limit, trim it
+    if (strlen($filteredComment) > $maxLetters) {
+      $filteredComment = substr($filteredComment, 0, $maxLetters);
     }
   }
 
-  if ($hasOffensiveContent) {
-    echo "<script>
-              alert('Your comment contains offensive words and cannot be submitted.');
-              window.location.href = '" . $_SERVER['PHP_SELF'] . "';
-            </script>";
-    exit;  // Stop execution to avoid storing the data
-  }
-
-  // Store the evaluation if comments are within limits and contain no offensive words
-  storeEvaluation($teacher_id, $ratings, $filteredComments, $schoolyear_id, $criteria_id);
+  // Store the evaluation data
+  storeEvaluation($teacher_id, $ratings, $comments, $schoolyear_id);
 }
+
+function checkIfEvaluated($studentId, $teacherId)
+{
+  global $conn; // Ensure $conn is accessible here
+  $query = "SELECT COUNT(*) FROM tblevaluate WHERE student_id = ? AND teacher_id = ?";
+  $stmt = $conn->prepare($query);
+  $stmt->bind_param("ii", $studentId, $teacherId);
+  $stmt->execute();
+  $stmt->bind_result($count);
+  $stmt->fetch();
+  return $count > 0;  // Returns true if evaluated, false otherwise
+}
+
+function allTeachersEvaluated($studentId, $schoolyear_id)
+{
+  global $conn;
+
+  // Correct SQL to check if ALL assigned teachers have been evaluated
+  $sql = "SELECT COUNT(*) FROM tblteacher t
+            WHERE (EXISTS (
+                SELECT 1
+                FROM tblstudent_section ss
+                INNER JOIN tblsection_teacher_subject sts ON ss.section_id = sts.section_id
+                WHERE ss.student_id = (SELECT student_id FROM tblstudent WHERE school_id = ?)
+                AND sts.teacher_id = t.teacher_id
+            ) OR EXISTS (
+                SELECT 1
+                FROM tblstudent_teacher_subject stts
+                WHERE stts.student_id = (SELECT student_id FROM tblstudent WHERE school_id = ?)
+                AND stts.teacher_id = t.teacher_id
+            )) AND NOT EXISTS (
+                SELECT 1
+                FROM tblevaluate e
+                WHERE e.teacher_id = t.teacher_id
+                  AND e.student_id = ?
+                  AND e.schoolyear_id = ?
+            )";
+
+
+  $stmt = $conn->prepare($sql);
+  $stmt->bind_param("iiii", $_SESSION['school_id'], $_SESSION['school_id'], $studentId, $schoolyear_id);
+  $stmt->execute();
+  $stmt->bind_result($count);
+  $stmt->fetch();
+  $stmt->close();
+
+  return $count == 0; // All teachers are evaluated if count is 0
+}
+$all_evaluated = allTeachersEvaluated($_SESSION['student_id'], $schoolyear_id);
+
+if ($all_evaluated) {
+
+  $student_id = $_SESSION['school_id'];
+
+  if (isset($_SESSION['name'])) {
+    $student_name = $_SESSION['name']; // Retrieve student name from session
+  } else {
+    $student_name = 'Unknown'; // Fallback if name is not set
+  }
+  echo "<div id='allEvaluatedModal' class='fixed inset-0 bg-gray-500 bg-opacity-30 flex justify-center items-center z-50'>
+          <div class='bg-green-500 p-9 rounded-lg shadow-lg w-1/3 absolute top-72 left-1/3'>
+              <h2 class='text-center text-2xl text-white mb-4'>All teachers have been evaluated. Thank you!</h2>
+              <p class='text-center text-white mb-4'>Student ID: $student_id</p>
+                <p class='text-center text-white mb-4'>Student Name: $student_name</p>
+              <div class='flex justify-center space-x-4'>
+                  <button id='continueBtn' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>Continue Evaluating</button>
+                  <a href='../student/student_dashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
+              </div>
+          </div>
+      </div>
+      <script>
+          const modal = document.getElementById('allEvaluatedModal');
+          const continueBtn = document.getElementById('continueBtn');
+
+          modal.style.display = 'block';
+
+          continueBtn.addEventListener('click', () => {
+              modal.style.display = 'none';
+          });
+      </script>";
+}
+
+
+// Example: If all teachers have been evaluated, show a message
+
 
 
 ?>
@@ -281,29 +384,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Assigned Teachers</title>
+  <title>Student Evaluation</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body>
+<body class="bg-gray-100 p-8">
+  <div class="w-full bg-white p-6 rounded-lg shadow-lg">
+    <h1 class="text-center text-4xl text-gray-800">Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?> - <span class="text-blue-500"><?php echo htmlspecialchars($_SESSION['school_id']); ?></span></h1>
+    <h2 class="text-center text-2xl text-slate-900 mt-2">Your Assigned Teachers and Subjects</h2>
 
-  <header class="flex flex-col justify-center items-center p-6">
-    <div>
-      <h1 class="text-center text-4xl text-gray-800">Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?> -
-        <span class="text-blue-500"><?php echo htmlspecialchars($_SESSION['school_id']); ?></span>
-      </h1>
-    </div>
-    <div>
-      <h2 class="text-center text-2xl text-slate-900 mt-2">Your Assigned Teachers and Subjects</h2>
-    </div>
-  </header>
-
-
-  <div class=" p-6 rounded-lg shadow-lg">
     <?php if (!empty($teachers)): ?>
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-6 w-full">
         <?php foreach ($teachers as $teacher): ?>
-          <div class="bg-gray-100 border-s-8 border-green-900 p-4 rounded-lg shadow-md flex items-center hover:scale-105 transform transition-all cursor-pointer" onclick="selectTeacher(<?php echo $teacher['teacher_id']; ?>, '<?php echo addslashes($teacher['teacher_name']); ?>', '<?php echo addslashes($teacher['subject_name']); ?>')">
+
+          <?php
+          // Check if the teacher has already been evaluated by the student
+          $evaluated = checkIfEvaluated($_SESSION['student_id'], $teacher['teacher_id']);
+          $bgColor = $evaluated ? 'bg-green-500' : 'bg-gray-100'; // Set background color based on evaluation status
+          ?>
+          <div class="bg-gray-100 border-s-8 border-green-900 p-4 rounded-lg shadow-md flex items-center hover:scale-105 transform transition-all cursor-pointer <?php echo $bgColor ?>" onclick="selectTeacher(<?php echo $teacher['teacher_id']; ?>, '<?php echo addslashes($teacher['teacher_name']); ?>', '<?php echo addslashes($teacher['subject_name']) ?>',  )">
             <img src="../upload/pics/<?php echo htmlspecialchars($teacher['image']); ?>" alt="Teacher Profile" class="w-20 h-20 rounded-full mr-4">
             <div class="text-gray-800">
               <p class="font-semibold text-2xl"><?php echo htmlspecialchars($teacher['teacher_name']); ?></p>
@@ -316,6 +415,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       <p class="text-center text-gray-600 mt-4">You have no assigned teachers yet.</p>
     <?php endif; ?>
   </div>
+
+
+
 
   <div class="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow-lg">
     <h1 class="text-center text-2xl text-gray-800">Evaluating Teacher: <?php echo htmlspecialchars($currentTeacher['teacher_name']); ?></h1>
@@ -421,6 +523,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       let comment = document.getElementById('comment');
       let charCount = comment.value.length;
       document.getElementById('letterCount').textContent = charCount + " characters";
+    }
+
+
+    function showToast(message) {
+      const toastContainer = document.getElementById('toast-container');
+      // Create toast element
+      const toast = document.createElement('div');
+      toast.classList.add('toast');
+      toast.innerText = message;
+
+      // Append to container
+      toastContainer.appendChild(toast);
+
+      // Remove toast after animation ends (4s total)
+      setTimeout(() => {
+        toast.remove();
+      }, 1500);
     }
   </script>
 </body>

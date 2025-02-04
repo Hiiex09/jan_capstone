@@ -22,12 +22,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   // Check if login is successful
   if ($result->num_rows > 0) {
     $student = $result->fetch_assoc();
-    $_SESSION['school_id'] = $student['school_id']; // Store school_id in session
-    $_SESSION['name'] = $student['name'];
-    header("Location: ./student/student_dashboard.php"); // Redirect to the teacher list page
+    $_SESSION['student_id'] = $student['student_id']; // Store student_id in session
+    $_SESSION['school_id'] = $student['school_id'];   // Store school_id in session
+    $_SESSION['name'] = $student['name'];             // Store name in session
+
+    // Redirect to the student dashboard page
+    header("Location: ./student/student_dashboard.php");
     exit;
   } else {
-    $error = "Invalid username or password";
+    $error = "Invalid username or password.";
   }
 
   // Close prepared statement

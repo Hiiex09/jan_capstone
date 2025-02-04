@@ -49,7 +49,7 @@ $result = $conn->query($sql);
       <!-- Open the modal using ID.showModal() method -->
       <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Teacher</button>
       <dialog id="my_modal_2" class="modal">
-        <div class="modal-box w-11/12 max-w-5xl">
+        <div class="modal-box w-11/12 max-w-5xl bg-primary-content">
           <h3 class="text-lg font-bold text-white">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -181,42 +181,30 @@ $result = $conn->query($sql);
                   </div>
 
                 </div>
-                <div class="mt-5">
-
-                  <div class="mt-3 flex flex-col justify-center items-start">
-                    <div class="m-1 w-full flex justify-between items-start">
-                      <div>
-                        <label class="text-white text-lg">Department</label>
-                      </div>
-                      <div>
-                        <span>
-                          <img src="../admin/tools/Images/department.svg" alt="School ID"
-                            class="w-9 h-9">
-                        </span>
-                      </div>
-                    </div>
+                <div class="mt-9">
+                  <div class="m-1 w-full flex justify-between items-start">
                     <div>
-                      <select class="select select-bordered w-full max-w-xs"
-                        name="department_id"
-                        required>
-                        <option value="" disabled selected class="text-white">Select Department</option>
-                        <?php
-                        $department = $conn->query("SELECT * FROM tbldepartment");
-                        while ($row = $department->fetch_assoc()): ?>
-                          <option value="<?php echo $row['department_id']; ?>"><?php echo htmlspecialchars($row['department_name']); ?></option>
-                        <?php endwhile; ?>
-                      </select>
+                      <label class="text-white text-lg">Department</label>
                     </div>
-
-
+                  </div>
+                  <div>
+                    <select class="select select-bordered w-full"
+                      name="department_id"
+                      required>
+                      <option value="" disabled selected class="text-white">Select Department</option>
+                      <?php
+                      $department = $conn->query("SELECT * FROM tbldepartment");
+                      while ($row = $department->fetch_assoc()): ?>
+                        <option value="<?php echo $row['department_id']; ?>"><?php echo htmlspecialchars($row['department_name']); ?></option>
+                      <?php endwhile; ?>
+                    </select>
                   </div>
                   <div class="mt-8">
                     <div>
                       <button type="submit" name="submit"
-                        class="w-full relative text-center text-white btn btn-sm btn-outline btn-primary mt-3 rounded-md hover:border-s-4 border-white">
+                        class="w-full btn btn-md btn-outline btn-primary mt-3 rounded-md">
                         Submit
                       </button>
-
                     </div>
                   </div>
                 </div>
