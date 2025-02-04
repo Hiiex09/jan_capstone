@@ -1,22 +1,4 @@
-<?php /*
-include('../database/models/dbconnect.php');
-session_start();
-?>
 <?php
-$sql = "SELECT s.student_id, s.school_id, s.name, s.email, s.year_level, s.image, 
-d.department_name, sec.section_name, ss.is_regular
-FROM tblstudent s
-LEFT JOIN `tbldepartment` d ON s.department_id = d.department_id
-LEFT JOIN `tblstudent_section` ss ON s.student_id = ss.student_id
-LEFT JOIN `tblsection` sec ON ss.section_id = sec.section_id";
-
-// Check if search term exists and modify the query accordingly
-if (isset($_GET['search']) && !empty($_GET['search'])) {
-  $searchTerm = $conn->real_escape_string($_GET['search']);
-  $sql .= " WHERE s.name LIKE '%$searchTerm%' OR s.school_id LIKE '%$searchTerm%'";
-}
-
-$result = $conn->query($sql);*/
 
 include('../database/models/dbconnect.php');
 session_start();
@@ -50,7 +32,139 @@ $result = $conn->query($sql_with_limit);
 $total_results = $conn->query($sql);
 $total_pages = ceil($total_results->num_rows / $results_per_page);
 ?>
+<?php
 
+if (isset($_POST['section_id'])) {
+  $section_id = $_POST['section_id'];
+} else {
+  // Handle the case where section_id is not set
+  $section_id = null; // Or set to a default value, or handle the error
+}
+
+function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $year, $section_id, $is_regular, $password, $file)
+{
+  // Combine first and last names
+  $name = $fname . " " . $lname;
+
+  // Set default password as school_id
+  $default_password = $school_id;
+
+  // Password verification
+  if ($password === $default_password) {
+    echo 'Your password is ' . $default_password;
+    return;
+  }
+
+  // Check if an image file is uploaded
+  if ($file['error'] === 4) {
+    echo "<script>alert('Image not exist');</script>";
+    return;
+  }
+
+  // Handle file data
+  $imgname = $file['name'];
+  $imgsize = $file['size'];
+  $imgtmp = $file['tmp_name'];
+
+  // Validate image extension
+  $imgvalid = ['jpeg', 'jpg', 'png', 'svg'];
+  $imgEx = strtolower(pathinfo($imgname, PATHINFO_EXTENSION));
+
+  // Validate extension and size
+  if (!in_array($imgEx, $imgvalid)) {
+    echo "<script>alert('Invalid extension');</script>";
+    return;
+  } elseif ($imgsize > 1000000) {
+    echo "<script>alert('Image is too large');</script>";
+    return;
+  }
+
+  // Create a unique filename and move the file
+  $newimg = uniqid() . '.' . $imgEx;
+  if (!move_uploaded_file($imgtmp, "../pic/pics/$newimg")) {
+    echo "<script>alert('Image upload failed');</script>";
+    return;
+  }
+
+  // Prepared statement to insert student data
+  $sql = "INSERT INTO tblstudent (school_id, name, email, password, department_id, year_level, image) 
+          VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+  if ($stmt = $conn->prepare($sql)) {
+    // Bind parameters to the prepared statement
+    $stmt->bind_param('sssssss', $school_id, $name, $email, $default_password, $department_id, $year, $newimg);
+
+    // Execute the prepared statement
+    if ($stmt->execute()) {
+      // Get the student_id of the newly inserted student
+      $student_id = $stmt->insert_id;
+
+      // Handle irregular students (if no section)
+      if ($is_regular) {
+        // Insert into tblstudent_section if regular student and section is selected
+        if (isset($section_id) && !empty($section_id)) {
+          $stmt_section = $conn->prepare("INSERT INTO tblstudent_section (student_id, section_id, is_regular) VALUES (?, ?, ?)");
+          $stmt_section->bind_param("iii", $student_id, $section_id, $is_regular);
+
+          if ($stmt_section->execute()) {
+            // echo "Student and section information added successfully!";
+            echo '<div class="fixed bottom-0 left-[260px] right-0 top-0 z-10 p-10 bg-blue-900">
+                    <h1>Student and section information added successfully!</h1>
+                    </div>';
+          } else {
+            echo "Error: " . $stmt_section->error;
+          }
+
+          // Close the stmt_section
+          $stmt_section->close();
+        } else {
+          echo "<script>alert('Section is required for regular students.');</script>";
+        }
+      } else {
+        // If the student is irregular, insert into tblstudent_section with section_id = 0 and is_regular = 0
+        $section_id = 0;  // Irregular student doesn't have a section
+        $stmt_section = $conn->prepare("INSERT INTO tblstudent_section (student_id, section_id, is_regular) VALUES (?, ?, ?)");
+        $stmt_section->bind_param("iii", $student_id, $section_id, $is_regular);
+
+        if ($stmt_section->execute()) {
+          echo "Irregular student added successfully without section!";
+        } else {
+          echo "Error: " . $stmt_section->error;
+        }
+
+        // Close the stmt_section
+        $stmt_section->close();
+      }
+    } else {
+      echo "Error: " . $stmt->error;
+    }
+
+    // Close the statement
+    $stmt->close();
+  } else {
+    echo "<script>alert('Error: Could not prepare query.');</script>";
+  }
+}
+
+
+// Call the function with form data
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
+  $section_id = isset($_POST['section_id']) ? $_POST['section_id'] : null; // Check if section_id is provided
+  addStudent(
+    $conn,
+    $_POST['school_id'],
+    $_POST['fname'],
+    $_POST['lname'],
+    $_POST['email'],
+    $_POST['department_id'],
+    $_POST['year'],
+    $section_id,
+    isset($_POST['is_regular']) ? 1 : 0,
+    $_POST['password'],
+    $_FILES['hen']
+  );
+}
+?>
 <?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -137,8 +251,14 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
                         <path
                           d="M4 6h8v2H4V6zm0 4h5v2H4v-2z" />
                       </svg>
-                      <input type="text" class="grow" placeholder="School ID" minlength="7" maxlength="7" name="school_id"
-                        autocomplete="off" value="<?php echo isset($schoolId); ?>" />
+                      <input
+                        type="text"
+                        class="w-full "
+                        placeholder="School ID"
+                        minlength="7" maxlength="7" name="school_id"
+                        autocomplete="off" value="<?php echo isset($schoolId); ?>"
+                        pattern="\d{7}"
+                        oninput="validateSchoolId(this)">
                     </label>
                   </div>
                   <div class="m-1 flex justify-between items-center">
@@ -458,6 +578,13 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
+    function validateSchoolId(input) {
+      input.value = input.value.replace(/[^0-9]/g, "");
+      if (input.value.length > 7) {
+        input.value = input.value.slice(0, 7);
+      }
+    }
+
     function previewImage(event) {
       const file = event.target.files[0];
       const preview = document.getElementById('image-preview');
@@ -496,141 +623,3 @@ $total_pages = ceil($total_results->num_rows / $results_per_page);
 </body>
 
 </html>
-<?php
-
-if (isset($_POST['section_id'])) {
-  $section_id = $_POST['section_id'];
-} else {
-  // Handle the case where section_id is not set
-  $section_id = null; // Or set to a default value, or handle the error
-}
-
-function addStudent($conn, $school_id, $fname, $lname, $email, $department_id, $year, $section_id, $is_regular, $password, $file)
-{
-  // Combine first and last names
-  $name = $fname . " " . $lname;
-
-  // Set default password as school_id
-  $default_password = $school_id;
-
-  // Password verification
-  if ($password === $default_password) {
-    echo 'Your password is ' . $default_password;
-    return;
-  }
-
-  // Check if an image file is uploaded
-  if ($file['error'] === 4) {
-    echo "<script>alert('Image not exist');</script>";
-    return;
-  }
-
-  // Handle file data
-  $imgname = $file['name'];
-  $imgsize = $file['size'];
-  $imgtmp = $file['tmp_name'];
-
-  // Validate image extension
-  $imgvalid = ['jpeg', 'jpg', 'png', 'svg'];
-  $imgEx = strtolower(pathinfo($imgname, PATHINFO_EXTENSION));
-
-  // Validate extension and size
-  if (!in_array($imgEx, $imgvalid)) {
-    echo "<script>alert('Invalid extension');</script>";
-    return;
-  } elseif ($imgsize > 1000000) {
-    echo "<script>alert('Image is too large');</script>";
-    return;
-  }
-
-  // Create a unique filename and move the file
-  $newimg = uniqid() . '.' . $imgEx;
-  if (!move_uploaded_file($imgtmp, "../upload/pics/$newimg")) {
-    echo "<script>alert('Image upload failed');</script>";
-    return;
-  }
-
-  // Prepared statement to insert student data
-  $sql = "INSERT INTO tblstudent (school_id, name, email, password, department_id, year_level, image) 
-            VALUES (?, ?, ?, ?, ?, ?, ?)";
-
-  if ($stmt = $conn->prepare($sql)) {
-    // Bind parameters to the prepared statement
-    $stmt->bind_param('sssssss', $school_id, $name, $email, $default_password, $department_id, $year, $newimg);
-
-    // Execute the prepared statement
-    if ($stmt->execute()) {
-      // Get the student_id of the newly inserted student
-      $student_id = $stmt->insert_id;
-
-      // Handle irregular students (if no section)
-      if ($is_regular) {
-        // Insert into tblstudent_section if regular student and section is selected
-        if (isset($section_id) && !empty($section_id)) {
-          $stmt_section = $conn->prepare("INSERT INTO tblstudent_section (student_id, section_id, is_regular) VALUES (?, ?, ?)");
-          $stmt_section->bind_param("iii", $student_id, $section_id, $is_regular);
-
-          if ($stmt_section->execute()) {
-            echo "<script>alert('Student created successfully!');</script>";
-            echo "<script>
-                  window.location.href='../admin/manage_student.php'; 
-                  </script>";
-          } else {
-            echo "Error: " . $stmt_section->error;
-          }
-
-          // Close the stmt_section
-          $stmt_section->close();
-        } else {
-          echo "<script>alert('Section is required for regular students.');</script>";
-        }
-      } else {
-        // If the student is irregular, insert into tblstudent_section with section_id = 0 and is_regular = 0
-        $section_id = 0;  // Irregular student doesn't have a section
-        $stmt_section = $conn->prepare("INSERT INTO tblstudent_section (student_id, section_id, is_regular) VALUES (?, ?, ?)");
-        $stmt_section->bind_param("iii", $student_id, $section_id, $is_regular);
-
-        if ($stmt_section->execute()) {
-          echo "<script>
-                window.location.href='../admin/manage_student.php'; 
-                </script>";
-
-          echo " <div class='alert alert-success'>
-                <span>Irregular student added successfully without section!</span>
-              </div>";
-        } else {
-          echo "Error: " . $stmt_section->error;
-        }
-        // Close the stmt_section
-        $stmt_section->close();
-      }
-    } else {
-      echo "Error: " . $stmt->error;
-    }
-    // Close the statement
-    $stmt->close();
-  } else {
-    echo "<script>alert('Error: Could not prepare query.');</script>";
-  }
-}
-
-
-// Call the function with form data
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
-  $section_id = isset($_POST['section_id']) ? $_POST['section_id'] : null; // Check if section_id is provided
-  addStudent(
-    $conn,
-    $_POST['school_id'],
-    $_POST['fname'],
-    $_POST['lname'],
-    $_POST['email'],
-    $_POST['department_id'],
-    $_POST['year'],
-    $section_id,
-    isset($_POST['is_regular']) ? 1 : 0,
-    $_POST['password'],
-    $_FILES['hen']
-
-  );
-}
-?>

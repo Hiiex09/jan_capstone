@@ -120,8 +120,14 @@ $result = $conn->query($sql);
                         <path
                           d="M4 6h8v2H4V6zm0 4h5v2H4v-2z" />
                       </svg>
-                      <input type="text" class="grow" placeholder="School ID" minlength="7" maxlength="7" name="school_id"
-                        autocomplete="off" value="<?php echo isset($schoolId); ?>" />
+                      <input
+                        type="text"
+                        class="w-full"
+                        placeholder="School ID"
+                        minlength="7" maxlength="7" name="school_id"
+                        autocomplete="off" value="<?php echo isset($schoolId); ?>"
+                        pattern="\d{7}"
+                        oninput="validateSchoolId(this)">
                     </label>
 
                   </div>
@@ -360,6 +366,16 @@ $result = $conn->query($sql);
         reader.readAsDataURL(file);
       } else {
         preview.src = ""; // Clear the preview if no file is selected
+      }
+    }
+
+
+
+
+    function validateSchoolId(input) {
+      input.value = input.value.replace(/[^0-9]/g, "");
+      if (input.value.length > 7) {
+        input.value = input.value.slice(0, 7);
       }
     }
   </script>

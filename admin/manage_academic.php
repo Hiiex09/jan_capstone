@@ -1,5 +1,6 @@
 <?php
 include("../database/models/dbconnect.php");
+// include('../admin/aside.php');
 session_start();
 
 // Define variables
@@ -7,47 +8,58 @@ $edit_id = null;
 $edit_year = '';
 $edit_semester = '';
 
-// Handle form submission for adding or updating
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
   $year = $_POST['year'];
   $semester = $_POST['semester'];
   $years = (strpos($year, '-') === false) ? $year . ' - ' . ($year + 1) : $year;
 
-  if (isset($_POST['edit_id']) && !empty($_POST['edit_id'])) {
-    // Update existing school year
-    $edit_id = $_POST['edit_id'];
-    $stmt = $conn->prepare("UPDATE tblschoolyear SET school_year = ?, semester = ? WHERE schoolyear_id = ?");
-    $stmt->bind_param("ssi", $years, $semester, $edit_id);
-    if ($stmt->execute()) {
-      echo "<script>alert('School year updated successfully!'); window.location.href='manage_academic.php';</script>";
-    } else {
-      echo "<script>alert('Error updating school year.');</script>";
-    }
-    $stmt->close();
-  } else {
-    // Insert new school year
-    $sc = $conn->prepare("SELECT COUNT(*) AS COUNT FROM tblschoolyear WHERE school_year = ?");
-    $sc->bind_param('s', $years);
-    $sc->execute();
-    $rs = $sc->get_result();
-    $r = $rs->fetch_assoc();
-    $cs = $r['COUNT'];
+  // Extract the starting year for comparison
+  $start_year = explode(" - ", $years)[0];
 
-    if ($cs < 2) {
-      $stmt = $conn->prepare("INSERT INTO tblschoolyear (school_year, semester, is_status) VALUES (?, ?, 'Not Yet Started')");
-      $stmt->bind_param("ss", $years, $semester);
+  // Get the current year
+  $current_year = date("Y");
+
+  // Check if the start year is in the future
+  if ($start_year < $current_year) {
+    echo "<script>return('The school year cannot be in the past. Please select a valid year.');</script>";
+  } else {
+    if (isset($_POST['edit_id']) && !empty($_POST['edit_id'])) {
+      // Update existing school year
+      $edit_id = $_POST['edit_id'];
+      $stmt = $conn->prepare("UPDATE tblschoolyear SET school_year = ?, semester = ? WHERE schoolyear_id = ?");
+      $stmt->bind_param("ssi", $years, $semester, $edit_id);
       if ($stmt->execute()) {
-        echo "<script>window.location.href='manage_academic.php'; alert('School year saved successfully!'); </script>";
+        echo "<script>alert('School year updated successfully!'); window.location.href='academic_create.php';</script>";
       } else {
-        echo "<script>alert('Error: " . $stmt->error . "');</script>";
+        echo "<script>alert('Error updating school year.');</script>";
       }
       $stmt->close();
     } else {
-      echo "<script>alert('The School year \"$years\" has already been added twice.');</script>";
+      // Insert new school year
+      $sc = $conn->prepare("SELECT COUNT(*) AS COUNT FROM tblschoolyear WHERE school_year = ?");
+      $sc->bind_param('s', $years);
+      $sc->execute();
+      $rs = $sc->get_result();
+      $r = $rs->fetch_assoc();
+      $cs = $r['COUNT'];
+
+      if ($cs < 2) {
+        $stmt = $conn->prepare("INSERT INTO tblschoolyear (school_year, semester, is_status) VALUES (?, ?, 'Not Yet Started')");
+        $stmt->bind_param("ss", $years, $semester);
+        if ($stmt->execute()) {
+          echo "<script>window.location.href='academic_create.php'; alert('School year saved successfully!'); </script>";
+        } else {
+          echo "<script>alert('Error: " . $stmt->error . "');</script>";
+        }
+        $stmt->close();
+      } else {
+        echo "<script>alert('The School year \"$years\" has already been added twice.');</script>";
+      }
+      $sc->close();
     }
-    $sc->close();
   }
 }
+
 
 // Handle delete operation
 if (isset($_GET['delete_id'])) {
@@ -55,7 +67,7 @@ if (isset($_GET['delete_id'])) {
   $stmt = $conn->prepare("DELETE FROM tblschoolyear WHERE schoolyear_id = ?");
   $stmt->bind_param("i", $delete_id);
   if ($stmt->execute()) {
-    echo "<script>window.location.href='manage_academic.php'; alert('School year deleted successfully!'); </script>";
+    echo "<script>window.location.href='academic_create.php';</script>";
   } else {
     echo "<script>alert('Error deleting school year.');</script>";
   }
@@ -77,6 +89,9 @@ if (isset($_GET['editid'])) {
 $school_years = $conn->query("SELECT * FROM tblschoolyear");
 $conn->close();
 ?>
+
+
+
 <?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -114,7 +129,9 @@ $conn->close();
             required
             placeholder="Enter Academic Year (e.g., 2024 - 2025)"
             value="<?php echo $edit_year; ?>"
-            class="px-2 py-1 border text-lg mx-2"><br>
+            class="px-2 py-1 border text-lg mx-2"
+            oninput="validateYearInput(this)"
+            pattern="\d{4} - \d{4}"><br>
         </div>
         <div class="mx-9">
           <label for="semester" class="text-2xl mx-5">Semester :</label>
@@ -265,6 +282,19 @@ $conn->close();
       };
 
       xhr.send(`schoolyear_id=${id}&status=${status}`);
+    }
+
+
+
+
+    function validateYearInput(input) {
+      // Replace any non-numeric characters
+      input.value = input.value.replace(/[^0-9]/g, "");
+
+      // If the length is greater than 4, insert the dash
+      if (input.value.length > 4) {
+        input.value = input.value.slice(0, 4) + " - " + input.value.slice(4, 8);
+      }
     }
   </script>
 
