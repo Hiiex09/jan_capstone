@@ -181,7 +181,7 @@ include('../database/models/dbconnect.php');
             <span class="text-lg text-black">Manage Criteria</span>
           </div>
           <div class="collapse-content p-2">
-            <a href="../admin/criteria.php" class="hover:font-semibold hover:text-red-900">View Criteria</a>
+            <a href="../admin/manage_criteria.php" class="hover:font-semibold hover:text-red-900">View Criteria</a>
           </div>
         </div>
 
