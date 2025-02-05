@@ -170,67 +170,43 @@ function deleteSubject($deptId)
 </head>
 
 <body>
-  <div class="p-4 m-5">
-    <div class="mt-5 mb-4">
+  <div class="p-3 m-3">
+    <div class="p-3 m-3">
       <h1 class="text-4xl">Create subject</h1>
     </div>
-
-    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
+    <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post" class="p-3 m-3">
       <input type="hidden" name="id" value="<?php echo htmlspecialchars($subjectId); ?>">
       <input type="hidden" name="action" value="<?php echo $subjectId ? 'update' : 'create'; ?>">
-      <div>
-        <div>
-          <input
-            type="text"
-            name="subject"
-            placeholder="Enter a subject"
-            value="<?php echo htmlspecialchars($selectedSubject); ?>"
-            class="border px-4 py-3 w-[400px] rounded-md text-lg"
-            required>
-          <input
-            type="submit"
-            value="Submit"
-            class="px-4 py-3 rounded-md 
-              text-white text-lg bg-blue-900 hover:bg-blue-500
-              hover:border-s-4 border-yellow-300 cursor-pointer" /> <!-- Combined submit button -->
-        </div>
-
+      <div class="flex gap-3">
+        <input type="text"
+          name="subject"
+          placeholder="Enter a subject"
+          value="<?php echo htmlspecialchars($selectedSubject); ?>"
+          required class="input input-bordered w-full max-w-xs" />
+        <input
+          type="submit"
+          value="Submit"
+          class="btn btn-md btn-outline" /> <!-- Combined submit button -->
       </div>
     </form>
-
     <!-- Where the subject will be displayed -->
-
-    <div id="subjectlist" class="overflow-x-auto mt-4">
+    <div id="subjectlist" class="overflow-x-auto p-5">
       <?php if (count($subjectList) > 0): ?>
-        <table class="table-auto w-full border shadow">
-          <thead class="border bg-blue-900">
-            <tr class="bg-gray-100 text-left">
-              <th class="px-4 py-2 text-start">Subject Name</th>
-              <th class="px-4 py-2 text-start">Actions</th>
+        <table class="table">
+          <thead>
+            <tr class="text-center">
+              <th class="text-start">Subject Name</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
             <?php foreach ($subjectList as $index => $listsubject): ?>
-              <tr class="border-b hover:bg-pink-50">
-                <td class="px-4 py-2 text-start border"><?php echo htmlspecialchars($listsubject['subject_name']); ?></td>
-                <td class="px-4 py-2 text-start border">
-                  <div class="flex justify-start gap-4">
-                    <div class="w-full">
-                      <!-- Edit Button -->
-                      <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?edit=<?php echo $listsubject['subject_id']; ?>"
-                        class="inline-flex items-center justify-center bg-blue-900 hover:bg-blue-500 text-white px-4 py-2 rounded-md w-full">
-                        <img src="../admin/tools/Images/update.svg" alt="Update" class="h-6">
-                      </a>
-                    </div>
-                    <div class="w-full">
-                      <!-- Delete Button -->
-                      <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?delete=<?php echo $listsubject['subject_id']; ?>"
-                        onclick="return confirm('Are you sure you want to delete this subject?');"
-                        class="inline-flex items-center justify-center bg-red-900 hover:bg-red-500 text-white px-4 py-2 rounded-md w-full">
-                        <img src="../admin/tools/Images/delete.svg" alt="Delete" class="h-6">
-                      </a>
-                    </div>
-                  </div>
+              <tr class="hover">
+                <td class="text-start"><?php echo htmlspecialchars($listsubject['subject_name']); ?></td>
+                <td class="text-center">
+                  <a class="btn btn-sm btn-outline btn-success" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?edit=<?php echo $listsubject['subject_id']; ?>">Update</a>
+                  <a class="btn btn-sm btn-outline btn-error" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?delete=<?php echo $listsubject['subject_id']; ?>"
+                    onclick="return confirm('Are you sure you want to delete this subject?');">Remove</a>
                 </td>
               </tr>
             <?php endforeach; ?>
@@ -240,15 +216,7 @@ function deleteSubject($deptId)
         <div class="text-center text-lg text-gray-500 mt-6">No subject Available</div>
       <?php endif; ?>
     </div>
-
-
   </div>
-
-
-
-
-  <!-- Input Form -->
-
 </body>
 
 </html>
