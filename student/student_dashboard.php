@@ -20,6 +20,18 @@ if ($schoolyear) {
   $_SESSION['is_status'] = "Inactive";
 }
 ?>
+<?php
+
+$student_id = $_SESSION['school_id'];
+
+$sql = "SELECT * FROM `tblstudent` WHERE school_id = $student_id";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$fullname = $row['name'];
+$email = $row['email'];
+$image = $row['image'];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,94 +40,116 @@ if ($schoolyear) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Dashboard</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-  <div class="grid grid-cols-1 md:grid-rows-1">
-    <div class="navbar bg-base-100 flex justify-between items-center p-5 border-b shadow h-16">
-      <div>
-        <a class="btn btn-neutral btn-outline text-black text-2xl" href="../student/student_dashboard.php">Cebu Eastern College</a>
-      </div>
-      <div class="text-black me-4 flex justify-between items-center gap-2">
-        <div class="h-12 w-12 bg-base-300 shadow-lg border rounded-full flex justify-center items-center"
-          onclick="toggleLogout()">
-          <h1 class="text-2xl cursor-pointer"><?= strtoupper(substr($_SESSION['name'], 0, 1)) ?></h1>
-        </div>
-        <div id="logout-section" class="flex justify-center items-center gap-2 hidden">
-          <div class="h-8 w-8">
-            <img src="../admin/tools/img_side/logout_side.svg" alt="logout_sidebar">
-          </div>
-          <div>
-            <a href="../logout.php" class="cursor-pointer text-lg hover:text-red-600">
-              Logout
-            </a>
-            <a href="../student/update_student.php?update_student_id=<?= $_SESSION['school_id'] ?>" class="cursor-pointer text-sm hover:text-blue-600 mx-3">Update Profile</a>
-          </div>
+  <header>
+    <div class="grid grid-cols-1 md:grid-rows-1">
+      <div class="navbar bg-base-100 flex justify-start items-center p-5 border-b shadow h-16">
+        <div>
+          <a class="btn btn-sm   btn-neutral btn-outline text-lg rounded-md" href="../student/student_dashboard.php">Cebu Eastern College</a>
         </div>
       </div>
     </div>
-
-    <div class="text-gray-800 h-[600px] m-2 rounded-md flex justify-evenly items-center">
-      <div>
-        <img src="../student/gif/eval_gif.gif" alt="eval">
+  </header>
+  <main class="flex gap-5">
+    <aside>
+      <div class="drawer lg:drawer-open">
+        <input id="my-drawer-2" type="checkbox" class="drawer-toggle" />
+        <div class="drawer-content flex flex-col items-start justify-start">
+          <!-- Page content here -->
+          <label for="my-drawer-2" class="btn btn-md btn-outline drawer-button lg:hidden">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-12 h-12 text-blue-900">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
+            </svg>
+          </label>
+        </div>
+        <div class="drawer-side w-full border">
+          <label for="my-drawer-2" aria-label="close sidebar" class="drawer-overlay"></label>
+          <ul class="menu text-base-content min-h-full w-80 p-4">
+            <!-- Sidebar content here -->
+            <li>
+              <div class="flex justify-center items-center p-2 w-full">
+                <img id="image-preview"
+                  src="../upload/pics/<?php echo htmlspecialchars($row['image']); ?>"
+                  alt="Image Preview"
+                  class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto object-cover mt-4 rounded-md">
+              </div>
+              <div class="flex flex-col justify-center items-center w-full p-3">
+                <div class="text-center text-lg"><?php echo $fullname; ?></div>
+                <div class="text-sm">Student Name</div>
+              </div>
+            </li>
+            <li>
+              <?php if (isset($_SESSION['name'])): ?>
+                <p>Academic Year: <?= htmlspecialchars($_SESSION['school_year'] === "Not Set" ? "Not Set" : $_SESSION['school_year']) ?></p>
+                <p>Semester: <?= $_SESSION['semester'] == '1' ? 'First Semester' : ($_SESSION['semester'] == '2' ? 'Second Semester' : 'Not Yet Started') ?></p>
+                <p>Status : <?= htmlspecialchars($_SESSION['is_status']) ?></p>
+              <?php else: ?>
+                <p>Academic year and semester not set. Please set the active semester.</p>
+              <?php endif; ?>
+            </li>
+            <li>
+              <div class="flex flex-row justify-between items-center">
+                <div class="text-sm text-start">
+                  Theme Settings
+                </div>
+                <div>
+                  <input
+                    type="checkbox"
+                    id="theme-toggle"
+                    class="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1 mt-1" />
+                </div>
+              </div>
+            </li>
+            <li>
+              <a href="../student/update_student.php?update_student_id=<?= $_SESSION['school_id'] ?>" class="cursor-pointer text-sm hover:text-blue-600">
+                Update Profile
+              </a>
+            </li>
+            <li>
+              <a href="../logout.php" class="cursor-pointer text-sm hover:text-red-600">
+                Logout
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
-      <div class="w-1/3">
-        <h2 class="text-5xl">Welcome, <?= htmlspecialchars($_SESSION['name']) ?></h2>
-        <hr class="mt-4">
-        <p class="text-justify text-2xl text-slate-900 leading-relaxed m-2">
-          Your <span class="text-red-900 font-bold hover:underline underline-offset-8">Feedback</span> plays a crucial role in helping us understand what works in the classroom and where we can improve.
-          We value your insights and encourage you to share your thoughts openly and respectfully
-          to help create a better learning experience <span class="font-bold text-blue-900 hover:underline underline-offset-8">For Everyone.</span>
-        </p>
-        <div class="mt-10">
-          <a
-            href="../student/manage_evaluation.php?student_id=<?php echo $_SESSION['school_id']; ?>"
-            class="relative px-20 py-4 bg-blue-900 
-              hover:bg-blue-500 
-              text-white text-center text-2xl rounded-md
-              hover:border-s-8 border-slate-900">
-            <img src="../admin/tools/Images/send.svg" alt="School ID"
-              class="w-8 h-8 absolute top-5 left-10 ">
-            Start Evaluate
-          </a>
+    </aside>
+    <section class="p-5">
+      <h2 class="text-5xl"> <br>Welcome, <?= htmlspecialchars($_SESSION['name']) ?></h2>
+      <p class="text-justify text-2xl text-slate-900 leading-relaxed m-2">
+        Your Feedback plays a crucial role in helping us understand what works in the classroom and where we can improve.
+        We value your insights and encourage you to share your thoughts openly and respectfully
+        to help create a better learning experience For Everyone.
+      </p>
+      <a href="../student/manage_evaluation.php" class="btn btn-sm btn-outline rounded-md">
+        Start Evaluate
+      </a>
+    </section>
+  </main>
 
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="text-gray-800 h-[300px] mt-3 border bg-slate-900 text-white">
-      <?php if (isset($_SESSION['name'])): ?>
-
-        <div class="m-4">
-          <p class="text-3xl">Academic Year :
-            <?= htmlspecialchars($_SESSION['school_year'] === "Not Set" ? "Not Set" : $_SESSION['school_year']) ?>
-          </p>
-        </div>
-        <div class="m-4">
-          <p class="text-3xl">Semester :
-            <?= $_SESSION['semester'] == '1' ? 'First Semester' : ($_SESSION['semester'] == '2' ? 'Second Semester' : 'Not Yet Started') ?>
-          </p>
-        </div>
-        <div class="m-4">
-          <p class="text-3xl">Status : <?= htmlspecialchars($_SESSION['is_status']) ?></p>
-        <?php else: ?>
-        </div>
-        <div class="m-4">
-          <p class="text-3xl">Academic year and semester not set. Please set the active semester.</p>
-        <?php endif; ?>
-        </div>
-    </div>
-
-  </div>
 
   <script>
-    function toggleLogout() {
-      const logoutSection = document.getElementById('logout-section');
-      // Toggle the visibility of the logout section
-      logoutSection.classList.toggle('hidden');
+    // Function to apply theme
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
     }
+
+    // Load theme from localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "pastel";
+      applyTheme(savedTheme);
+      document.getElementById("theme-toggle").checked = savedTheme === "luxury";
+    });
+
+    // Toggle theme and save to localStorage
+    document.getElementById("theme-toggle").addEventListener("change", function() {
+      const newTheme = this.checked ? "luxury" : "pastel";
+      applyTheme(newTheme);
+    });
   </script>
 </body>
 

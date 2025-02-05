@@ -192,7 +192,7 @@ $conn->close();
               </td>
               <td class="text-center">
                 <a class="btn btn-sm btn-outline btn-success m-1" href="?editid=<?php echo $row['schoolyear_id']; ?>">Update</a>
-                <a class="btn btn-sm btn-outline btn-error m-1" href="?delete_id=<?php echo $row['schoolyear_id']; ?>" onclick="return confirm('Are you sure you want to delete this school year?')">Delete</a>
+                <a class="btn btn-sm btn-outline btn-error m-1" href="?delete_id=<?php echo $row['schoolyear_id']; ?>" onclick="return confirm('Are you sure you want to delete this school year?')">Remove</a>
               </td>
             </tr>
           <?php endwhile; ?>

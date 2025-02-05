@@ -120,7 +120,7 @@ include('../admin/header.php');
               <div class="flex justify-start items-center gap-1 mt-3">
                 <a class="btn btn-sm btn-outline btn-success" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?edit=<?php echo $listDepartment['department_id']; ?>">Update</a>
                 <a class="btn btn-sm btn-outline btn-error" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?delete=<?php echo $listDepartment['department_id']; ?>" onclick="return confirm(`Are you sure you want to delete this department ?`);">
-                  Delete
+                  Remove
                 </a>
               </div>
             </div>

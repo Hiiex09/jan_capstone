@@ -182,11 +182,11 @@ function deleteSubject($deptId)
           name="subject"
           placeholder="Enter a subject"
           value="<?php echo htmlspecialchars($selectedSubject); ?>"
-          required class="input input-bordered w-full max-w-xs" />
+          required class="input input-bordered rounded-md w-full max-w-xs" />
         <input
           type="submit"
           value="Submit"
-          class="btn btn-md btn-outline" /> <!-- Combined submit button -->
+          class="btn btn-md btn-outline rounded-md" /> <!-- Combined submit button -->
       </div>
     </form>
     <!-- Where the subject will be displayed -->
