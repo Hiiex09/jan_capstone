@@ -1,5 +1,6 @@
 <?php
 include('../database/models/dbconnect.php');
+session_start();
 // Handle adding, editing, or deleting sections based on POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $action = $_POST['action'];
@@ -65,13 +66,11 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
             <label class="text-2xl">Section Name</label>
           </div>
           <div>
-            <input
-              type="text"
+            <input type="text"
               name="section_name"
               value="<?php echo $section_name; ?>"
               required
-              autocomplete="off"
-              class="px-4 py-2 rounded-md border-2 w-[500px]">
+              autocomplete="off" class="input input-bordered w-full max-w-xs" />
           </div>
         </div>
         <div class="mt-1">
@@ -79,55 +78,57 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
             <label class="text-2xl">Year Level</label>
           </div>
           <div>
-            <input
-              type="number"
+            <input type="number"
               name="year_level"
               value="<?php echo $year_level; ?>"
               required
-              autocomplete="off"
-              class="px-4 py-2 rounded-md border-2 w-full">
+              autocomplete="off" class="input input-bordered w-full max-w-xs" />
           </div>
         </div>
         <div>
           <input
             type="submit"
             value="<?php echo $form_action == 'add' ? 'Add Section' : 'Update Section'; ?>"
-            class="btn btn-md btn-outline mt-2 mx-1">
+            class="btn btn-md btn-outline w-full max-w-xs mt-2">
         </div>
       </form>
     </div>
     <!-- Single form for adding, editing, and deleting -->
-    <div class="mt-4 mb-2">
-      <h3 class="text-2xl">Existing Sections</h3>
+    <div class="p-5">
+      <h3 class="text-2xl m-1">Existing Sections</h3>
       <table class="table-auto w-full border shadow">
-        <thead class="border text-sm">
-          <tr>
-            <th class="px-4 py-2 text-center border">Section ID</th>
-            <th class="px-4 py-2 text-center border">Section Name</th>
-            <th class="px-4 py-2 text-center border">Year Level</th>
-            <th class="px-4 py-2 text-center border">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php while ($row = $sections->fetch_assoc()) { ?>
-            <tr class="border-b hover:bg-pink-50">
-              <td class="px-4 py-2 text-center border"><?php echo $row['section_id']; ?></td>
-              <td class="px-4 py-2 text-center border"><?php echo $row['section_name']; ?></td>
-              <td class="px-4 py-2 text-center border"><?php echo $row['year_level']; ?></td>
-              <td class="px-4 py-2 text-center border flex flex-col gap-2">
-                <!-- Update link -->
-                <a href="?action=edit&section_id=<?php echo $row['section_id']; ?>&section_name=<?php echo $row['section_name']; ?>&year_level=<?php echo $row['year_level']; ?>"
-                  class="text-sm btn btn-xs btn-success w-full">
-                  Update
-                </a>
-                <a href="#" onclick="deleteSection(<?php echo $row['section_id']; ?>)" class="text-sm text-sm btn btn-xs btn-error w-full">
-                  Remove
-                </a>
-              </td>
-            </tr>
-          <?php } ?>
-        </tbody>
       </table>
+      <div>
+        <table class="table">
+          <!-- head -->
+          <thead>
+            <tr class="text-center hover cursor-pointer">
+              <th>Section ID</th>
+              <th>Section Name</th>
+              <th>Year Level</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php while ($row = $sections->fetch_assoc()) { ?>
+              <tr class="text-center hover cursor-pointer">
+                <td><?php echo $row['section_id']; ?></td>
+                <td><?php echo $row['section_name']; ?></td>
+                <td><?php echo $row['year_level']; ?></td>
+                <td>
+                  <a href="?action=edit&section_id=<?php echo $row['section_id']; ?>&section_name=<?php echo $row['section_name']; ?>&year_level=<?php echo $row['year_level']; ?>"
+                    class="text-sm btn btn-xs btn-success">
+                    Update
+                  </a>
+                  <a href="#" onclick="deleteSection(<?php echo $row['section_id']; ?>)" class="text-sm text-sm btn btn-xs btn-error">
+                    Remove
+                  </a>
+                </td>
+              </tr>
+            <?php } ?>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
 
