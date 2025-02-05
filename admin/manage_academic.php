@@ -118,119 +118,92 @@ $conn->close();
       </div>
     </div>
     <form action="" method="POST">
-      <div class="mt-4 border-b-4 border-black p-2">
+      <div class="flex flex-row justify-start items-center gap-2 mt-5">
         <div>
           <input type="hidden" name="edit_id" value="<?php echo $edit_id; ?>">
-          <label for="year" class="text-2xl">Academic Year :</label>
-          <input
-            type="text"
+          <label for="year" class="text-lg">Academic Year</label>
+          <input type="text"
             id="year"
             name="year"
             required
             placeholder="Enter Academic Year (e.g., 2024 - 2025)"
             value="<?php echo $edit_year; ?>"
-            class="px-2 py-1 border text-lg mx-2"
             oninput="validateYearInput(this)"
-            pattern="\d{4} - \d{4}"><br>
+            pattern="\d{4} - \d{4}"
+            class="input input-bordered w-full max-w-xs" />
         </div>
-        <div class="mx-9">
-          <label for="semester" class="text-2xl mx-5">Semester :</label>
-          <select
-            id="semester"
+        <div>
+          <label for="semester" class="text-lg">Semester</label>
+          <select id="semester"
             name="semester"
             required
-            class="px-2 py-1 border text-lg w-[220px] mx-[-12px] mt-1">
+            class="select select-bordered w-full max-w-xs">
             <option value="1" <?php echo ($edit_semester == '1') ? 'selected' : ''; ?>>First Semester</option>
             <option value="2" <?php echo ($edit_semester == '2') ? 'selected' : ''; ?>>Second Semester</option>
           </select>
         </div>
-        <div class="mx-44 mt-2 relative hover:border-s-4 border-yellow-400 bg-blue-900 hover:bg-blue-500 w-[219px] py-2 rounded-md text-center text-white">
+        <div class="mt-7">
           <button
             type="submit"
-            name="save">
+            name="save"
+            class="btn btn-md btn-outline w-full max-w-xs px-5">
             <?php echo $edit_id ? 'Update' : 'Submit'; ?>
           </button>
-          <img src="../admin/tools/Images/send.svg" alt="School ID"
-            class="w-7 h-7 absolute top-2 left-12">
         </div>
-
       </div>
-
-
-
-
-
     </form>
 
     <div class="mt-4">
       <h2 class="text-2xl">Existing School Years</h2>
     </div>
+    <div class="overflow-x-auto">
+      <table class="table">
+        <!-- head -->
+        <thead>
+          <tr>
+            <th class="text-center">Academic Year</th>
+            <th class="text-center">Semester</th>
+            <th class="text-center">Default</th>
+            <th class="text-center">Status</th>
+            <th class="text-center">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $i = 1;
+          while ($row = $school_years->fetch_assoc()):
+            $active = $row['is_default'];
+          ?>
+            <tr>
+              <td class="text-center"><b><?php echo $row['school_year']; ?></b></td>
+              <td class="text-center"><b><?php echo $row['semester']; ?></b></td>
+              <td class="text-center">
+                <button class="btn btn-sm btn-outline btn-error" onclick="toggleActive(<?php echo $row['schoolyear_id']; ?>, '<?php echo $active; ?>')">
+                  <?php echo $active === 'Yes' ? 'Yes' : 'No'; ?>
+                </button>
+              </td>
+              <td class="flex justify-center items-center">
+                <select id="status-<?php echo $row['schoolyear_id']; ?>" onchange="updateStatus(<?php echo $row['schoolyear_id']; ?>, this.value)" <?php echo $active === 'Yes' ? '' : 'disabled'; ?>
+                  class="select select-bordered w-full">
+                  <option value="Not Yet Started" <?php echo $row['is_status'] === 'Not Yet Started' ? 'selected' : ''; ?>>Not Yet Started</option>
+                  <option value="Started" <?php echo $row['is_status'] === 'Started' ? 'selected' : ''; ?>>Started</option>
+                  <option value="Closed" <?php echo $row['is_status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
+                </select>
+              </td>
+              <td class="text-center">
+                <a class="btn btn-sm btn-outline btn-success m-1" href="?editid=<?php echo $row['schoolyear_id']; ?>">Update</a>
+                <a class="btn btn-sm btn-outline btn-error m-1" href="?delete_id=<?php echo $row['schoolyear_id']; ?>" onclick="return confirm('Are you sure you want to delete this school year?')">Delete</a>
+              </td>
+            </tr>
+          <?php endwhile; ?>
+        </tbody>
+      </table>
+    </div>
 
     <table class="table-auto w-full border shadow mt-3">
-      <thead class="border bg-blue-900 text-white shadow">
-        <tr>
-          <th class="px-4 py-2 text-center">ID</th>
-          <th class="px-4 py-2 text-center">Academic Year</th>
-          <th class="px-4 py-2 text-center">Semester</th>
-          <th class="px-4 py-2 text-center">Default</th>
-          <th class="px-4 py-2 text-center">Status</th>
-          <th class="px-4 py-2 text-center">Actions</th>
-        </tr>
-      </thead>
 
-      <tbody>
-        <?php
-        $i = 1;
-        while ($row = $school_years->fetch_assoc()):
-          $active = $row['is_default'];
-        ?>
-          <tr class="border-b hover:bg-pink-50">
-            <th class="text-center"><?php echo $i++ ?></th>
-            <td class="px-4 py-2 text-center border"><b><?php echo $row['school_year']; ?></b></td>
-            <td class="px-4 py-2 text-center border"><b><?php echo $row['semester']; ?></b></td>
-            <td class="px-4 py-2 text-center border">
-              <button class="btn btn-sm btn-outline btn-error" onclick="toggleActive(<?php echo $row['schoolyear_id']; ?>, '<?php echo $active; ?>')">
-                <?php echo $active === 'Yes' ? 'Yes' : 'No'; ?>
-              </button>
-            </td>
-            <td class="px-4 py-2 text-center border">
-              <select id="status-<?php echo $row['schoolyear_id']; ?>" onchange="updateStatus(<?php echo $row['schoolyear_id']; ?>, this.value)" <?php echo $active === 'Yes' ? '' : 'disabled'; ?>>
-                <option value="Not Yet Started" <?php echo $row['is_status'] === 'Not Yet Started' ? 'selected' : ''; ?>>Not Yet Started</option>
-                <option value="Started" <?php echo $row['is_status'] === 'Started' ? 'selected' : ''; ?>>Started</option>
-                <option value="Closed" <?php echo $row['is_status'] === 'Closed' ? 'selected' : ''; ?>>Closed</option>
-              </select>
-            </td>
-            <td class="px-4 py-2 text-center border">
-              <div class="flex justify-center items-center">
-                <div class="w-full mx-1 bg-blue-900 hover:bg-blue-500 rounded-md p-1 flex justify-center items-center">
-                  <button class="btn1">
-                    <a
-                      href="?editid=<?php echo $row['schoolyear_id']; ?>">
-                      <div>
-                        <div>
-                          <img src="../admin/tools/Images/update.svg" alt="School ID"
-                            class="w-full h-6">
-                        </div>
-                      </div>
-                    </a>
-                  </button>
-                </div>
-                <div class="w-full mx-1 bg-red-900 hover:bg-red-500 rounded-md p-1 flex justify-center items-center">
-                  <a class="btn1" href="?delete_id=<?php echo $row['schoolyear_id']; ?>"
-                    onclick="return confirm('Are you sure you want to delete this school year?')">
-                    <div>
-                      <div>
-                        <img src="../admin/tools/Images/delete.svg" alt="School ID"
-                          class="w-full h-6">
-                      </div>
-                    </div>
-                  </a>
-                </div>
-              </div>
-            </td>
-          </tr>
-        <?php endwhile; ?>
-      </tbody>
+
+
     </table>
   </div>
 
