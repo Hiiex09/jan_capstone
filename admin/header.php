@@ -1,6 +1,5 @@
 <?php
 include('../database/models/dbconnect.php');
-
 ?>
 
 <!DOCTYPE html>
@@ -23,17 +22,15 @@ include('../database/models/dbconnect.php');
         <!-- Dropdown Trigger -->
         <label tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
           <div class="w-20 rounded-full">
-            <img
-              alt="Tailwind CSS Navbar component"
-              src="../admin/tools/Profiles User/Student.png" />
+            <img alt="profile-image" src="../<?= htmlspecialchars($_SESSION['image']) ?>" />
           </div>
         </label>
 
         <!-- Dropdown Content -->
-        <ul class="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+        <ul class=" menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
           <li>
             <a href="#updateprofile" class="btn hover:text-red-900">
-              Welcome, <span class="text-black text-lg"><?= htmlspecialchars($_SESSION['username']) ?></span>
+              Welcome, <span class="text-black text-sm"><?= htmlspecialchars($_SESSION['username']) ?></span>
             </a>
           </li>
           <li class="mt-2">
