@@ -112,7 +112,7 @@ if (isset($_POST['update'])) {
         </label>
 
         <label class="input input-bordered flex items-center gap-2 mt-5">
-          <input type="password" class="grow" name="password" required />
+          <input type="password" class="grow" name="password" placeholder="Required New Password" required />
         </label>
 
         <div class="mt-5">
