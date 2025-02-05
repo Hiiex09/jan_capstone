@@ -31,6 +31,7 @@ include('./database/models/dbconnect.php');
 }*/
 function adminLogin($username, $password)
 {
+
   global $conn; // Access the $conn variable from the global scope
   try {
     $sql = "SELECT * FROM admin WHERE username = ? OR email = ?";
@@ -46,6 +47,7 @@ function adminLogin($username, $password)
       // Verify the password
       if (password_verify($password, $hashed_password)) {
         $_SESSION['username'] = $row['username'];
+        $_SESSION['image'] = $row['image'];
         header('location: admin/admin_dashboard.php');
         exit();
       } else {
