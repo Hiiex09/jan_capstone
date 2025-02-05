@@ -37,241 +37,187 @@ if ($schoolyear) {
 </head>
 
 <body>
-  <div class="container-full flex justify-center items-center gap-2 p-20">
-    <div>
-      <?php if (isset($_SESSION['username'])): ?>
-        <div class="p-4">
-          <div class="p-4 bg-base-100 shadow text-black w-full rounded-md hidden md:block">
-            <div class="flex justify-start items-center mx-4 mt-2">
-              <div>
-                <div class="text-2xl">Academic Year:
-                  <?= htmlspecialchars($_SESSION['school_year'] === "Not Set" ? "Not Set" : $_SESSION['school_year']) ?>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex justify-start items-center mx-4 mt-2">
-              <div>
-                <div class="text-3xl">Semester:
-                  <?= $_SESSION['semester'] == '1' ? 'First Semester' : ($_SESSION['semester'] == '2' ? 'Second Semester' : 'Not Yet Started') ?>
-                </div>
-              </div>
-            </div>
-
-            <div class="flex justify-start items-center mx-4 mt-2">
-              <div>
-                <!-- Display status -->
-                <div class="text-3xl relative">Status: <?= htmlspecialchars($_SESSION['is_status']) ?></div>
-              <?php else: ?>
-                <div>Academic year and semester not set. Please set the active semester.</div>
-              <?php endif; ?>
-              </div>
-            </div>
-
-          </div>
-        </div>
-        <div class="grid grid-cols-3 m-4 gap-8">
-          <!-- Manage Teacher Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/teacher_side_com.svg" alt="Teacher" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage Teacher</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">
-                  <?php
-                  $count = 0;
-                  $sql = "SELECT COUNT(*) AS total FROM `tblteacher`";
-                  $result = mysqli_query($conn, $sql);
-                  if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $count = $row['total'];
-                  }
-                  echo $count;
-                  ?>
-                </div>
-              </div>
-              <a href="../admin/manage_teacher.php" class="btn btn-primary btn-outline w-[150px] mt-14">View Teacher</a>
-            </div>
-          </div>
-
-          <!-- Manage Student Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/student_side.svg" alt="Student" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage Student</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">
-                  <?php
-                  $count = 0;
-                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
-                  $result = mysqli_query($conn, $sql);
-                  if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $count = $row['total'];
-                  }
-                  echo $count;
-                  ?>
-                </div>
-              </div>
-              <a href="../admin/student_table.php" class="btn btn-primary btn-outline w-[150px] mt-14">View Student</a>
-            </div>
-          </div>
-
-          <!-- Manage User Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/user_side.svg" alt="User" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage User</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">
-                  <?php
-                  $count = 0;
-                  $sql = "SELECT COUNT(*) AS total FROM `admin`";
-                  $result = mysqli_query($conn, $sql);
-                  if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $count = $row['total'];
-                  }
-                  echo $count;
-                  ?>
-                </div>
-              </div>
-              <a href="#viewDepartment" class="btn btn-primary btn-outline w-[150px] mt-14">View User</a>
-            </div>
-          </div>
-
-          <!-- Manage Department Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/department_side.svg" alt="Department" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage Department</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">
-                  <?php
-                  $count = 0;
-                  $sql = "SELECT COUNT(*) AS total FROM `tbldepartment`";
-                  $result = mysqli_query($conn, $sql);
-                  if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $count = $row['total'];
-                  }
-                  echo $count;
-                  ?>
-                </div>
-              </div>
-              <a href="#viewDepartment" class="btn btn-primary btn-outline w-[150px] mt-14">View Department</a>
-            </div>
-          </div>
-
-          <!-- Manage Section Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/section_side.svg" alt="Section" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage Section</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">
-                  <?php
-                  $count = 0;
-                  $sql = "SELECT COUNT(*) AS total FROM `tblsection`";
-                  $result = mysqli_query($conn, $sql);
-                  if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $count = $row['total'];
-                  }
-                  echo $count;
-                  ?>
-                </div>
-              </div>
-              <a href="#viewSection" class="btn btn-primary btn-outline w-[150px] mt-14">View Section</a>
-            </div>
-          </div>
-
-          <!-- Manage Criteria Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/criteria_side.svg" alt="Criteria" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage Criteria</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">
-                  <?php
-                  $count = 0;
-                  $sql = "SELECT COUNT(*) AS total FROM `tblcriteria`";
-                  $result = mysqli_query($conn, $sql);
-                  if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $count = $row['total'];
-                  }
-                  echo $count;
-                  ?>
-                </div>
-              </div>
-              <a href="#viewCriteria" class="btn btn-primary btn-outline w-[150px] mt-14">View Criteria</a>
-            </div>
-          </div>
-
-          <!-- Manage Subject Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/subject_side.svg" alt="Subject" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage Subject</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">
-                  <?php
-                  $count = 0;
-                  $sql = "SELECT COUNT(*) AS total FROM `tblsubject`";
-                  $result = mysqli_query($conn, $sql);
-                  if ($result) {
-                    $row = mysqli_fetch_assoc($result);
-                    $count = $row['total'];
-                  }
-                  echo $count;
-                  ?>
-                </div>
-              </div>
-              <a href="#viewSubject" class="btn btn-primary btn-outline w-[150px] mt-14">View Subject</a>
-            </div>
-          </div>
-
-          <!-- Manage Archive Card -->
-          <div class="card card-side bg-base-100 shadow-xl border p-4">
-            <figure>
-              <img src="../admin/tools/img_side/archive_side.svg" alt="Archive" />
-            </figure>
-            <div class="card-body">
-              <h2 class="card-title">Manage Archive</h2>
-              <div class="flex justify-center items-center gap-3 mt-8">
-                <div class="h-8 w-8 bg-blue-900 rounded-full"></div>
-                <div class="text-6xl">0</div>
-              </div>
-              <a href="#viewArchive" class="btn btn-primary btn-outline w-[150px] mt-14">View Archive</a>
-            </div>
-          </div>
-        </div>
-
+  <section class="h-full bg-base-300 rounded-md mx-5 p-5 flex grid grid-cols-4 gap-10">
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Student</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
     </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Teacher</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblteacher`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Admin</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `admin`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Academic</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Department</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Section</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Criteria</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Subject</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+    <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
+      <div class="h-40 w-full p-2">
+        <h1 class="text-2xl">Archive</h1>
+        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
+          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
+          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
+                                                                  $count = 0;
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $result = mysqli_query($conn, $sql);
+                                                                  if ($result) {
+                                                                    $row = mysqli_fetch_assoc($result);
+                                                                    $count = $row['total'];
+                                                                  }
+                                                                  echo $count;
+                                                                  ?></text>
+        </svg>
+      </div>
+    </div>
+  </section>
 
-    <script src="https://cdn.tailwindcss.com"></script>
+
+
+  <script src=" https://cdn.tailwindcss.com">
+  </script>
+  <script>
+    const track = document.querySelector(".carousel-track");
+    const items = document.querySelectorAll(".carousel-item");
+    let index = 0;
+
+    function autoSlide() {
+      index = (index + 1) % items.length;
+      track.style.transform = `translateX(-${index * 100}%)`;
+    }
+
+    setInterval(autoSlide, 3000); // Slide every 3 seconds
+  </script>
 </body>
 
 </html>
