@@ -160,7 +160,7 @@ if (isset($_GET['delete'])) {
 </head>
 
 <body>
-  <div class="  ">
+  <div class="p-5">
     <div class="m-4">
       <h1 class="text-4xl">Create Criteria</h1>
     </div>
@@ -168,34 +168,30 @@ if (isset($_GET['delete'])) {
     <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="post">
       <input type="hidden" name="id" value="<?php echo htmlspecialchars($criteriaId); ?>">
       <input type="hidden" name="action" value="<?php echo $criteriaId ? 'update' : 'create'; ?>">
-      <div>
+      <div class="p-4">
         <div>
-          <input
-            type="text"
+          <input type="text"
             name="criteria"
             placeholder="Enter a criteria"
             value="<?php echo htmlspecialchars($selectedCriteria); ?>"
-            required
-            class="border px-4 py-3 w-[400px] rounded-md text-lg">
+            required class="input input-bordered w-full max-w-xs" />
           <input
             type="submit"
             value="Submit"
-            class="px-4 py-3 rounded-md 
-              text-white text-lg bg-blue-900 hover:bg-blue-500
-              hover:border-s-4 border-yellow-300 cursor-pointer" /> <!-- Combined submit button -->
+            class="btn btn-md btn-outline rounded-md cursor-pointer" /> <!-- Combined submit button -->
         </div>
       </div>
     </form>
 
     <!-- Where the criteria will be displayed -->
-    <div id="criterialist" class="mt-4 p-2 rounded-md">
+    <div id="criterialist" class="mt-4 p-5 rounded-md border shadow-lg">
       <?php if (count($criteriaList) > 0): ?>
         <ol>
           <?php foreach ($criteriaList as $index => $listCriteria): ?>
             <li>
-              <div class="grid grid-cols-3 gap-3 text-lg mt-1">
+              <div class="grid grid-cols-3 gap-3 text-sm mt-1">
                 <?php echo htmlspecialchars($listCriteria['criteria']); ?>
-                <div>
+                <div class="flex justify-center items-center gap-4">
                   <?php for ($i = 1; $i <= 4; $i++): ?>
                     <label>
                       <input
@@ -206,17 +202,18 @@ if (isset($_GET['delete'])) {
                       <?php echo $i; ?>
                     </label>
                   <?php endfor; ?>
+                  <div class="flex justify-center items-center gap-2">
+                    <a class="btn btn-sm btn-success" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?edit=<?php echo $listCriteria['criteria_id']; ?>">
+                      Update
+                    </a>
+                    <a class="btn btn-sm btn-error" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?delete=<?php echo $listCriteria['criteria_id']; ?>"
+                      onclick="return confirm('Are you sure you want to delete this criteria?');">
+                      Delete
+                    </a>
+                  </div>
                 </div>
 
-                <div class="flex justify-center items-center gap-2">
-                  <a class="btn btn-sm btn-success" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?edit=<?php echo $listCriteria['criteria_id']; ?>">
-                    Update
-                  </a>
-                  <a class="btn btn-sm btn-error" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?delete=<?php echo $listCriteria['criteria_id']; ?>"
-                    onclick="return confirm('Are you sure you want to delete this criteria?');">
-                    Delete
-                  </a>
-                </div>
+
               </div>
             </li>
           <?php endforeach; ?>
@@ -226,7 +223,7 @@ if (isset($_GET['delete'])) {
       <?php endif; ?>
     </div>
   </div>
-  <!-- Input Form -->
+
 
 </body>
 
