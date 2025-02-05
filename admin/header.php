@@ -28,14 +28,31 @@ include('../database/models/dbconnect.php');
 
         <!-- Dropdown Content -->
         <ul class=" menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-          <li>
-            <a href="#updateprofile" class="btn hover:text-red-900">
-              Welcome, <span class="text-sm"><?= htmlspecialchars($_SESSION['username']) ?></span>
-            </a>
+          <li class="w-full">
+            <p class="text-sm"> Welcome, <span class="p-1 text-center"><?= htmlspecialchars($_SESSION['username']) ?></span></p>
+          </li>
+          <li class="py-1">
+            <div class="bg-base-300 p-1">
+              <?php if (isset($_SESSION['username'])): ?>
+                <div class="flex flex-col justify-start items-start gap-2">
+                  <div class="text-sm">
+                    <span>Academic Year: <?= htmlspecialchars($_SESSION['school_year'] === "Not Set" ? "Not Set" : $_SESSION['school_year']) ?></span>
+                  </div>
+                  <div class="text-sm">
+                    <span>Semester: <?= $_SESSION['semester'] == '1' ? 'First Semester' : ($_SESSION['semester'] == '2' ? 'Second Semester' : 'Not Yet Started') ?></span>
+                  </div>
+                  <div class="text-sm">
+                    <span>Status: <?= htmlspecialchars($_SESSION['is_status']) ?></span>
+                  </div>
+                <?php else: ?>
+                  <div>Academic year and semester not set. Please set the active semester.</div>
+                <?php endif; ?>
+                </div>
+            </div>
           </li>
           <li>
             <div class="flex flex-row justify-evenly items-center">
-              <div class="text-sm text-start">
+              <div class="text-xs text-start">
                 Theme Settings
                 <input
                   type="checkbox"
@@ -211,7 +228,7 @@ include('../database/models/dbconnect.php');
       </ul>
     </div>
   </div>
-  <footer class="fixed bottom-0 left-0 right-0 footer bg-neutral items-center p-4">
+  <footer class="fixed bottom-0 left-0 right-0 footer bg-base-300 items-center p-4">
     <aside class="grid-flow-col items-center">
       <svg
         width="36"
@@ -250,14 +267,14 @@ include('../database/models/dbconnect.php');
 
     // Load theme from localStorage
     document.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme") || "nord";
+      const savedTheme = localStorage.getItem("theme") || "pastel";
       applyTheme(savedTheme);
-      document.getElementById("theme-toggle").checked = savedTheme === "coffee";
+      document.getElementById("theme-toggle").checked = savedTheme === "luxury";
     });
 
     // Toggle theme and save to localStorage
     document.getElementById("theme-toggle").addEventListener("change", function() {
-      const newTheme = this.checked ? "coffee" : "nord";
+      const newTheme = this.checked ? "luxury" : "pastel";
       applyTheme(newTheme);
     });
   </script>
