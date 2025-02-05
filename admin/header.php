@@ -31,8 +31,8 @@ include('../database/models/dbconnect.php');
           <li class="w-full">
             <p class="text-sm"> Welcome, <span class="p-1 text-center"><?= htmlspecialchars($_SESSION['username']) ?></span></p>
           </li>
-          <li class="py-1">
-            <div class="bg-base-300 p-1">
+          <li>
+            <div class="bg-base-300 p-5 m-1">
               <?php if (isset($_SESSION['username'])): ?>
                 <div class="flex flex-col justify-start items-start gap-2">
                   <div class="text-sm">
