@@ -14,7 +14,7 @@ include('../database/models/dbconnect.php');
 <body>
 
   <div class="navbar bg-slate-900 shadow shadow-gray-800">
-    <div class="flex-1 hover:border-s-4 border-white rounded-md">
+    <div class="flex-1 rounded-md">
       <a href="../admin/admin_dashboard.php" class="btn btn-ghost text-2xl text-white">Cebu Eastern College</a>
     </div>
     <div class="flex-none mt-1">
@@ -30,35 +30,28 @@ include('../database/models/dbconnect.php');
         <ul class=" menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
           <li>
             <a href="#updateprofile" class="btn hover:text-red-900">
-              Welcome, <span class="text-black text-sm"><?= htmlspecialchars($_SESSION['username']) ?></span>
+              Welcome, <span class="text-sm"><?= htmlspecialchars($_SESSION['username']) ?></span>
             </a>
           </li>
-          <li class="mt-2">
-            <!-- <a href="#updateprofile" class="hover:font-bold hover:text-red-900">
-              Update Profile
-              <span class="badge text-red-900">Try!</span>
-            </a> -->
-            <a href="../logout.php" class="hover:font-bold hover:text-blue-900 text-start">
+          <li>
+            <div class="flex flex-row justify-evenly items-center">
+              <div class="text-sm text-start">
+                Theme Settings
+                <input
+                  type="checkbox"
+                  id="theme-toggle"
+                  class="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1 mt-1" />
+              </div>
+              <span class="badge badge-primary text-xs">New</span>
+            </div>
+          </li>
+          <li>
+            <a href="../logout.php" class="hover:font-bold hover:text-blue-900 mx-2">
               <span>Logout</span>
             </a>
           </li>
         </ul>
       </div>
-    </div>
-    <div class="mx-5">
-      <label class="grid cursor-pointer place-items-center">
-        <input
-          type="checkbox"
-          id="theme-toggle"
-          class="toggle theme-controller bg-base-content col-span-2 col-start-1" />
-        <svg class="stroke-base-100 fill-base-100 col-start-1 row-start-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="12" r="5" />
-          <path d="M12 1v2M12 21v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M1 12h2M21 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4" />
-        </svg>
-        <svg class="stroke-base-100 fill-base-100 col-start-2 row-start-1" xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-        </svg>
-      </label>
     </div>
   </div>
 
