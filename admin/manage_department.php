@@ -72,65 +72,56 @@ include('../admin/header.php');
 </head>
 
 <body>
-  <div class="p-5 m-3">
-    <div class="flex justify-start items-center">
-      <div class="mx-5">
-        <img
-          src="../admin/tools/img_side/department_side.svg"
-          alt="school_year-image"
-          class="h-14 w-14">
-      </div>
-      <div class="mt-3">
-        <h1 class="text-5xl mb-4">Create Department</h1>
-      </div>
+  <div class="p-5">
+    <div class="mt-3">
+      <h1 class="text-5xl mb-4">Manage Department</h1>
     </div>
-    <div class="flex justify-end items-end">
+
+    <div class="flex justify-end items-end p-4">
       <form
         action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
         method="post"
-        class="mb-1">
-        <input type="hidden" name="id" value="<?php echo htmlspecialchars($deptId); ?>">
-        <input type="hidden" name="action" value="<?php echo $deptId ? 'update' : 'create'; ?>">
-        <input
-          type="text"
-          name="department"
-          placeholder="Enter a department"
-          class="border-2 px-4 py-3 w-[400px] rounded-md"
-          autocomplete="off"
-          value="<?php echo htmlspecialchars($selectedDept); ?>" required>
-        <input
-          type="submit"
-          value="Submit"
-          class="btn btn-md btn-outline rounded-md cursor-pointer" /> <!-- Combined submit button -->
+        class="flex justify-center items-center gap-3">
+        <div>
+          <input type="hidden" name="id" value="<?php echo htmlspecialchars($deptId); ?>">
+          <input type="hidden" name="action" value="<?php echo $deptId ? 'update' : 'create'; ?>">
+          <input type="text"
+            name="department"
+            placeholder="Enter a department"
+
+            autocomplete="off"
+            value="<?php echo htmlspecialchars($selectedDept); ?>" required
+            class="input input-bordered w-full max-w-xs" />
+        </div>
+        <div>
+          <input
+            type="submit"
+            value="Submit"
+            class="btn btn-md btn-outline rounded-md cursor-pointer w-full max-w-xs" />
+        </div>
       </form>
     </div>
 
-
     <!-- Where the department will be displayed -->
-
-    <div id="departmentlist">
+    <div id="departmentlist" class="p-4">
       <?php if (count($departmentList) > 0): ?>
-        <div class="grid grid-cols-4 gap-2 ">
+        <div class="grid grid-cols-3 gap-2">
           <?php foreach ($departmentList as $index => $listDepartment): ?>
-            <div class="mt-5 p-8 h-[180px] border-2 hover:shadow-lg hover:shadow-blue-300 
-               hover:border-s-blue-600 hover:border-s-8 rounded-md">
-              <div class="text-lg font-semibold">
-                <?php echo htmlspecialchars($listDepartment['department_name']); ?>
+            <div class="p-3 rounded-lg bg-base-300">
+              <div>
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2"
+                  class="animate-bounce">
+                  <path d="M8 21h8M12 17v4M7 3h10v4a5 5 0 0 1-10 0V3z" />
+                  <path d="M3 9a5 5 0 0 0 4-4M21 9a5 5 0 0 1-4-4" />
+                </svg>
+                <h1 class="text-2xl"><?php echo htmlspecialchars($listDepartment['department_name']); ?></h1>
               </div>
               <!-- Using links to handle editing and deleting -->
               <div class="flex justify-start items-center gap-1 mt-3">
-                <div class="bg-green-900 hover:bg-green-500 px-3 py-1 rounded-md">
-                  <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?edit=<?php echo $listDepartment['department_id']; ?>">
-                    <img src="../admin/tools/Images/update.svg" alt="School ID"
-                      class="w-5 h-5">
-                  </a>
-                </div>
-                <div class="bg-red-900 hover:bg-red-500 px-3 py-1 rounded-md">
-                  <a href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?delete=<?php echo $listDepartment['department_id']; ?>" onclick="return confirm(`Are you sure you want to delete this department ?`);">
-                    <img src="../admin/tools/Images/delete.svg" alt="School ID"
-                      class="w-5 h-5">
-                  </a>
-                </div>
+                <a class="btn btn-sm btn-outline btn-success" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?edit=<?php echo $listDepartment['department_id']; ?>">Update</a>
+                <a class="btn btn-sm btn-outline btn-error" href="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>?delete=<?php echo $listDepartment['department_id']; ?>" onclick="return confirm(`Are you sure you want to delete this department ?`);">
+                  Delete
+                </a>
               </div>
             </div>
           <?php endforeach; ?>
@@ -140,7 +131,6 @@ include('../admin/header.php');
       <?php endif; ?>
     </div>
 
-  </div>
   </div>
 </body>
 
