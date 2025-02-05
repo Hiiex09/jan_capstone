@@ -98,7 +98,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-3-3h-2m-6 5H2v-2a3 3 0 013-3h2m6-6a3 3 0 100-6 3 3 0 000 6z" />
             </svg>
-            <span class="text-lg text-black">Manage Student</span>
+            <span class="text-lg">Manage Student</span>
           </div>
           <div class="collapse-content p-2">
             <a href="../admin/manage_student.php" class="hover:font-semibold text-sm ">View Student</a>
@@ -113,7 +113,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 14.25c-4.97 0-9 1.567-9 3.5v2.25h18V17.75c0-1.933-4.03-3.5-9-3.5zM12 3.75a3 3 0 00-3 3V9c0 .818.393 1.5.75 1.5h4.5c.357 0 .75-.682.75-1.5V6.75a3 3 0 00-3-3z" />
             </svg>
-            <span class="text-lg text-black">Manage Teacher</span>
+            <span class="text-lg">Manage Teacher</span>
           </div>
           <div class="collapse-content p-2 flex flex-col">
             <a href="../admin/manage_teacher.php" class="hover:font-semibold hover:text-red-900">View Teacher</a>
@@ -130,7 +130,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75a3.75 3.75 0 01-3.75-3.75 3.75 3.75 0 017.5 0A3.75 3.75 0 0112 15.75zM8.25 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 018.25 12z" />
             </svg>
-            <span class="text-lg text-black">Manage Admin</span>
+            <span class="text-lg">Manage Admin</span>
           </div>
           <div class="collapse-content p-2">
             <a href="../admin/manage_admin.php" class="hover:font-semibold hover:text-red-900">View Admin</a>
@@ -145,7 +145,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M12 15.75a3.75 3.75 0 01-3.75-3.75 3.75 3.75 0 017.5 0A3.75 3.75 0 0112 15.75zM8.25 12A3.75 3.75 0 1112 8.25 3.75 3.75 0 018.25 12z" />
             </svg>
-            <span class="text-lg text-black">Manage Academic</span>
+            <span class="text-lg">Manage Academic</span>
           </div>
           <div class="collapse-content p-2">
             <a href="../admin/manage_academic.php" class="hover:font-semibold hover:text-red-900">View Academic</a>
@@ -160,7 +160,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
             </svg>
-            <span class="text-lg text-black">Manage Department</span>
+            <span class="text-lg">Manage Department</span>
           </div>
           <div class="collapse-content p-2">
             <a href="../admin/manage_department.php" class="hover:font-semibold hover:text-red-900">View Department</a>
@@ -174,7 +174,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
             </svg>
-            <span class="text-lg text-black">Manage Section</span>
+            <span class="text-lg">Manage Section</span>
           </div>
           <div class="collapse-content p-2">
             <a href="../admin/manage_section.php" class="hover:font-semibold hover:text-red-900">View Section</a>
@@ -188,7 +188,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 7h14M5 12h14M5 17h14" />
             </svg>
-            <span class="text-lg text-black">Manage Criteria</span>
+            <span class="text-lg">Manage Criteria</span>
           </div>
           <div class="collapse-content p-2">
             <a href="../admin/manage_criteria.php" class="hover:font-semibold hover:text-red-900">View Criteria</a>
@@ -203,7 +203,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16M4 5a2 2 0 012-2h12a2 2 0 012 2M4 5a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2m-4 6H8m4 4H8" />
             </svg>
-            <span class="text-lg text-black">Manage Subject</span>
+            <span class="text-lg">Manage Subject</span>
           </div>
           <div class="collapse-content p-2">
             <a href="../admin/manage_subject.php" class="hover:font-semibold hover:text-red-900">View Subject</a>
@@ -218,7 +218,7 @@ include('../database/models/dbconnect.php');
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-blue-900">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4 5h16M4 5a2 2 0 012-2h12a2 2 0 012 2M4 5a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V7a2 2 0 00-2-2m-4 6H8m4 4H8" />
             </svg>
-            <span class="text-lg text-black">Manage Archive</span>
+            <span class="text-lg">Manage Archive</span>
           </div>
           <div class="collapse-content p-2">
             <a href="#viewArchive" class="hover:font-semibold hover:text-red-900">View Archive</a>
