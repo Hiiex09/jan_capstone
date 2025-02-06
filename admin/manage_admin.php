@@ -230,7 +230,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         include('../database/models/dbconnect.php');
 
         // Set number of records per page
-        $records_per_page = 5;
+        $records_per_page = 3;
 
         // Get the current page number from the query string, default to 1
         $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;

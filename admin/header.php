@@ -20,7 +20,7 @@ include('../database/models/dbconnect.php');
     <div class="flex-none mt-1">
       <div class="dropdown dropdown-end">
         <!-- Dropdown Trigger -->
-        <label tabindex="0" role="button" class="btn btn-ghost btn-circle avatar">
+        <label tabindex="0" role="button" class="btn btn-ghost btn-circle avatar hover:border-3 hover:border-white">
           <div class="w-20 rounded-full">
             <img alt="profile-image" src="../<?= htmlspecialchars($_SESSION['image']) ?>" />
           </div>
@@ -59,7 +59,7 @@ include('../database/models/dbconnect.php');
                   id="theme-toggle"
                   class="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1 mt-1" />
               </div>
-              <span class="badge badge-primary text-xs">New</span>
+              <span class="badge badge-primary text-xs animate-bounce">New</span>
             </div>
           </li>
           <li>

@@ -41,174 +41,132 @@ if ($schoolyear) {
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Student</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Teacher</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblteacher`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `tblteacher`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Admin</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `admin`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `admin`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Academic</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblschoolyear`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `tblschoolyear`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Department</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tbldepartment`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `tbldepartment`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Section</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblsection`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `tblsection`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Criteria</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblcriteria`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `tblcriteria`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Subject</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblsubject`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5"><?php
+                                            $count = 0;
+                                            $sql = "SELECT COUNT(*) AS total FROM `tblsubject`";
+                                            $result = mysqli_query($conn, $sql);
+                                            if ($result) {
+                                              $row = mysqli_fetch_assoc($result);
+                                              $count = $row['total'];
+                                            }
+                                            echo $count;
+                                            ?></h2>
       </div>
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Coming Soon</h1>
-        <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-          <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"></text>
-        </svg>
+        <h2 class="text-5xl text-start p-5">❤</h2>
       </div>
     </div>
   </section>
 
 
-
-  <script src=" https://cdn.tailwindcss.com">
-  </script>
-  <script>
-    const track = document.querySelector(".carousel-track");
-    const items = document.querySelectorAll(".carousel-item");
-    let index = 0;
-
-    function autoSlide() {
-      index = (index + 1) % items.length;
-      track.style.transform = `translateX(-${index * 100}%)`;
-    }
-
-    setInterval(autoSlide, 3000); // Slide every 3 seconds
-  </script>
 </body>
 
 </html>
