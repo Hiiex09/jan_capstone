@@ -206,15 +206,16 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
   <title>Student Table</title>
 
   <style>
-    /* #toast-container {
+    #toast-container {
       position: fixed;
       top: 20px;
       left: 20px;
       z-index: 1000;
       display: flex;
+      transform: translateX(-50%);
       flex-direction: column;
       gap: 10px;
-    } */
+    }
 
     /* Toast style */
     .toast {
@@ -256,7 +257,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
 <body>
 
-  <div id="toast-container" class="flex justify-end me-10 items-center text-2xl text-red-900"></div>
+  <div id="toast-container"></div>
 
   <div class="m-2 p-4">
     <section class="m-5">

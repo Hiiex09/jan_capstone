@@ -38,7 +38,7 @@ if (isset($_GET['teacher_id'])) {
   while ($row = mysqli_fetch_assoc($result)) {
     if (empty($teacher_name)) {
       // Store teacher details (name and image) only once
-      $teacher_name = $row['fname'];
+      $teacher_name = $row['teacher_name'];
       $teacher_image = $row['teacher_image'];
     }
 
@@ -130,9 +130,9 @@ $fullname = $row['name'];
       <?php if (!empty($ratings)): ?>
         <!-- Ratings Table -->
         <div class="overflow-x-auto">
-          <table class="table w-full bg-white shadow-md rounded-lg">
+          <table class="table w-full shadow-md rounded-lg">
             <thead>
-              <tr class="bg-gray-100">
+              <tr>
                 <th class="p-4">Criteria</th>
                 <th class="p-4">Average Rating</th>
               </tr>
@@ -140,8 +140,8 @@ $fullname = $row['name'];
             <tbody>
               <!-- Display Overall Average -->
               <tr>
-                <td colspan="2" class="p-4 bg-gray-50">
-                  <div class="font-bold text-lg text-gray-700">Overall Average Rating: <?= number_format($overall_average, 2); ?></div>
+                <td colspan="2">
+                  <div>Overall Average Rating: <?= number_format($overall_average, 2); ?></div>
                 </td>
               </tr>
               <?php foreach ($ratings as $criteria => $rating_details): ?>

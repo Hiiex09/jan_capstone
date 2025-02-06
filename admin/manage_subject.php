@@ -15,21 +15,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   // Create action
   if ($action == "create" && !empty($subject)) {
     createsubject($subject);
-    header('Location: subject_create.php'); // Redirect to the same page after creation
+    header('Location: manage_subject.php'); // Redirect to the same page after creation
     exit();
   }
 
   // Update action
   if ($action == "update" && !empty($subjectId) && !empty($subject)) {
     updatesubject($subjectId, $subject);
-    header('Location: subject_create.php'); // Redirect to the same page after updating
+    header('Location: manage_subject.php'); // Redirect to the same page after updating
     exit();
   }
 
   // Delete action
   if ($action == "delete" && !empty($subjectId)) {
     deleteCriteria($subjectId);
-    header('Location: subject_create.php'); // Redirect to the same page after deletion
+    header('Location: manage_subject.php'); // Redirect to the same page after deletion
     exit();
   }
 }
@@ -53,7 +53,7 @@ if (isset($_GET['edit'])) {
 if (isset($_GET['delete'])) {
   $subjectId = $_GET['delete'];
   deletesubject($subjectId);
-  header('Location: subject_create.php'); // Redirect to the same page after deletion
+  header('Location: manage_subject.php'); // Redirect to the same page after deletion
   exit();
 }
 ?>
@@ -74,7 +74,7 @@ function createSubject($subject)
     if ($stmtc->num_rows() > 0) {
       echo "<script>
               alert('subject already exists.');
-              window.location.href='subject_create.php';
+              window.location.href='manage_subject.php';
             </script>";
     } else {
       $sql = "INSERT INTO tblsubject (subject_name) VALUES (?)";
@@ -84,7 +84,7 @@ function createSubject($subject)
         // Success message
         echo "<script>
              alert('subject successfully created.');
-              window.location.href='subject_create.php';
+              window.location.href='manage_subject.php';
             </script>";
       } else {
         // Handle the failure
