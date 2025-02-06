@@ -99,7 +99,7 @@ if ($schoolyear) {
           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
           <text x="35" y="60" font-size="30" font-weight="bold"> <?php
                                                                   $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblschoolyear`";
                                                                   $result = mysqli_query($conn, $sql);
                                                                   if ($result) {
                                                                     $row = mysqli_fetch_assoc($result);
@@ -117,7 +117,7 @@ if ($schoolyear) {
           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
           <text x="35" y="60" font-size="30" font-weight="bold"> <?php
                                                                   $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tbldepartment`";
                                                                   $result = mysqli_query($conn, $sql);
                                                                   if ($result) {
                                                                     $row = mysqli_fetch_assoc($result);
@@ -135,7 +135,7 @@ if ($schoolyear) {
           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
           <text x="35" y="60" font-size="30" font-weight="bold"> <?php
                                                                   $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblsection`";
                                                                   $result = mysqli_query($conn, $sql);
                                                                   if ($result) {
                                                                     $row = mysqli_fetch_assoc($result);
@@ -153,7 +153,7 @@ if ($schoolyear) {
           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
           <text x="35" y="60" font-size="30" font-weight="bold"> <?php
                                                                   $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblcriteria`";
                                                                   $result = mysqli_query($conn, $sql);
                                                                   if ($result) {
                                                                     $row = mysqli_fetch_assoc($result);
@@ -171,7 +171,7 @@ if ($schoolyear) {
           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
           <text x="35" y="60" font-size="30" font-weight="bold"> <?php
                                                                   $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
+                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblsubject`";
                                                                   $result = mysqli_query($conn, $sql);
                                                                   if ($result) {
                                                                     $row = mysqli_fetch_assoc($result);
@@ -184,19 +184,10 @@ if ($schoolyear) {
     </div>
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
-        <h1 class="text-2xl">Archive</h1>
+        <h1 class="text-2xl">Coming Soon</h1>
         <svg width="60" height="60" class="mt-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
           <circle cx="50" cy="50" r="40" stroke="black" stroke-width="5" fill="none" />
-          <text x="35" y="60" font-size="30" font-weight="bold"> <?php
-                                                                  $count = 0;
-                                                                  $sql = "SELECT COUNT(*) AS total FROM `tblstudent`";
-                                                                  $result = mysqli_query($conn, $sql);
-                                                                  if ($result) {
-                                                                    $row = mysqli_fetch_assoc($result);
-                                                                    $count = $row['total'];
-                                                                  }
-                                                                  echo $count;
-                                                                  ?></text>
+          <text x="35" y="60" font-size="30" font-weight="bold"></text>
         </svg>
       </div>
     </div>
