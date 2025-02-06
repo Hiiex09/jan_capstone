@@ -1,17 +1,17 @@
 <?php
 session_start();
-include('./database//models/dbconnect.php'); // Include database connection
-include('./admin/security/admin_login.php');
+include('./database/models/dbconnect.php'); // Include database connection
+include('./admin/security/admin_login.php'); // Admin login function
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  //Log to admin
+  // Log to admin
   adminLogin($username, $password);
 
-  // SQL query to fetch student info based on username and password
-  $sql = "SELECT school_id, name FROM tblstudent WHERE school_id = ? AND password = ?";
+  // Secure SQL query to fetch student info
+  $sql = "SELECT student_id, school_id, name FROM tblstudent WHERE school_id = ? AND password = ?";
 
   // Prepare and bind
   $stmt = $conn->prepare($sql);
@@ -19,21 +19,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $stmt->execute();
   $result = $stmt->get_result();
 
-  // Check if login is successful
   if ($result->num_rows > 0) {
     $student = $result->fetch_assoc();
+
     $_SESSION['student_id'] = $student['student_id']; // Store student_id in session
     $_SESSION['school_id'] = $student['school_id'];   // Store school_id in session
     $_SESSION['name'] = $student['name'];             // Store name in session
 
-    // Redirect to the student dashboard page
+    // Redirect to student dashboard
     header("Location: ./student/student_dashboard.php");
     exit;
   } else {
     $error = "Invalid username or password.";
   }
 
-  // Close prepared statement
+  // Close statement
   $stmt->close();
 }
 

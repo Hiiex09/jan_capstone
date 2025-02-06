@@ -21,16 +21,56 @@ if ($result->num_rows > 0) {
   $schoolyear_id = $row['schoolyear_id'];
 } else {
   // Handle the case where there is no active school year
-  echo "<script>
-  alert('No active school year found.');
-  window.location.href='../student/student_dashboard.php';
-  </script>";
+  $errorMessage = 'No Active Schoolyear Found.';
+  echo "
+  <!DOCTYPE html>
+  <html lang='en'>
+  <head>
+      <meta charset='UTF-8'>
+      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+      <title>Error</title>
+      <!-- Ensure Tailwind CSS or your styles are linked -->
+      <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'>
+      <style>
+          /* Ensure modal is properly centered */
+          .modal {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: fixed;
+              inset: 0;
+              
+              z-index: 50;
+          }
+      </style>
+  </head>
+  <body>
+  <div id='errorModal' class='modal'>
+      <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 relative'>
+          <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
+          <div class='flex justify-center'>
+              <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
+          </div>
+      </div>
+  </div>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          document.getElementById('errorModal').style.display = 'flex';
+      });
+      setTimeout(()=>{
+      window.location.href='../student/student_dashboard.php';
+      },100);
+  </script>
+ </body>
+  </html>
+  ";
 
   exit;
 }
 
 // Check if the student is regular or irregular
-$checkStudentStatus = $conn->prepare("SELECT is_regular FROM tblstudent_section WHERE student_id = (SELECT student_id FROM tblstudent WHERE school_id = ? LIMIT 1)");
+$checkStudentStatus = $conn->prepare("SELECT is_regular FROM tblstudent_section WHERE student_id = (SELECT student_id FROM tblstudent WHERE school_id = ?)");
 $checkStudentStatus->bind_param("i", $school_id);
 $checkStudentStatus->execute();
 $statusResult = $checkStudentStatus->get_result();
@@ -68,9 +108,11 @@ $stmt->bind_param("i", $school_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
+
+
 // Fetch teachers and subjects
 if ($result->num_rows === 0) {
-  $errorMessage = 'You do not have any teachers assigned. Please contact your administrators.';
+  $errorMessage = 'You do not have any teachers assigned. Please contact your administrator.';
   echo "
   <!DOCTYPE html>
   <html lang='en'>
@@ -125,6 +167,8 @@ while ($row = $result->fetch_assoc()) {
   $teachers[] = $row;
 }
 
+
+
 $stmt->close();
 
 $criteriaList = displayCriteria();
@@ -137,23 +181,57 @@ if ($currentTeacherIndex >= count($teachers)) {
   $errorMessage = 'You do not have any teachers assigned. Please contact your administrator.';
   // Reset index if all teachers have been evaluated
   unset($_SESSION['current_teacher_index']);
-  echo "<div id='errorModal' class='fixed inset-0 bg-gray-500 bg-opacity-30 flex justify-center items-center z-50'>
-            <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 absolute top-72 left-1/3'>
-                <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
-                <div class='flex justify-between'>
-                    <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
-                    <a href='student_dashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
-                </div>
-            </div>
-        </div>
-        <script>document.getElementById('errorModal').style.display = 'block';</script>";
+  echo "
+  <!DOCTYPE html>
+  <html lang='en'>
+  <head>
+      <meta charset='UTF-8'>
+      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+      <title>Error</title>
+      <!-- Ensure Tailwind CSS or your styles are linked -->
+      <link href='https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css' rel='stylesheet'>
+      <style>
+          /* Ensure modal is properly centered */
+          .modal {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              position: fixed;
+              inset: 0;
+              
+              z-index: 50;
+          }
+      </style>
+  </head>
+  <body>
+
+  <div id='errorModal' class='modal'>
+      <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 relative'>
+          <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
+          <div class='flex justify-center'>
+              <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
+          </div>
+      </div>
+  </div>
+
+  <script>
+      document.addEventListener('DOMContentLoaded', function() {
+          document.getElementById('errorModal').style.display = 'flex';
+      });
+      setTimeout(()=>{
+      window.location.href='../student/student_dashboard.php';
+      },100);
+  </script>
+
+  </body>
+  </html>
+  ";
   exit;
 }
 
 // Get current teacher
 $currentTeacher = $teachers[$currentTeacherIndex];
 
-// Function to store evaluation
 function storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id)
 {
   global $conn;  // Ensure the connection variable is available
@@ -175,6 +253,8 @@ function storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id)
     $result = $stmt->get_result();
     $errorMessage = 'You have already evaluated this teacher for this school years.';
 
+
+
     // If evaluation already exists, stop further processing
     if ($result->num_rows > 0) {
       $all_evaluated = allTeachersEvaluated($_SESSION['student_id'], $schoolyear_id);
@@ -190,7 +270,7 @@ function storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id)
                 <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
                 <div class='flex justify-between'>
                     <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
-                    <a href='student_dashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
+                    <a href='studentDashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
                 </div>
             </div>
         </div>
@@ -237,19 +317,18 @@ function storeEvaluation($teacher_id, $ratings, $comment, $schoolyear_id)
 
     echo "
         <div id='errorModal' class='fixed inset-0 bg-gray-500 bg-opacity-30 flex justify-center items-center z-50'>
-        <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 absolute top-72 left-1/3'>
-            <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
-            <div class='flex justify-between'>
-                <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
-                <a href='student_dashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
-            </div>
+        <div class='bg-red-500 p-9 rounded-lg shadow-lg w-1/3 absolute  top-72 left-1/3'>
+        <h2 class='text-center text-2xl text-white mb-4'>$errorMessage</h2>
+        <div class='flex justify-between'>
+        <a href='javascript:history.back()' class='bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600'>OK</a>
+        <a href='studentDashboard.php' class='bg-gray-500 text-white py-2 px-4 rounded-md hover:bg-gray-600'>Go to Dashboard</a>
         </div>
-    </div>
-    <script>document.getElementById('errorModal').style.display = 'block';</script>
-    ";
+        </div>
+        </div>
+        <script>document.getElementById('errorModal').style.display = 'block';</script>
+        " . $e->getMessage();
   }
 }
-
 
 $offensiveWords = ['badword1', 'badword2', 'badword3']; // Replace with actual offensive words
 $maxLetters = 50;
@@ -384,11 +463,59 @@ if ($all_evaluated) {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Student Evaluation</title>
+  <title>Your Assigned Teachers</title>
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    #toast-container {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    /* Toast style */
+    .toast {
+      background-color: #333;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+      font-size: 16px;
+      animation: fadeIn 0.5s, fadeOut 0.5s 3s forwards;
+
+    }
+
+    /* Keyframes for fade-in and fade-out effect */
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateX(20px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
+    }
+
+    @keyframes fadeOut {
+      from {
+        opacity: 1;
+      }
+
+      to {
+        opacity: 0;
+      }
+    }
+  </style>
 </head>
 
-<body class="bg-gray-100 p-8">
+<body>
+  <div id="toas-container"></div>
+
   <div class="w-full bg-white p-6 rounded-lg shadow-lg">
     <h1 class="text-center text-4xl text-gray-800">Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?> - <span class="text-blue-500"><?php echo htmlspecialchars($_SESSION['school_id']); ?></span></h1>
     <h2 class="text-center text-2xl text-slate-900 mt-2">Your Assigned Teachers and Subjects</h2>
@@ -403,7 +530,7 @@ if ($all_evaluated) {
           $bgColor = $evaluated ? 'bg-green-500' : 'bg-gray-100'; // Set background color based on evaluation status
           ?>
           <div class="bg-gray-100 border-s-8 border-green-900 p-4 rounded-lg shadow-md flex items-center hover:scale-105 transform transition-all cursor-pointer <?php echo $bgColor ?>" onclick="selectTeacher(<?php echo $teacher['teacher_id']; ?>, '<?php echo addslashes($teacher['teacher_name']); ?>', '<?php echo addslashes($teacher['subject_name']) ?>',  )">
-            <img src="../upload/pics/<?php echo htmlspecialchars($teacher['image']); ?>" alt="Teacher Profile" class="w-20 h-20 rounded-full mr-4">
+            <img src="../pic/pics/<?php echo htmlspecialchars($teacher['image']); ?>" alt="Teacher Profile" class="w-20 h-20 rounded-full mr-4">
             <div class="text-gray-800">
               <p class="font-semibold text-2xl"><?php echo htmlspecialchars($teacher['teacher_name']); ?></p>
               <p class="text-gray-600 text-2xl"><?php echo htmlspecialchars($teacher['subject_name']); ?></p>
@@ -422,7 +549,7 @@ if ($all_evaluated) {
   <div class="max-w-2xl mx-auto mt-8 bg-white p-6 rounded-lg shadow-lg">
     <h1 class="text-center text-2xl text-gray-800">Evaluating Teacher: <?php echo htmlspecialchars($currentTeacher['teacher_name']); ?></h1>
 
-    <img src="../upload/pics/<?php echo htmlspecialchars($currentTeacher['image']); ?>" alt="Teacher Profile" class="w-24 h-24 rounded-full mx-auto mt-4">
+    <img src="../pic/pics/<?php echo htmlspecialchars($currentTeacher['image']); ?>" alt="Teacher Profile" class="w-24 h-24 rounded-full mx-auto mt-4">
     <div class="text-center text-gray-800 mt-2">
       <p><span class="font-semibold">Teacher Name:</span> <?php echo htmlspecialchars($currentTeacher['teacher_name']); ?></p>
       <p><span class="font-semibold">Subject:</span> <?php echo htmlspecialchars($currentTeacher['subject_name']); ?></p>

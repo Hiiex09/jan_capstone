@@ -2,6 +2,8 @@
 include('../database/models/dbconnect.php');
 session_start();
 
+$student_id = $_SESSION['school_id'];
+
 if (!isset($_SESSION['name']) && !isset($_SESSION['school_year']) && !isset($_SESSION['semester']) && !isset($_SESSION['is_status'])) {
   header("Location: ../login.php");
   exit();
@@ -30,6 +32,7 @@ $row = mysqli_fetch_assoc($result);
 $fullname = $row['name'];
 $email = $row['email'];
 $image = $row['image'];
+$student_id = $row['student_id'];
 ?>
 
 <!DOCTYPE html>
@@ -125,7 +128,7 @@ $image = $row['image'];
         We value your insights and encourage you to share your thoughts openly and respectfully <br>
         to help create a better learning experience For Everyone.
       </p>
-      <a href="../student/manage_evaluation.php" class="btn btn-sm btn-outline rounded-md">
+      <a href="../student/manage_evaluation.php?student_id=<?php echo $_SESSION['school_id']; ?>" class="btn btn-sm btn-outline rounded-md">
         Start Evaluate
       </a>
     </section>

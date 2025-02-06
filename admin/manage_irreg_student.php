@@ -172,21 +172,18 @@ if (isset($_GET['edit'])) {
 
 <body>
 
-  <div class=" z-10 mx-[90px] p-5 ">
+  <div class="m-5">
     <h2 class="text-3xl m-1 ">Assign Teacher and Subject to Student For Irregular Student</h2>
-    <form action="" method="POST">
-      <div class="flex justify-start items-start">
-        <!-- Student Selection -->
-        <div class="m-4">
+    <div class="p-1">
+      <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+        <div class="flex justify-start items-center gap-3">
+          <!-- Student Selection -->
           <div>
-            <label for="student" class="text-2xl m-1">Select Student</label>
-          </div>
-          <div class="m-1">
+            <label for="student" class="text-lg">Select Student</label>
             <select
               name="student_id"
               id="student"
-              required
-              class="border-2 rounded-md text-blackpy-3 py-3 px-3 w-[300px]">
+              required class="select select-bordered w-full max-w-xs">
               <?php
               // Fetch only irregular students from the database
               $query = $conn->query("SELECT s.student_id, s.name FROM tblstudent s JOIN tblstudent_section ss ON s.student_id = ss.student_id WHERE ss.is_regular = 0");
@@ -197,20 +194,13 @@ if (isset($_GET['edit'])) {
               }
               ?>
             </select>
-
           </div>
-        </div>
-        <!-- Teacher Selection -->
-        <div class="m-4">
+          <!-- Teacher Selection -->
           <div>
-            <label for="teacher" class="text-2xl m-1">Select Teacher</label>
-          </div>
-          <div class="m-1">
-            <select
-              name="teacher_id"
+            <label for="teacher" class="text-lg">Select Teacher</label>
+            <select name="teacher_id"
               id="teacher"
-              required
-              class="border-2 rounded-md text-black py-3 px-3 w-[300px]">
+              required class="select select-bordered w-full max-w-xs">
               <?php
               // Fetch teachers from the database
               $query = $conn->query("SELECT teacher_id, name FROM tblteacher");
@@ -221,21 +211,13 @@ if (isset($_GET['edit'])) {
               }
               ?>
             </select>
-
-
           </div>
-        </div>
-        <!-- Subject Selection -->
-        <div class="m-4">
+          <!-- Subject Selection -->
           <div>
-            <label for="subject" class="text-2xl m-1">Select Subject:</label>
-          </div>
-          <div class="m-1">
-            <select
-              name="subject_id"
+            <label for="subject" class="text-lg">Select Subject:</label>
+            <select name="subject_id"
               id="subject"
-              required
-              class="border-2 rounded-md text-black py-3 px-3 w-[300px]">
+              required class="select select-bordered w-full max-w-xs">
               <?php
               // Fetch subjects from the database
               $query = $conn->query("SELECT subject_id, subject_name FROM tblsubject");
@@ -247,35 +229,26 @@ if (isset($_GET['edit'])) {
               ?>
             </select>
           </div>
-        </div>
-        <div class="mt-[4%] flex justify-start items-start ">
-          <div class="relative z-10">
-            <button type="submit"
-              class="px-12 py-3 bg-blue-900 hover:bg-blue-500 rounded-md text-white">
-              Assigned Teacher
-              <img
-                src="../admin/Images/assign.svg"
-                alt="assign-icon"
-                class="h-8 w-8 absolute top-2 left-3">
-            </button>
+          <div class="mt-7">
+            <input type="submit" value="Assigned Teacher" class="btn btn-md btn-outline rounded-md w-full max-w-sm" />
           </div>
         </div>
-      </div>
 
-    </form>
+      </form>
+    </div>
   </div>
 
 
   <!-- DISPLAY -->
-  <div class="z-10 mx-[90px] p-5 mt-6">
+  <div class="p-5">
     <h3 class="text-3xl">Assigned Teachers and Subjects to Students</h3>
     <table class="table-auto w-full mt-6 border-collapse border border-gray-300">
       <thead>
-        <tr class="bg-blue-900 text-white">
-          <th class="border px-4 py-2">Student Name</th>
-          <th class="border px-4 py-2">Teacher Name</th>
-          <th class="border px-4 py-2">Subject</th>
-          <th class="border px-4 py-2">Action</th>
+        <tr>
+          <th class="border p-2">Student Name</th>
+          <th class="border p-2">Teacher Name</th>
+          <th class="border p-2">Subject</th>
+          <th class="border p-2">Action</th>
         </tr>
       </thead>
       <tbody>
@@ -289,12 +262,12 @@ if (isset($_GET['edit'])) {
         ?>
         <?php while ($row = $query->fetch_assoc()) { ?>
           <tr>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['student_name']) ?></td>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['teacher_name']) ?></td>
-            <td class="border px-4 py-2"><?= htmlspecialchars($row['subject_name']) ?></td>
-            <td class="border px-4 py-2">
-              <a href="?edit= <? $row[' sts_id'] ?> " class="text-blue-500">Edit</a>
-              <a href=" ?delete=<?= $row['sts_id'] ?>" class="text-red-500 hover:text-red-700">Delete</a>
+            <td class="border p-2 text-center"><?= htmlspecialchars($row['student_name']) ?></td>
+            <td class="border p-2 text-center"><?= htmlspecialchars($row['teacher_name']) ?></td>
+            <td class="border p-2 text-center"><?= htmlspecialchars($row['subject_name']) ?></td>
+            <td class="border p-2 text-center">
+              <a href="?edit= <? $row[' sts_id'] ?> " class="btn btn-sm btn-outline btn-success">Edit</a>
+              <a href=" ?delete=<?= $row['sts_id'] ?>" class="btn btn-sm btn-outline btn-error">Remove</a>
             </td>
           </tr>
         <?php } ?>
