@@ -161,7 +161,7 @@ if ($schoolyear) {
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Coming Soon</h1>
-        <h2 class="text-5xl text-start p-5">❤</h2>
+        <h2 class="text-5xl text-start p-5 animate-bounce">❤</h2>
       </div>
     </div>
   </section>

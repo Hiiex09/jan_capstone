@@ -4,7 +4,7 @@ include('../database/models/dbconnect.php');
 session_start();
 
 // Pagination settings
-$results_per_page = 10;
+$results_per_page = 8;
 if (isset($_GET["page"])) {
   $page = $_GET["page"];
 } else {

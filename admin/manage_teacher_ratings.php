@@ -83,6 +83,19 @@ if (isset($_GET['teacher_id'])) {
   exit;
 }
 ?>
+
+
+<?php
+
+$teacher_id = $_GET['teacher_id'];
+
+$sql = "SELECT * FROM `tblteacher` WHERE teacher_id = $teacher_id";
+$result = mysqli_query($conn, $sql);
+$row = mysqli_fetch_assoc($result);
+$image = $row['image'];
+$fullname = $row['name'];
+?>
+
 <?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -101,69 +114,70 @@ if (isset($_GET['teacher_id'])) {
   </script>
 </head>
 
-<body class="bg-gray-100">
+<body>
 
-  <!-- Teacher's Information -->
-  <div class="flex items-center bg-white shadow-lg rounded-lg p-4 mb-6">
-    <img src="<?php echo !empty($teacher_image) ? '../upload/pics/' . htmlspecialchars($teacher_image) : '../upload/pics/default.jpg'; ?>"
-      alt="Teacher's Image" class="w-20 h-20 rounded-full border border-gray-300">
-    <div class="ml-4">
-      <h1 class="text-2xl font-bold"><?= htmlspecialchars($teacher_name); ?></h1>
-    </div>
-  </div>
-
-  <h2 class="text-xl font-semibold mb-4">Ratings for Teacher ID: <?= htmlspecialchars($teacher_id); ?></h2>
-
-  <?php if (!empty($ratings)): ?>
-    <!-- Ratings Table -->
-    <div class="overflow-x-auto">
-      <table class="table w-full bg-white shadow-md rounded-lg">
-        <thead>
-          <tr class="bg-gray-100">
-            <th class="p-4">Criteria</th>
-            <th class="p-4">Average Rating</th>
-          </tr>
-        </thead>
-        <tbody>
-          <!-- Display Overall Average -->
-          <tr>
-            <td colspan="2" class="p-4 bg-gray-50">
-              <div class="font-bold text-lg text-gray-700">Overall Average Rating: <?= number_format($overall_average, 2); ?></div>
-            </td>
-          </tr>
-          <?php foreach ($ratings as $criteria => $rating_details): ?>
-            <tr>
-              <td class="p-4"><?= htmlspecialchars($criteria); ?></td>
-              <td class="p-4">
-                <?php
-                // Calculate the average rating for each criteria
-                $average_rating = $criteria_totals[$criteria] / $criteria_counts[$criteria];
-                echo number_format($average_rating, 2);
-                ?>
-              </td>
-            </tr>
-          <?php endforeach; ?>
-        </tbody>
-      </table>
-    </div>
-  <?php else: ?>
-    <p class="text-gray-600">No ratings found for this teacher.</p>
-  <?php endif; ?>
-
-  <!-- Comments Section -->
-  <div class="mt-8">
-    <h3 class="text-xl font-semibold mb-4">All Comments:</h3>
-    <?php if (!empty($comments)): ?>
-      <div class="space-y-4">
-        <?php foreach ($comments as $comment): ?>
-          <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-            <?= nl2br(htmlspecialchars($comment)); ?>
-          </div>
-        <?php endforeach; ?>
+  <div class="grid grid-cols-1 bg-base-300 rounded-md p-5 m-5">
+    <!-- Teacher's Information -->
+    <div class="flex items-center p-4 mb-6">
+      <img src="../upload/pics/<?php echo htmlspecialchars($row['image']); ?>"
+        alt="Teacher's Image" class="w-20 h-20 rounded-md">
+      <div class="ml-4">
+        <h1 class="text-2xl font-bold"><?php echo htmlspecialchars($row['name']); ?></h1>
+        <h2 class="text-sm text-lg">Teacher ID: <?= htmlspecialchars($teacher_id); ?></h2>
       </div>
-    <?php else: ?>
-      <p class="text-gray-600">No comments available.</p>
-    <?php endif; ?>
+    </div>
+    <div>
+      <?php if (!empty($ratings)): ?>
+        <!-- Ratings Table -->
+        <div class="overflow-x-auto">
+          <table class="table w-full bg-white shadow-md rounded-lg">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="p-4">Criteria</th>
+                <th class="p-4">Average Rating</th>
+              </tr>
+            </thead>
+            <tbody>
+              <!-- Display Overall Average -->
+              <tr>
+                <td colspan="2" class="p-4 bg-gray-50">
+                  <div class="font-bold text-lg text-gray-700">Overall Average Rating: <?= number_format($overall_average, 2); ?></div>
+                </td>
+              </tr>
+              <?php foreach ($ratings as $criteria => $rating_details): ?>
+                <tr>
+                  <td class="p-4"><?= htmlspecialchars($criteria); ?></td>
+                  <td class="p-4">
+                    <?php
+                    // Calculate the average rating for each criteria
+                    $average_rating = $criteria_totals[$criteria] / $criteria_counts[$criteria];
+                    echo number_format($average_rating, 2);
+                    ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        </div>
+      <?php else: ?>
+        <p class="text-gray-600">No ratings found for this teacher.</p>
+      <?php endif; ?>
+    </div>
+    <!-- Comments Section -->
+    <div class="mt-8">
+      <h3 class="text-xl font-semibold mb-4">All Comments:</h3>
+      <?php if (!empty($comments)): ?>
+        <div class="space-y-4">
+          <?php foreach ($comments as $comment): ?>
+            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
+              <?= nl2br(htmlspecialchars($comment)); ?>
+            </div>
+          <?php endforeach; ?>
+        </div>
+      <?php else: ?>
+        <p class="text-gray-600">No comments available.</p>
+      <?php endif; ?>
+    </div>
   </div>
 
 </body>

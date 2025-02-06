@@ -100,6 +100,7 @@ $image = $row['image'];
                     type="checkbox"
                     id="theme-toggle"
                     class="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1 mt-1" />
+                  <span class="badge badge-primary text-xs animate-bounce mx-1">New</span>
                 </div>
               </div>
             </li>
@@ -117,11 +118,11 @@ $image = $row['image'];
         </div>
       </div>
     </aside>
-    <section class="p-5">
+    <section class="p-5 m-5">
       <h2 class="text-5xl"> <br>Welcome, <?= htmlspecialchars($_SESSION['name']) ?></h2>
-      <p class="text-justify text-2xl text-slate-900 leading-relaxed m-2">
-        Your Feedback plays a crucial role in helping us understand what works in the classroom and where we can improve.
-        We value your insights and encourage you to share your thoughts openly and respectfully
+      <p class="text-justify leading-relaxed m-2">
+        Your Feedback plays a crucial role in helping us understand what works in the classroom and where we can improve. <br>
+        We value your insights and encourage you to share your thoughts openly and respectfully <br>
         to help create a better learning experience For Everyone.
       </p>
       <a href="../student/manage_evaluation.php" class="btn btn-sm btn-outline rounded-md">
