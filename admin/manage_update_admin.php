@@ -86,8 +86,9 @@ if (isset($_POST['update'])) {
 
 <body>
   <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']) . '?adminid=' . $adminID; ?>" method="post" enctype="multipart/form-data" class="p-20">
-    <div>
+    <div class="mb-3 mx-1">
       <h1 class="text-2xl m-2">Personal Info</h1>
+      <p class="text-sm"># Take note after adding new admin user, Kindly update the password to verify at logged in input.</p>
     </div>
     <div class="grid grid-cols-2 gap-3 rounded-md border-2">
       <div class="h-full p-5">

@@ -143,12 +143,12 @@ $image = $row['image'];
     document.addEventListener("DOMContentLoaded", () => {
       const savedTheme = localStorage.getItem("theme") || "pastel";
       applyTheme(savedTheme);
-      document.getElementById("theme-toggle").checked = savedTheme === "luxury";
+      document.getElementById("theme-toggle").checked = savedTheme === "night";
     });
 
     // Toggle theme and save to localStorage
     document.getElementById("theme-toggle").addEventListener("change", function() {
-      const newTheme = this.checked ? "luxury" : "pastel";
+      const newTheme = this.checked ? "night" : "pastel";
       applyTheme(newTheme);
     });
   </script>

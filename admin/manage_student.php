@@ -4,7 +4,7 @@ include('../database/models/dbconnect.php');
 session_start();
 
 // Pagination settings
-$results_per_page = 8;
+$results_per_page = 7;
 if (isset($_GET["page"])) {
   $page = $_GET["page"];
 } else {
@@ -258,7 +258,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
   <div id="toast-container" class="flex justify-end me-10 items-center text-2xl text-red-900"></div>
 
-  <div class="m-5 p-4">
+  <div class="m-2 p-4">
     <section class="m-5">
       <!-- Open the modal using ID.showModal() method -->
       <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Student</button>
@@ -533,7 +533,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
           </div>
         </div>
-
       </div>
     </section>
     <section>
@@ -555,7 +554,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
           <tbody>
             <?php if ($result->num_rows > 0): ?>
               <?php while ($row = $result->fetch_assoc()): ?>
-                <tr class="border-b hover:bg-gray-100 cursor-pointer text-center">
+                <tr class="border-b hover cursor-pointer text-center">
                   <td class="border"><?php echo htmlspecialchars($row['school_id']); ?></td>
                   <td class="border">
                     <div class="flex justify-center items-center">
@@ -576,24 +575,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                   <td class="border"><?php echo htmlspecialchars($row['section_name']); ?></td>
                   <td class="border"><?php echo htmlspecialchars($row['year_level']); ?></td>
                   <td class="border"><?php echo $row['is_regular'] ? 'Yes' : 'No'; ?></td>
-                  <td class="px-4 py-2 text-center border hover:bg-red-900 hover:text-lg hover:text-white">
-                    <div class="flex justify-center items-center gap-3">
-                      <!-- <div class="w-full">
-                        <a href="#view">
-                          <img src="../admin/tools/Images/update.svg" alt="School ID"
-                            class="h-8 px-2 rounded-md py-1 bg-green-900 hover:bg-green-500 top-1 left-8 w-full">
-                        </a>
-                      </div>
-                      <div class="w-full">
-                        <a href="#update">
-                          <img src="../admin/tools/Images/update.svg" alt="School ID"
-                            class="h-8 px-2 rounded-md py-1 bg-blue-900 hover:bg-blue-500 top-1 left-8 w-full">
-                        </a>
-                      </div> -->
-                      <div>
-                        <a href=" #delete">Delete</a>
-                      </div>
-                    </div>
+                  <td class="border">
+                    <a href=" #delete" class="btn btn-sm btn-outline btn-error">Remove</a>
                   </td>
                 </tr>
               <?php endwhile; ?>
@@ -607,13 +590,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
       </div>
     </section>
     <div class="m-5 p-4">
-      <section>
-        <div class="m-5">
-          <div class="flex justify-between items-center">
-          </div>
-        </div>
-      </section>
-
       <section>
         <div class="overflow-y-auto m-3">
           <table class="table border border-2 shadow">
@@ -632,25 +608,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
               <?php endif; ?>
             </tbody>
           </table>
+          <div class="flex justify-center">
+            <div class="btn-group">
+              <?php if ($page > 1): ?>
+                <a href="?page=<?php echo $page - 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm">previous</a>
+              <?php endif; ?>
+
+              <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+                <a href="?page=<?php echo $i; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm <?php if ($i == $page) echo 'btn-active'; ?>"><?php echo $i; ?></a>
+              <?php endfor; ?>
+
+              <?php if ($page < $total_pages): ?>
+                <a href="?page=<?php echo $page + 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm">next</a>
+              <?php endif; ?>
+            </div>
+          </div>
         </div>
       </section>
-
-      <div class="flex justify-center mt-4">
-        <div class="btn-group">
-          <?php if ($page > 1): ?>
-            <a href="?page=<?php echo $page - 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm">previous</a>
-          <?php endif; ?>
-
-          <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-            <a href="?page=<?php echo $i; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm <?php if ($i == $page) echo 'btn-active'; ?>"><?php echo $i; ?></a>
-          <?php endfor; ?>
-
-          <?php if ($page < $total_pages): ?>
-            <a href="?page=<?php echo $page + 1; ?><?php if (isset($_GET['search'])) echo '&search=' . $_GET['search']; ?>" class="btn btn-sm">next</a>
-          <?php endif; ?>
-        </div>
-      </div>
-
     </div>
   </div>
 

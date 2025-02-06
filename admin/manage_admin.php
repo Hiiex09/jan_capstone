@@ -72,6 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   <div class="bg-neutral-primary">
     <div class=" p-5">
       <h1 class="text-2xl font-bold">Admin Table</h1>
+      <p class="text-sm"># Take note after adding new admin user, Kindly update the password to verify at logged in input.</p>
     </div>
     <div class="p-5">
       <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">

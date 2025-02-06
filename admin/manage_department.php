@@ -107,7 +107,7 @@ include('../admin/header.php');
       <?php if (count($departmentList) > 0): ?>
         <div class="grid grid-cols-3 gap-2">
           <?php foreach ($departmentList as $index => $listDepartment): ?>
-            <div class="p-3 rounded-lg bg-base-300">
+            <div class="p-3 rounded-lg bg-base-300 skeleton">
               <div>
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="currentColor" stroke-width="2"
                   class="animate-bounce">

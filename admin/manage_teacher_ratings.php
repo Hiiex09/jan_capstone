@@ -116,7 +116,7 @@ $fullname = $row['name'];
 
 <body>
 
-  <div class="grid grid-cols-1 bg-base-300 rounded-md p-5 m-5">
+  <div class="grid grid-cols-1 bg-base-300 rounded-md p-5 m-5 skeleton ">
     <!-- Teacher's Information -->
     <div class="flex items-center p-4 mb-6">
       <img src="../upload/pics/<?php echo htmlspecialchars($row['image']); ?>"
