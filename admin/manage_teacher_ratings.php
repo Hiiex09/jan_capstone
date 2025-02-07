@@ -96,6 +96,21 @@ $image = $row['image'];
 $fullname = $row['name'];
 ?>
 
+<?php
+// Pagination Variables
+$per_page = 5; // Display 5 rows per page
+$total_items = count($ratings);
+$total_pages = ceil($total_items / $per_page);
+$current_page = isset($_GET['page']) ? (int) $_GET['page'] : 1;
+$current_page = max(1, min($current_page, $total_pages)); // Ensure valid page number
+
+// Calculate the Offset
+$offset = ($current_page - 1) * $per_page;
+
+// Slice the Ratings Array for Display
+$display_ratings = array_slice($ratings, $offset, $per_page, true);
+?>
+
 <?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -116,69 +131,118 @@ $fullname = $row['name'];
 
 <body>
 
-  <div class="grid grid-cols-1 bg-base-300 rounded-md p-5 m-5 skeleton ">
+  <div class="grid grid-cols-1 bg-base-300 rounded-md p-3 m-5 skeleton ">
     <!-- Teacher's Information -->
-    <div class="flex items-center p-4 mb-6">
-      <img src="../upload/pics/<?php echo htmlspecialchars($row['image']); ?>"
-        alt="Teacher's Image" class="w-20 h-20 rounded-md">
-      <div class="ml-4">
-        <h1 class="text-2xl font-bold"><?php echo htmlspecialchars($row['name']); ?></h1>
-        <h2 class="text-sm text-lg">Teacher ID: <?= htmlspecialchars($teacher_id); ?></h2>
+    <div class="flex flex-row justify-start items-start gap-6 p-4">
+      <div class="flex-1 flex-row justify-evenly items-center gap-">
+        <div class="flex-shrink-0">
+          <img src="../upload/pics/<?php echo htmlspecialchars($row['image']); ?>"
+            alt="Teacher's Image" class="w-60 h-60 rounded-md">
+        </div>
+        <div class="flex flex-col gap-4 text-center md:text-left">
+          <h1 class=" text-3xl font-bold"><?php echo htmlspecialchars($row['name']); ?></h1>
+          <h2 class="text-sm p-1">Teacher ID: <?= htmlspecialchars($teacher_id); ?></h2>
+          <!-- Display Overall Average -->
+          <div class="flex flex-col justify-center gap-3">
+            <div class="text-sm flex items-center gap-2">
+              <span>1</span>
+              <progress class="progress progress-error w-56" value="<?= number_format($overall_average, 2); ?>" max="100"></progress>
+            </div>
+            <div class="text-sm flex items-center gap-2">
+              <span>2</span>
+              <progress class="progress progress-warning w-56" value="40" max="100"></progress>
+            </div>
+            <div class="text-sm flex items-center gap-2">
+              <span>3</span>
+              <progress class="progress progress-accent w-56" value="50" max="100"></progress>
+            </div>
+            <div class="text-sm flex items-center gap-2">
+              <span>4</span>
+              <progress class="progress progress-success w-56" value="80" max="100"></progress>
+            </div>
+          </div>
+          <div class="flex justify-between items-center border-t pt-2">
+            <div class="text-sm">Overall Average Rating: </div>
+            <div class="text-sm px-2 font-semibold"> <?= number_format($overall_average, 2); ?></div>
+          </div>
+        </div>
+        <!-- Table -->
+      </div>
+      <!-- Ratings Table -->
+      <div class="flex-auto flex-col items-center md:items-start">
+        <?php if (!empty($display_ratings)): ?>
+          <div class="overflow-x-auto w-full">
+            <table class="table w-full shadow-md rounded-lg">
+              <thead>
+                <tr>
+                  <th class="p-4">Criteria</th>
+                  <th class="p-4">Average Rating</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($display_ratings as $criteria => $rating_details): ?>
+                  <tr>
+                    <td class="p-4">
+                      <div>
+                        <?= htmlspecialchars($criteria); ?>
+                        <div>
+                          <p class="text-xs">Progress</p>
+                          <progress class="progress progress-secondary w-full" value="6540" max="8000"></progress>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="p-4 text-center">
+                      <?php
+                      $average_rating = $criteria_totals[$criteria] / $criteria_counts[$criteria];
+                      echo number_format($average_rating, 2);
+                      ?>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Pagination -->
+          <div class="flex justify-center space-x-2 mt-4">
+            <?php if ($current_page > 1): ?>
+              <a href="?teacher_id=<?= $_GET['teacher_id']; ?>&page=<?= $current_page - 1; ?>" class="btn btn-sm btn-outline btn-neutral btn-outline text-xs">Previous</a>
+            <?php endif; ?>
+
+            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
+              <a href="?teacher_id=<?= $_GET['teacher_id']; ?>&page=<?= $i; ?>" class="btn btn-sm btn-outline btn-neutral <?= $i == $current_page ? 'btn-neutral' : 'btn-outline'; ?>"><?= $i; ?></a>
+            <?php endfor; ?>
+
+            <?php if ($current_page < $total_pages): ?>
+              <a href="?teacher_id=<?= $_GET['teacher_id']; ?>&page=<?= $current_page + 1; ?>" class="btn btn-sm btn-outline btn-neutral btn-outline text-xs">Next</a>
+            <?php endif; ?>
+          </div>
+
+        <?php else: ?>
+          <p class="text-gray-600">No ratings found for this teacher.</p>
+        <?php endif; ?>
+      </div>
+      <!-- Comments Section -->
+      <div class="flex-auto">
+        <h3 class="text-xl font-semibold mb-4">All Comments:</h3>
+        <?php if (!empty($comments)): ?>
+          <div class="space-y-4">
+            <?php foreach ($comments as $comment): ?>
+              <div class="text-sm">
+                <?= nl2br(htmlspecialchars($comment)); ?>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+          <p class="text-gray-600">No comments available.</p>
+        <?php endif; ?>
       </div>
     </div>
-    <div>
-      <?php if (!empty($ratings)): ?>
-        <!-- Ratings Table -->
-        <div class="overflow-x-auto">
-          <table class="table w-full shadow-md rounded-lg">
-            <thead>
-              <tr>
-                <th class="p-4">Criteria</th>
-                <th class="p-4">Average Rating</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!-- Display Overall Average -->
-              <tr>
-                <td colspan="2">
-                  <div>Overall Average Rating: <?= number_format($overall_average, 2); ?></div>
-                </td>
-              </tr>
-              <?php foreach ($ratings as $criteria => $rating_details): ?>
-                <tr>
-                  <td class="p-4"><?= htmlspecialchars($criteria); ?></td>
-                  <td class="p-4">
-                    <?php
-                    // Calculate the average rating for each criteria
-                    $average_rating = $criteria_totals[$criteria] / $criteria_counts[$criteria];
-                    echo number_format($average_rating, 2);
-                    ?>
-                  </td>
-                </tr>
-              <?php endforeach; ?>
-            </tbody>
-          </table>
-        </div>
-      <?php else: ?>
-        <p class="text-gray-600">No ratings found for this teacher.</p>
-      <?php endif; ?>
-    </div>
-    <!-- Comments Section -->
-    <div class="mt-8">
-      <h3 class="text-xl font-semibold mb-4">All Comments:</h3>
-      <?php if (!empty($comments)): ?>
-        <div class="space-y-4">
-          <?php foreach ($comments as $comment): ?>
-            <div class="bg-gray-100 p-4 rounded-lg shadow-md">
-              <?= nl2br(htmlspecialchars($comment)); ?>
-            </div>
-          <?php endforeach; ?>
-        </div>
-      <?php else: ?>
-        <p class="text-gray-600">No comments available.</p>
-      <?php endif; ?>
-    </div>
   </div>
+
+
+
+
 
 </body>
 

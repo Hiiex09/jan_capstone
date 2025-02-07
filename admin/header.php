@@ -228,7 +228,7 @@ include('../database/models/dbconnect.php');
       </ul>
     </div>
   </div>
-  <footer class="fixed bottom-0 w-full footer bg-base-300 items-center p-4">
+  <!-- <footer class="fixed bottom-0 w-full z-30 footer bg-base-300 items-center p-4">
     <aside class="grid-flow-col items-center">
       <svg
         width="36"
@@ -256,7 +256,7 @@ include('../database/models/dbconnect.php');
         </svg>
       </a>
     </nav>
-  </footer>
+  </footer> -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     // Function to apply theme
