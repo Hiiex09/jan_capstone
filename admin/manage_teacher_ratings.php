@@ -163,7 +163,7 @@ $display_ratings = array_slice($ratings, $offset, $per_page, true);
           </div>
           <div class="flex justify-between items-center border-t pt-2">
             <div class="text-sm">Overall Average Rating: </div>
-            <div class="text-sm px-2 font-semibold"> <?= number_format($overall_average, 2); ?> / <span><?php echo  $criteria_totals[$criteria] ?></span></div>
+            <div class="text-sm px-2 font-semibold"> <?= number_format($overall_average, 2); ?></div>
           </div>
         </div>
         <!-- Table -->
@@ -219,7 +219,7 @@ $display_ratings = array_slice($ratings, $offset, $per_page, true);
           </div>
 
         <?php else: ?>
-          <p class="text-gray-600">No ratings found for this teacher.</p>
+          <p class="text-gray-600 text-center">No ratings found for this teacher.</p>
         <?php endif; ?>
       </div>
       <!-- Comments Section -->
