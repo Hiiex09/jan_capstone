@@ -131,7 +131,7 @@ $display_ratings = array_slice($ratings, $offset, $per_page, true);
 
 <body>
 
-  <div class="grid grid-cols-1 bg-base-300 rounded-md p-3 m-5 skeleton ">
+  <div class="grid grid-cols-1 rounded-md p-3 m-5 skeleton ">
     <!-- Teacher's Information -->
     <div class="flex flex-row justify-start items-start gap-6 p-4">
       <div class="flex-1 flex-row justify-evenly items-center gap-">
@@ -140,7 +140,7 @@ $display_ratings = array_slice($ratings, $offset, $per_page, true);
             alt="Teacher's Image" class="w-60 h-60 rounded-md">
         </div>
         <div class="flex flex-col gap-4 text-center md:text-left">
-          <h1 class=" text-3xl font-bold"><?php echo htmlspecialchars($row['name']); ?></h1>
+          <h1 class=" text-3xl font-bold p-2"><?php echo htmlspecialchars($row['name']); ?></h1>
           <h2 class="text-sm p-1">Teacher ID: <?= htmlspecialchars($teacher_id); ?></h2>
           <!-- Display Overall Average -->
           <div class="flex flex-col justify-center gap-3">
@@ -163,7 +163,7 @@ $display_ratings = array_slice($ratings, $offset, $per_page, true);
           </div>
           <div class="flex justify-between items-center border-t pt-2">
             <div class="text-sm">Overall Average Rating: </div>
-            <div class="text-sm px-2 font-semibold"> <?= number_format($overall_average, 2); ?></div>
+            <div class="text-sm px-2 font-semibold"> <?= number_format($overall_average, 2); ?> / <span><?php echo  $criteria_totals[$criteria] ?></span></div>
           </div>
         </div>
         <!-- Table -->
