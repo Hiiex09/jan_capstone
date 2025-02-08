@@ -530,7 +530,7 @@ if ($all_evaluated) {
           $bgColor = $evaluated ? 'bg-green-500' : 'bg-gray-100'; // Set background color based on evaluation status
           ?>
           <div class="bg-gray-100 border-s-8 border-green-900 p-4 rounded-lg shadow-md flex items-center hover:scale-105 transform transition-all cursor-pointer <?php echo $bgColor ?>" onclick="selectTeacher(<?php echo $teacher['teacher_id']; ?>, '<?php echo addslashes($teacher['teacher_name']); ?>', '<?php echo addslashes($teacher['subject_name']) ?>',  )">
-            <img src="../pic/pics/<?php echo htmlspecialchars($teacher['image']); ?>" alt="Teacher Profile" class="w-20 h-20 rounded-full mr-4">
+            <img src="../upload/pics/<?php echo htmlspecialchars($teacher['image']); ?>" alt="Teacher Profile" class="w-20 h-20 rounded-full mr-4">
             <div class="text-gray-800">
               <p class="font-semibold text-2xl"><?php echo htmlspecialchars($teacher['teacher_name']); ?></p>
               <p class="text-gray-600 text-2xl"><?php echo htmlspecialchars($teacher['subject_name']); ?></p>
