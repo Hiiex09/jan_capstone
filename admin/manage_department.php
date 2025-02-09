@@ -73,11 +73,11 @@ include('../admin/header.php');
 
 <body>
   <div class="p-5">
-    <div class="mt-3">
-      <h1 class="text-5xl mb-4">Manage Department</h1>
+    <div>
+      <h1 class="text-3xl mb-3">Manage Department</h1>
     </div>
 
-    <div class="flex justify-end items-end p-4">
+    <div class="flex justify-end items-end p-3">
       <form
         action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
         method="post"
@@ -103,7 +103,7 @@ include('../admin/header.php');
     </div>
 
     <!-- Where the department will be displayed -->
-    <div id="departmentlist" class="p-4">
+    <div id="departmentlist">
       <?php if (count($departmentList) > 0): ?>
         <div class="grid grid-cols-3 gap-2">
           <?php foreach ($departmentList as $index => $listDepartment): ?>
@@ -130,7 +130,6 @@ include('../admin/header.php');
         <div class="no-department">No Department Available</div>
       <?php endif; ?>
     </div>
-
   </div>
 </body>
 

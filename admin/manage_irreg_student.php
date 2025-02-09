@@ -172,109 +172,112 @@ if (isset($_GET['edit'])) {
 
 <body>
 
-  <div class="m-5">
-    <h2 class="text-3xl m-1 ">Assign Teacher and Subject to Student For Irregular Student</h2>
-    <div class="p-1">
-      <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-        <div class="flex justify-start items-center gap-3">
-          <!-- Student Selection -->
-          <div>
-            <label for="student" class="text-lg">Select Student</label>
-            <select
-              name="student_id"
-              id="student"
-              required class="select select-bordered w-full max-w-xs">
-              <?php
-              // Fetch only irregular students from the database
-              $query = $conn->query("SELECT s.student_id, s.name FROM tblstudent s JOIN tblstudent_section ss ON s.student_id = ss.student_id WHERE ss.is_regular = 0");
-              while ($row = $query->fetch_assoc()) {
-                // Retain the previously selected student
-                $selected = ($row['student_id'] == $selected_student) ? "selected" : "";
-                echo "<option value='" . htmlspecialchars($row['student_id']) . "' $selected>" . htmlspecialchars($row['name']) . "</option>";
-              }
-              ?>
-            </select>
+  <div class="p-5 m-5 bg-base-300 rounded-md">
+    <div class="p-5">
+      <h2 class="text-3xl m-1 ">Assign Teacher and Subject to Student For Irregular Student</h2>
+      <div class="p-3">
+        <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+          <div class="flex justify-start items-center gap-3">
+            <!-- Student Selection -->
+            <div>
+              <label for="student" class="text-lg">Select Student</label>
+              <select
+                name="student_id"
+                id="student"
+                required class="select select-bordered w-full max-w-xs">
+                <?php
+                // Fetch only irregular students from the database
+                $query = $conn->query("SELECT s.student_id, s.name FROM tblstudent s JOIN tblstudent_section ss ON s.student_id = ss.student_id WHERE ss.is_regular = 0");
+                while ($row = $query->fetch_assoc()) {
+                  // Retain the previously selected student
+                  $selected = ($row['student_id'] == $selected_student) ? "selected" : "";
+                  echo "<option value='" . htmlspecialchars($row['student_id']) . "' $selected>" . htmlspecialchars($row['name']) . "</option>";
+                }
+                ?>
+              </select>
+            </div>
+            <!-- Teacher Selection -->
+            <div>
+              <label for="teacher" class="text-lg">Select Teacher</label>
+              <select name="teacher_id"
+                id="teacher"
+                required class="select select-bordered w-full max-w-xs">
+                <?php
+                // Fetch teachers from the database
+                $query = $conn->query("SELECT teacher_id, name FROM tblteacher");
+                while ($row = $query->fetch_assoc()) {
+                  // Retain the previously selected teacher
+                  $selected = ($row['teacher_id'] == $selected_teacher) ? "selected" : "";
+                  echo "<option value='" . htmlspecialchars($row['teacher_id']) . "' $selected>" . htmlspecialchars($row['name']) . "</option>";
+                }
+                ?>
+              </select>
+            </div>
+            <!-- Subject Selection -->
+            <div>
+              <label for="subject" class="text-lg">Select Subject:</label>
+              <select name="subject_id"
+                id="subject"
+                required class="select select-bordered w-full max-w-xs">
+                <?php
+                // Fetch subjects from the database
+                $query = $conn->query("SELECT subject_id, subject_name FROM tblsubject");
+                while ($row = $query->fetch_assoc()) {
+                  // Retain the previously selected subject
+                  $selected = ($row['subject_id'] == $selected_subject) ? "selected" : "";
+                  echo "<option value='" . htmlspecialchars($row['subject_id']) . "' $selected>" . htmlspecialchars($row['subject_name']) . "</option>";
+                }
+                ?>
+              </select>
+            </div>
+            <div class="mt-7">
+              <input type="submit" value="Assigned Teacher" class="btn btn-md btn-outline rounded-md w-full max-w-sm" />
+            </div>
           </div>
-          <!-- Teacher Selection -->
-          <div>
-            <label for="teacher" class="text-lg">Select Teacher</label>
-            <select name="teacher_id"
-              id="teacher"
-              required class="select select-bordered w-full max-w-xs">
-              <?php
-              // Fetch teachers from the database
-              $query = $conn->query("SELECT teacher_id, name FROM tblteacher");
-              while ($row = $query->fetch_assoc()) {
-                // Retain the previously selected teacher
-                $selected = ($row['teacher_id'] == $selected_teacher) ? "selected" : "";
-                echo "<option value='" . htmlspecialchars($row['teacher_id']) . "' $selected>" . htmlspecialchars($row['name']) . "</option>";
-              }
-              ?>
-            </select>
-          </div>
-          <!-- Subject Selection -->
-          <div>
-            <label for="subject" class="text-lg">Select Subject:</label>
-            <select name="subject_id"
-              id="subject"
-              required class="select select-bordered w-full max-w-xs">
-              <?php
-              // Fetch subjects from the database
-              $query = $conn->query("SELECT subject_id, subject_name FROM tblsubject");
-              while ($row = $query->fetch_assoc()) {
-                // Retain the previously selected subject
-                $selected = ($row['subject_id'] == $selected_subject) ? "selected" : "";
-                echo "<option value='" . htmlspecialchars($row['subject_id']) . "' $selected>" . htmlspecialchars($row['subject_name']) . "</option>";
-              }
-              ?>
-            </select>
-          </div>
-          <div class="mt-7">
-            <input type="submit" value="Assigned Teacher" class="btn btn-md btn-outline rounded-md w-full max-w-sm" />
-          </div>
-        </div>
 
-      </form>
+        </form>
+      </div>
     </div>
-  </div>
 
 
-  <!-- DISPLAY -->
-  <div class="p-5">
-    <h3 class="text-3xl">Assigned Teachers and Subjects to Students</h3>
-    <table class="table-auto w-full mt-6 border-collapse border border-gray-300">
-      <thead>
-        <tr>
-          <th class="border p-2">Student Name</th>
-          <th class="border p-2">Teacher Name</th>
-          <th class="border p-2">Subject</th>
-          <th class="border p-2">Action</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $query = $conn->query("SELECT ts.sts_id, s.name AS student_name, t.name AS teacher_name, sub.subject_name
+    <!-- DISPLAY -->
+    <div class="p-8">
+      <h3 class="text-3xl">Assigned Teachers and Subjects to Students</h3>
+      <table class="table-auto w-full mt-6 border-collapse border border-gray-300">
+        <thead>
+          <tr>
+            <th class="border p-2">Student Name</th>
+            <th class="border p-2">Teacher Name</th>
+            <th class="border p-2">Subject</th>
+            <th class="border p-2">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $query = $conn->query("SELECT ts.sts_id, s.name AS student_name, t.name AS teacher_name, sub.subject_name
                        FROM tblstudent_teacher_subject ts
                        JOIN tblstudent s ON ts.student_id = s.student_id
                        JOIN tblteacher t ON ts.teacher_id = t.teacher_id
                        JOIN tblsubject sub ON ts.subject_id = sub.subject_id");
 
-        ?>
-        <?php while ($row = $query->fetch_assoc()) { ?>
-          <tr>
-            <td class="border p-2 text-center"><?= htmlspecialchars($row['student_name']) ?></td>
-            <td class="border p-2 text-center"><?= htmlspecialchars($row['teacher_name']) ?></td>
-            <td class="border p-2 text-center"><?= htmlspecialchars($row['subject_name']) ?></td>
-            <td class="border p-2 text-center">
-              <a href="?edit= <? $row[' sts_id'] ?> " class="btn btn-sm btn-outline btn-success">Edit</a>
-              <a href=" ?delete=<?= $row['sts_id'] ?>" class="btn btn-sm btn-outline btn-error">Remove</a>
-            </td>
-          </tr>
-        <?php } ?>
+          ?>
+          <?php while ($row = $query->fetch_assoc()) { ?>
+            <tr>
+              <td class="border p-2 text-center"><?= htmlspecialchars($row['student_name']) ?></td>
+              <td class="border p-2 text-center"><?= htmlspecialchars($row['teacher_name']) ?></td>
+              <td class="border p-2 text-center"><?= htmlspecialchars($row['subject_name']) ?></td>
+              <td class="border p-2 text-center">
+                <a href="?edit= <? $row[' sts_id'] ?> " class="btn btn-sm btn-outline btn-success">Edit</a>
+                <a href=" ?delete=<?= $row['sts_id'] ?>" class="btn btn-sm btn-outline btn-error">Remove</a>
+              </td>
+            </tr>
+          <?php } ?>
 
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
+
 
 </body>
 

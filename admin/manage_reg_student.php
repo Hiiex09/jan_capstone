@@ -140,8 +140,8 @@ include('../admin/header.php');
 
 <body>
 
-  <div class="p-5">
-    <div class="p5">
+  <div class="p-5 m-5 bg-base-300 rounded-md">
+    <div>
       <h1 class="text-lg p-5">Assign Teacher and Subject to Section for Regular Student</h1>
       <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="POST">
         <div class="flex justify-start items-start p-5 gap-5">
@@ -204,31 +204,27 @@ include('../admin/header.php');
               ?>
             </select>
           </div>
-          <div class="mt-8">
+          <div class="mt-7">
             <input type="submit" value="Assigned Teacher" class="input input-bordered w-full max-w-xs" />
           </div>
         </div>
       </form>
     </div>
-
-  </div>
-
-
-  <!-- DISPLAY -->
-  <div class="p-5">
-    <h2 class="text-lg p-1">Assigned Teachers and Subjects</h2>
-    <table class="min-w-full p-5">
-      <thead>
-        <tr>
-          <th class="p-3 border">Section</th>
-          <th class="p-3 border">Teacher</th>
-          <th class="p-3 border">Subject</th>
-          <th class="p-3 border">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <?php
-        $query = $conn->query("SELECT tblsection_teacher_subject.section_teacher_subject_id, 
+    <!-- DISPLAY -->
+    <div class="p-5">
+      <h2 class="text-lg p-1">Assigned Teachers and Subjects</h2>
+      <table class="min-w-full p-5">
+        <thead>
+          <tr>
+            <th class="p-3 border">Section</th>
+            <th class="p-3 border">Teacher</th>
+            <th class="p-3 border">Subject</th>
+            <th class="p-3 border">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php
+          $query = $conn->query("SELECT tblsection_teacher_subject.section_teacher_subject_id, 
         tblsection.section_name, 
         tblteacher.name AS teacher_name, 
         tblsubject.subject_name 
@@ -237,23 +233,27 @@ include('../admin/header.php');
  INNER JOIN tblteacher ON tblsection_teacher_subject.teacher_id = tblteacher.teacher_id 
  INNER JOIN tblsubject ON tblsection_teacher_subject.subject_id = tblsubject.subject_id");
 
-        ?>
+          ?>
 
-        <?php while ($row = $query->fetch_assoc()) { ?>
-          <tr class="text-center">
-            <td class="border hover p-2"><?= htmlspecialchars($row['section_name']) ?></td>
-            <td class="border hover p-2"><?= htmlspecialchars($row['teacher_name']) ?></td>
-            <td class="border hover p-2"><?= htmlspecialchars($row['subject_name']) ?></td>
-            <td class="border hover p-2">
-              <a href="?edit= <? $row[' section_teacher_subject_id'] ?> " class="btn btn-sm btn-outline btn-success rounded-md  max-w-sm">Edit</a>
-              <a href=" ?delete=<?= $row['section_teacher_subject_id'] ?>" class="btn btn-sm btn-outline btn-error rounded-md  max-w-sm">Delete</a>
-            </td>
-          </tr>
-        <?php } ?>
-      </tbody>
-    </table>
+          <?php while ($row = $query->fetch_assoc()) { ?>
+            <tr class="text-center">
+              <td class="border hover p-2"><?= htmlspecialchars($row['section_name']) ?></td>
+              <td class="border hover p-2"><?= htmlspecialchars($row['teacher_name']) ?></td>
+              <td class="border hover p-2"><?= htmlspecialchars($row['subject_name']) ?></td>
+              <td class="border hover p-2">
+                <a href="?edit= <? $row[' section_teacher_subject_id'] ?> " class="btn btn-sm btn-outline btn-success rounded-md  max-w-sm">Edit</a>
+                <a href=" ?delete=<?= $row['section_teacher_subject_id'] ?>" class="btn btn-sm btn-outline btn-error rounded-md  max-w-sm">Delete</a>
+              </td>
+            </tr>
+          <?php } ?>
+        </tbody>
+      </table>
 
+    </div>
   </div>
+
+
+
 
 
 </body>

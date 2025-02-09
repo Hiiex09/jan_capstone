@@ -160,8 +160,8 @@ if (isset($_GET['delete'])) {
 </head>
 
 <body>
-  <div class="p-2">
-    <div class="m-5">
+  <div class="p-5 bg-base-300 m-5 rounded-md">
+    <div class="m-1 p-3">
       <h1 class="text-4xl">Create Criteria</h1>
     </div>
 
@@ -184,7 +184,7 @@ if (isset($_GET['delete'])) {
     </form>
 
     <!-- Where the criteria will be displayed -->
-    <div id="criterialist" class="p-5">
+    <div id="criterialist" class="p-3">
       <?php if (count($criteriaList) > 0): ?>
         <ol>
           <?php foreach ($criteriaList as $index => $listCriteria): ?>

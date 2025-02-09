@@ -105,7 +105,7 @@ $conn->close();
 
 <body>
 
-  <div class="m-5 p-4">
+  <div class="m-5 p-4 bg-base-300 rounded-md">
     <div class="flex justify-start items-center">
       <div class="m-2">
         <img

@@ -53,9 +53,9 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
 
 <body>
 
-  <div>
+  <div class="p-5 bg-base-300 m-5 rounded-md">
     <div class="m-4">
-      <h1 class="text-4xl">Manage Sections</h1>
+      <h1 class="text-3xl">Manage Sections</h1>
     </div>
     <div class="m-4">
       <form method="post" action="">

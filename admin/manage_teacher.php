@@ -44,7 +44,7 @@ $result = $conn->query($sql);
 <body>
 
 
-  <div class="m-5">
+  <div class="p-5 m-5 bg-base-300 rounded-md">
     <section class="m-5">
       <!-- Open the modal using ID.showModal() method -->
       <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Teacher</button>

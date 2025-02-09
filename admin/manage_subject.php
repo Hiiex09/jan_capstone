@@ -170,7 +170,7 @@ function deleteSubject($deptId)
 </head>
 
 <body>
-  <div class="p-3 m-3">
+  <div class="p-5 m-5 bg-base-300 rounded-md">
     <div class="p-3 m-3">
       <h1 class="text-4xl">Create subject</h1>
     </div>

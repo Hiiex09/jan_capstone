@@ -69,156 +69,159 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-  <div class="bg-neutral-primary">
-    <div class=" p-5">
-      <h1 class="text-2xl font-bold">Admin Table</h1>
-      <p class="text-sm"># Take note after adding new admin user, Kindly update the password to verify at logged in input.</p>
-    </div>
-    <div class="p-5">
-      <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">
-        <div class="flex justify-center item-center w-full mt-6 mb-2">
-          <div class="w-full">
-            <input type="text" name="search"
-              placeholder="Search teachers name, school id..."
-              autocomplete="off" value="<?php echo isset($_GET['search']) ?
-                                          htmlspecialchars($_GET['search']) : ''; ?>"
-              class="input input-bordered w-full">
-          </div>
-          <div class="mx-1">
-            <input
-              type="submit"
-              name="enter"
-              value="Search"
-              class="px-8 py-3 rounded-md cursor-pointer btn btn-md btn-outline">
-          </div>
-        </div>
-      </form>
-    </div>
-    <div class="p-5">
-      <!-- Open the modal using ID.showModal() method -->
-      <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Admin</button>
-      <dialog id="my_modal_2" class="modal">
-        <div class="modal-box max-w-2xl">
-          <form
-            action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
-            method="post"
-            enctype="multipart/form-data">
-            <div>
-              <h1 class="text-2xl">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 16 16"
-                  fill="currentColor"
-                  class="h-8 w-8 opacity-70 animate-bounce">
-                  <path
-                    d="M8 .5a1 1 0 0 1 .515.14l5 3A1 1 0 0 1 14 4.5v3a7.5 7.5 0 0 1-6.22 7.426 1 1 0 0 1-.56 0A7.5 7.5 0 0 1 1 7.5v-3a1 1 0 0 1 .485-.86l5-3A1 1 0 0 1 8 .5Zm0 1.234L3 4.18V7.5a6.5 6.5 0 0 0 5 6.326A6.5 6.5 0 0 0 13 7.5V4.18l-5-2.446Z" />
-                </svg>
-                Personal Info
-              </h1>
+  <div class="p-5 m-1">
+    <div class="flex flex-col gap-2">
+      <div class="p-5 bg-base-300 rounded-md">
+        <form action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>" method="get">
+          <div class="flex justify-center item-center w-full mt-6 mb-2">
+            <div class="w-full">
+              <input type="text" name="search"
+                placeholder="Search teachers name, school id..."
+                autocomplete="off" value="<?php echo isset($_GET['search']) ?
+                                            htmlspecialchars($_GET['search']) : ''; ?>"
+                class="input input-bordered w-full">
             </div>
-            <div class="grid grid-cols-2 gap-3 rounded-md border-2">
-              <div class="h-full p-5">
-                <div class="m-1 flex justify-between items-center">
+            <div class="mx-1">
+              <input
+                type="submit"
+                name="enter"
+                value="Search"
+                class="px-8 py-3 rounded-md cursor-pointer btn btn-md btn-outline">
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="p-5 bg-base-300 rounded-md">
+        <h1 class="text-2xl font-bold">Admin Table</h1>
+        <p class="text-xs"># Take note after adding new admin user, Kindly update the password to verify at logged in input.</p>
+      </div>
+    </div>
+
+
+    <section class="bg-base-300 rounded-md p-5 mt-1">
+      <div>
+        <!-- Open the modal using ID.showModal() method -->
+        <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Admin</button>
+        <dialog id="my_modal_2" class="modal">
+          <div class="modal-box max-w-2xl">
+            <form
+              action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>"
+              method="post"
+              enctype="multipart/form-data">
+              <div>
+                <h1 class="text-2xl">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 16 16"
+                    fill="currentColor"
+                    class="h-8 w-8 opacity-70 animate-bounce">
+                    <path
+                      d="M8 .5a1 1 0 0 1 .515.14l5 3A1 1 0 0 1 14 4.5v3a7.5 7.5 0 0 1-6.22 7.426 1 1 0 0 1-.56 0A7.5 7.5 0 0 1 1 7.5v-3a1 1 0 0 1 .485-.86l5-3A1 1 0 0 1 8 .5Zm0 1.234L3 4.18V7.5a6.5 6.5 0 0 0 5 6.326A6.5 6.5 0 0 0 13 7.5V4.18l-5-2.446Z" />
+                  </svg>
+                  Personal Info
+                </h1>
+              </div>
+              <div class="grid grid-cols-2 gap-3 rounded-md border-2">
+                <div class="h-full p-5">
+                  <div class="m-1 flex justify-between items-center">
+                    <div>
+                      <h1 class="text-2xl">Image Preview</h1>
+                    </div>
+                  </div>
                   <div>
-                    <h1 class="text-2xl">Image Preview</h1>
+                    <img id="image-preview"
+                      src="../admin/tools/Images/def_logo.png"
+                      alt="Image Preview"
+                      class="w-64 h-64 object-cover 
+              mt-4 rounded-md border p-2">
+                  </div>
+                  <div class="mt-7">
+                    <label for="image"
+                      class="px-20 py-3 border rounded cursor-pointer shadow relative">
+                      Upload Image
+                    </label>
+                    <input
+                      type="file"
+                      id="image"
+                      class="hidden w-full"
+                      accept="image/*"
+                      onchange="previewImage(event)"
+                      required
+                      name="image"
+                      accept=".jpeg, .jpg, .png, .svg">
                   </div>
                 </div>
-                <div>
-                  <img id="image-preview"
-                    src="../admin/tools/Images/def_logo.png"
-                    alt="Image Preview"
-                    class="w-64 h-64 object-cover 
-              mt-4 rounded-md border p-2">
-                </div>
-                <div class="mt-7">
-                  <label for="image"
-                    class="px-20 py-3 border rounded cursor-pointer shadow relative">
-                    Upload Image
+                <div class="h-full p-5">
+                  <!-- Name -->
+                  <label class="input input-bordered flex items-center gap-2 mt-5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="h-4 w-4 opacity-70">
+                      <path
+                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.5 6a5.5 5.5 0 1 1 11 0H2.5Z" />
+                    </svg>
+                    <input type="text" class="grow" placeholder="Name" name="name" required />
                   </label>
-                  <input
-                    type="file"
-                    id="image"
-                    class="hidden w-full"
-                    accept="image/*"
-                    onchange="previewImage(event)"
-                    required
-                    name="image"
-                    accept=".jpeg, .jpg, .png, .svg">
+
+                  <!-- Email -->
+                  <label class="input input-bordered flex items-center gap-2 mt-5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="h-4 w-4 opacity-70">
+                      <path
+                        d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
+                      <path
+                        d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
+                    </svg>
+                    <input type="email" class="grow" placeholder="Email" name="email" required />
+                  </label>
+
+                  <!-- Username -->
+                  <label class="input input-bordered flex items-center gap-2 mt-5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="h-4 w-4 opacity-70">
+                      <path
+                        d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
+                    </svg>
+                    <input type="text" class="grow" placeholder="Username" name="username" required />
+                  </label>
+
+                  <!-- Password -->
+                  <label class="input input-bordered flex items-center gap-2 mt-5">
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 16 16"
+                      fill="currentColor"
+                      class="h-4 w-4 opacity-70">
+                      <path
+                        fill-rule="evenodd"
+                        d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
+                        clip-rule="evenodd" />
+                    </svg>
+                    <input type="password" class="grow" placeholder="Password" name="password" required />
+                  </label>
+
+                  <div class="mt-5">
+                    <input type="submit" class="btn btn-neutral btn-sm w-full">
+                  </div>
                 </div>
               </div>
-              <div class="h-full p-5">
-                <!-- Name -->
-                <label class="input input-bordered flex items-center gap-2 mt-5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="h-4 w-4 opacity-70">
-                    <path
-                      d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm-5.5 6a5.5 5.5 0 1 1 11 0H2.5Z" />
-                  </svg>
-                  <input type="text" class="grow" placeholder="Name" name="name" required />
-                </label>
+            </form>
 
-                <!-- Email -->
-                <label class="input input-bordered flex items-center gap-2 mt-5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="h-4 w-4 opacity-70">
-                    <path
-                      d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" />
-                    <path
-                      d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" />
-                  </svg>
-                  <input type="email" class="grow" placeholder="Email" name="email" required />
-                </label>
-
-                <!-- Username -->
-                <label class="input input-bordered flex items-center gap-2 mt-5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="h-4 w-4 opacity-70">
-                    <path
-                      d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM12.735 14c.618 0 1.093-.561.872-1.139a6.002 6.002 0 0 0-11.215 0c-.22.578.254 1.139.872 1.139h9.47Z" />
-                  </svg>
-                  <input type="text" class="grow" placeholder="Username" name="username" required />
-                </label>
-
-                <!-- Password -->
-                <label class="input input-bordered flex items-center gap-2 mt-5">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="h-4 w-4 opacity-70">
-                    <path
-                      fill-rule="evenodd"
-                      d="M14 6a4 4 0 0 1-4.899 3.899l-1.955 1.955a.5.5 0 0 1-.353.146H5v1.5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1-.5-.5v-2.293a.5.5 0 0 1 .146-.353l3.955-3.955A4 4 0 1 1 14 6Zm-4-2a.75.75 0 0 0 0 1.5.5.5 0 0 1 .5.5.75.75 0 0 0 1.5 0 2 2 0 0 0-2-2Z"
-                      clip-rule="evenodd" />
-                  </svg>
-                  <input type="password" class="grow" placeholder="Password" name="password" required />
-                </label>
-
-                <div class="mt-5">
-                  <input type="submit" class="btn btn-neutral btn-sm w-full">
-                </div>
-              </div>
-            </div>
+          </div>
+          <form method="dialog" class="modal-backdrop">
+            <button>close</button>
           </form>
-
-        </div>
-        <form method="dialog" class="modal-backdrop">
-          <button>close</button>
-        </form>
-      </dialog>
-    </div>
-
-    <section>
-      <div class="overflow-x-auto p-5 m-5">
+        </dialog>
+      </div>
+      <div class="overflow-x-auto m-5">
         <?php
         include('../database/models/dbconnect.php');
 
