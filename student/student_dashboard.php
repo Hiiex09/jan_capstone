@@ -94,20 +94,6 @@ $student_id = $row['student_id'];
               <?php endif; ?>
             </li>
             <li>
-              <div class="flex flex-row justify-between items-center">
-                <div class="text-sm text-start">
-                  Theme Settings
-                </div>
-                <div>
-                  <input
-                    type="checkbox"
-                    id="theme-toggle"
-                    class="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1 mt-1" />
-                  <span class="badge badge-primary text-xs animate-bounce mx-1">New</span>
-                </div>
-              </div>
-            </li>
-            <li>
               <a href="../student/update_student.php?update_student_id=<?= $_SESSION['school_id'] ?>" class="cursor-pointer text-sm hover:text-blue-600">
                 Update Profile
               </a>
@@ -121,7 +107,7 @@ $student_id = $row['student_id'];
         </div>
       </div>
     </aside>
-    <section class="p-5 m-5">
+    <section>
       <h2 class="text-5xl"> <br>Welcome, <?= htmlspecialchars($_SESSION['name']) ?></h2>
       <p class="text-justify leading-relaxed m-2">
         Your Feedback plays a crucial role in helping us understand what works in the classroom and where we can improve. <br>
@@ -133,28 +119,6 @@ $student_id = $row['student_id'];
       </a>
     </section>
   </main>
-
-
-  <script>
-    // Function to apply theme
-    function applyTheme(theme) {
-      document.documentElement.setAttribute("data-theme", theme);
-      localStorage.setItem("theme", theme);
-    }
-
-    // Load theme from localStorage
-    document.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme") || "pastel";
-      applyTheme(savedTheme);
-      document.getElementById("theme-toggle").checked = savedTheme === "night";
-    });
-
-    // Toggle theme and save to localStorage
-    document.getElementById("theme-toggle").addEventListener("change", function() {
-      const newTheme = this.checked ? "night" : "pastel";
-      applyTheme(newTheme);
-    });
-  </script>
 </body>
 
 </html>
