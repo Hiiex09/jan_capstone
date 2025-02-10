@@ -45,7 +45,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
   }
 
   // Insert into database
-  $sql = "INSERT INTO `admin` (name, username, email, password, image) VALUES ('$name', '$username', '$email', '$password', '$image_path')";
+  // Hash the password before inserting it into the database
+  $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+  $sql = "INSERT INTO `admin` (name, username, email, password, image) VALUES ('$name', '$username', '$email', '$hashed_password', '$image_path')";
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
