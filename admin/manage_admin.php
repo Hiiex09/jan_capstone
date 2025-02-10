@@ -96,7 +96,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
       <div class="p-5 bg-base-300 rounded-md">
         <h1 class="text-2xl font-bold">Admin Table</h1>
-        <p class="text-xs"># Take note after adding new admin user, Kindly update the password to verify at logged in input.</p>
       </div>
     </div>
 
