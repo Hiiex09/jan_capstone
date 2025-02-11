@@ -536,14 +536,15 @@ if ($all_evaluated) {
               <?php
               // Check if the teacher has already been evaluated by the student
               $evaluated = checkIfEvaluated($_SESSION['student_id'], $teacher['teacher_id']);
-              $bgColor = $evaluated ? 'bg-green-500' : 'bg-gray-100'; // Set background color based on evaluation status
+              $bgColor = $evaluated ? 'border-2 border-green-500' : 'bg-gray-100'; // Set background color based on evaluation status
               ?>
               <div class="bg-gray-100 p-4 rounded-md w-full cursor-pointer <?php echo $bgColor ?>" onclick="selectTeacher(<?php echo $teacher['teacher_id']; ?>, '<?php echo addslashes($teacher['teacher_name']); ?>', '<?php echo addslashes($teacher['subject_name']) ?>',  )">
-                <div class="text-gray-800">
-                  <img src="../upload/pics/<?php echo htmlspecialchars($teacher['image']); ?>" alt="Teacher Profile" class="w-16 h-16 rounded-full mr-4">
+                <div class="text-gray-800 flex flex-col justify-center items-center w-full gap-1">
+                  <img src="../upload/pics/<?php echo htmlspecialchars($teacher['image']); ?>" alt="Teacher Profile" class="w-16 h-16 rounded-full">
                   <p class="text-sm"><?php echo htmlspecialchars($teacher['teacher_name']); ?></p>
                   <p class="text-xs"><?php echo htmlspecialchars($teacher['subject_name']); ?></p>
                 </div>
+
               </div>
             <?php endforeach; ?>
           </div>
@@ -551,7 +552,7 @@ if ($all_evaluated) {
           <p class="text-center text-gray-600 mt-4">You have no assigned teachers yet.</p>
         <?php endif; ?>
       </div>
-      <div class="mt-10 p-1">
+      <div class="mt-16 p-1">
         <div class="m-2">
           <h1 class="text-sm">Evaluating Teacher: <?php echo htmlspecialchars($currentTeacher['teacher_name']); ?></h1>
           <img src="../upload/pics/<?php echo htmlspecialchars($currentTeacher['image']); ?>" alt="Teacher Profile" class="w-16 h-16 rounded-full m-3">
