@@ -174,7 +174,7 @@ if (isset($_GET['edit'])) {
 
   <div class="p-5 m-5 bg-base-300 rounded-md">
     <div class="p-5">
-      <h2 class="text-3xl m-1 ">Assign Teacher and Subject to Student For Irregular Student</h2>
+      <h2 class="text-lg p-3">Assign Teacher and Subject to Student For Irregular Student</h2>
       <div class="p-3">
         <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
           <div class="flex justify-start items-center gap-3">
@@ -242,7 +242,7 @@ if (isset($_GET['edit'])) {
 
     <!-- DISPLAY -->
     <div class="p-8">
-      <h3 class="text-3xl">Assigned Teachers and Subjects to Students</h3>
+      <h3 class="text-sm">Assigned Teachers and Subjects to Students</h3>
       <table class="table-auto w-full mt-6 border-collapse border border-gray-300">
         <thead>
           <tr>

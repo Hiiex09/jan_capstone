@@ -38,6 +38,7 @@ if (isset($_POST['update'])) {
   $result = mysqli_query($conn, $sql);
 
   if ($result) {
+    echo "<script> window.location.href='manage_teacher.php';</script>";
     echo "<div class='text-center bg-green-900'><h1 class='text-2xl'>Updated Successfully</h1></div>";
   } else {
     echo "<div class='text-center bg-red-900'><h1 class='text-2xl'>Cannot update user</h1></div>";
