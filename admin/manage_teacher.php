@@ -298,9 +298,9 @@ $result = $conn->query($sql);
                         class="btn btn-sm btn-primary flex-1">
                         Update
                       </a>
-                      <a href="../admin/delete.php?deleteId=<?php echo $row['teacher_id']; ?>"
+                      <a href="../admin/manage_delete_teacher.php?deleteId=<?php echo $row['teacher_id']; ?>"
                         class="btn btn-sm btn-error flex-1">
-                        Delete
+                        Remove
                       </a>
                     </div>
       </div>

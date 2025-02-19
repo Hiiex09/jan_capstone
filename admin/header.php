@@ -267,14 +267,14 @@ include('../database/models/dbconnect.php');
 
     // Load theme from localStorage
     document.addEventListener("DOMContentLoaded", () => {
-      const savedTheme = localStorage.getItem("theme") || "pastel";
+      const savedTheme = localStorage.getItem("theme") || "night";
       applyTheme(savedTheme);
-      document.getElementById("theme-toggle").checked = savedTheme === "night";
+      document.getElementById("theme-toggle").checked = savedTheme === "pastel";
     });
 
     // Toggle theme and save to localStorage
     document.getElementById("theme-toggle").addEventListener("change", function() {
-      const newTheme = this.checked ? "night" : "pastel";
+      const newTheme = this.checked ? "pastel" : "night";
       applyTheme(newTheme);
     });
   </script>

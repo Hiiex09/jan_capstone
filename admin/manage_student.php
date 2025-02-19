@@ -577,7 +577,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                   <td class="border"><?php echo htmlspecialchars($row['year_level']); ?></td>
                   <td class="border"><?php echo $row['is_regular'] ? 'Yes' : 'No'; ?></td>
                   <td class="border">
-                    <a href=" #delete" class="btn btn-sm btn-outline btn-error">Remove</a>
+                    <a href="../admin/manage_student_delete.php?deleteId=<?php echo htmlspecialchars($row['student_id']); ?>"
+                      class="btn btn-sm btn-outline btn-error">Remove</a>
                   </td>
                 </tr>
               <?php endwhile; ?>

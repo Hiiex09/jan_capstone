@@ -127,11 +127,17 @@ $display_ratings = array_slice($ratings, $offset, $per_page, true);
       plugins: [require("daisyui")],
     };
   </script>
+  <link href="https://fonts.googleapis.com/css?family=Outfit:100,200,300,regular,500,600,700,800,900" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto:100,200,300,regular,500,600,700,800,900,100italic,200italic,300italic,italic,500italic,600italic,700italic,800italic,900italic" rel="stylesheet" />
 </head>
 
 <body>
-
-  <div class="grid grid-cols-1 rounded-md p-3 m-5 skeleton ">
+  <div class="px-5">
+    <div>
+      <h1 class="text-2xl" style="font-family: 'Roboto';">Teacher Evaluation Report</h1>
+    </div>
+  </div>
+  <div class="grid grid-cols-2 rounded-md p-3 m-5 skeleton ">
     <!-- Teacher's Information -->
     <div class="flex flex-row justify-start items-start gap-6 p-4">
       <div class="flex-1 flex-row justify-evenly items-center gap-">
@@ -139,109 +145,102 @@ $display_ratings = array_slice($ratings, $offset, $per_page, true);
           <img src="../upload/pics/<?php echo htmlspecialchars($row['image']); ?>"
             alt="Teacher's Image" class="w-60 h-60 rounded-md">
         </div>
-        <div class="flex flex-col gap-4 text-center md:text-left">
-          <h1 class=" text-3xl font-bold p-2"><?php echo htmlspecialchars($row['name']); ?></h1>
-          <h2 class="text-sm p-1">Teacher ID: <?= htmlspecialchars($teacher_id); ?></h2>
-          <!-- Display Overall Average -->
-          <div class="flex flex-col justify-center gap-3">
-            <div class="text-sm flex items-center gap-2">
-              <span>1</span>
-              <progress class="progress progress-error w-56" value="<?= number_format($overall_average, 2); ?>" max="100"></progress>
-            </div>
-            <div class="text-sm flex items-center gap-2">
-              <span>2</span>
-              <progress class="progress progress-warning w-56" value="40" max="100"></progress>
-            </div>
-            <div class="text-sm flex items-center gap-2">
-              <span>3</span>
-              <progress class="progress progress-accent w-56" value="50" max="100"></progress>
-            </div>
-            <div class="text-sm flex items-center gap-2">
-              <span>4</span>
-              <progress class="progress progress-success w-56" value="80" max="100"></progress>
-            </div>
-          </div>
-          <div class="flex justify-between items-center border-t pt-2">
-            <div class="text-sm">Overall Average Rating: </div>
-            <div class="text-sm px-2 font-semibold"> <?= number_format($overall_average, 2); ?></div>
+        <div class="flex flex-col">
+          <div class=" text-2xl font-bold p-1"><?php echo htmlspecialchars($row['name']); ?></div>
+          <div class="text-sm p-1">Teacher ID: <?= htmlspecialchars($teacher_id); ?>
+            <p class="text-sm">Academic Year: <b><?= htmlspecialchars($_SESSION['school_year']); ?></b></p>
+            <p class="text-sm">Semester: <b><?= htmlspecialchars($_SESSION['semester']); ?></b></p>
           </div>
         </div>
-        <!-- Table -->
       </div>
-      <!-- Ratings Table -->
-      <div class="flex-auto flex-col items-center md:items-start">
-        <?php if (!empty($display_ratings)): ?>
-          <div class="overflow-x-auto w-full">
-            <table class="table w-full shadow-md rounded-lg">
-              <thead>
-                <tr>
-                  <th class="p-4">Criteria</th>
-                  <th class="p-4">Average Rating</th>
-                </tr>
-              </thead>
-              <tbody>
-                <?php foreach ($display_ratings as $criteria => $rating_details): ?>
-                  <tr>
-                    <td class="p-4">
-                      <div>
-                        <?= htmlspecialchars($criteria); ?>
-                        <div>
-                          <p class="text-xs">Progress</p>
-                          <progress class="progress progress-secondary w-full" value="6540" max="8000"></progress>
-                        </div>
-                      </div>
-                    </td>
-                    <td class="p-4 text-center">
-                      <?php
-                      $average_rating = $criteria_totals[$criteria] / $criteria_counts[$criteria];
-                      echo number_format($average_rating, 2);
-                      ?>
-                    </td>
-                  </tr>
-                <?php endforeach; ?>
-              </tbody>
-            </table>
-          </div>
+    </div>
 
-          <!-- Pagination -->
-          <div class="flex justify-center space-x-2 mt-4">
-            <?php if ($current_page > 1): ?>
-              <a href="?teacher_id=<?= $_GET['teacher_id']; ?>&page=<?= $current_page - 1; ?>" class="btn btn-sm btn-outline btn-neutral btn-outline text-xs">Previous</a>
-            <?php endif; ?>
+    <div class="p-4">
+      <table class="w-full max-w-full text-center text-xs">
+        <thead>
+          <tr>
+            <th class="border">Not Satisfied <b>(1)</b></th>
+            <th class="border">Satisfied <b>(2)</b></th>
+            <th class="border">Moderately Satisfied <b>(3)</b></th>
+            <th class="border">Very Satisfied <b>(4)</b></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="border">1.0 - 2.3</td>
+            <td class="border">2.4 - 2.6</td>
+            <td class="border">2.7 - 3.3</td>
+            <td class="border">3.4 & Above</td>
+          </tr>
+        </tbody>
+      </table>
+      <?php if (!empty($ratings)): ?>
 
-            <?php for ($i = 1; $i <= $total_pages; $i++): ?>
-              <a href="?teacher_id=<?= $_GET['teacher_id']; ?>&page=<?= $i; ?>" class="btn btn-sm btn-outline btn-neutral <?= $i == $current_page ? 'btn-neutral' : 'btn-outline'; ?>"><?= $i; ?></a>
-            <?php endfor; ?>
-
-            <?php if ($current_page < $total_pages): ?>
-              <a href="?teacher_id=<?= $_GET['teacher_id']; ?>&page=<?= $current_page + 1; ?>" class="btn btn-sm btn-outline btn-neutral btn-outline text-xs">Next</a>
-            <?php endif; ?>
-          </div>
-
-        <?php else: ?>
-          <p class="text-gray-600 text-center">No ratings found for this teacher.</p>
-        <?php endif; ?>
-      </div>
-      <!-- Comments Section -->
-      <div class="flex-auto">
-        <h3 class="text-xl font-semibold mb-4">All Comments:</h3>
-        <?php if (!empty($comments)): ?>
-          <div class="space-y-4">
-            <?php foreach ($comments as $comment): ?>
-              <div class="text-sm">
-                <?= nl2br(htmlspecialchars($comment)); ?>
-              </div>
+        <table class="w-full max-w-full text-center text-sm p-1 mt-2">
+          <thead>
+            <tr>
+              <th class="text-start">Criteria</th>
+              <th>Average Rating</th>
+            </tr>
+          </thead>
+          <tbody>
+            <?php foreach ($ratings as $criteria => $rating_details): ?>
+              <tr>
+                <td class="text-start"> <?= htmlspecialchars($criteria); ?> </td>
+                <td>
+                  <?php
+                  $average_rating = $criteria_totals[$criteria] / $criteria_counts[$criteria];
+                  echo number_format($average_rating, 2);
+                  ?>
+                </td>
+              </tr>
             <?php endforeach; ?>
+          </tbody>
+        </table>
+
+        <div class="text-sm text-start pt-1 mt-5 border-t">
+          <div class="flex flex-row justify-between">
+            <div>Overall Average Rating :</div>
+            <div class="me-20"><?= number_format($overall_average, 2); ?></div>
           </div>
-        <?php else: ?>
-          <p class="text-gray-600">No comments available.</p>
-        <?php endif; ?>
-      </div>
+          <div class="flex flex-row justify-between">
+            <div> Rating Legend :</div>
+            <div class="me-12"> <?php
+                                if ($overall_average >= 1 && $overall_average <= 2.3) {
+                                  echo "Not Satisfied";
+                                } elseif ($overall_average > 2.3 && $overall_average <= 2.6) {
+                                  echo "Satisfied";
+                                } elseif ($overall_average > 2.6 && $overall_average <= 3.3) {
+                                  echo "Moderately Satisfied";
+                                } elseif ($overall_average > 3.3) {
+                                  echo "Very Satisfied";
+                                } else {
+                                  echo "No Rating";
+                                }
+                                ?></div>
+          </div>
+        </div>
+      <?php else: ?>
+        <p class="text-gray-600 text-center">No ratings found for this teacher.</p>
+      <?php endif; ?>
     </div>
   </div>
 
-
-
+  <!-- Comments Section -->
+  <div class="flex-auto p-6">
+    <h3 class="text-xl font-semibold mb-4">All Comments:</h3>
+    <?php if (!empty($comments)): ?>
+      <div class="space-y-4">
+        <?php foreach ($comments as $comment): ?>
+          <div class="text-sm">
+            <?= nl2br(htmlspecialchars($comment)); ?>
+          </div>
+        <?php endforeach; ?>
+      </div>
+    <?php else: ?>
+      <p class="text-gray-600">No comments available.</p>
+    <?php endif; ?>
+  </div>
 
 
 </body>

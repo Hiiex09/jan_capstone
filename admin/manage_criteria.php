@@ -182,6 +182,26 @@ if (isset($_GET['delete'])) {
         </div>
       </div>
     </form>
+    <div class="p-4">
+      <table class="w-full">
+        <thead>
+          <tr class="text-xs">
+            <th class="border p-2">Not Satisfied</th>
+            <th class="border p-2">Satisfied </th>
+            <th class="border p-2">Moderately Satisfied </th>
+            <th class="border p-2">Very Satisfied </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="text-center">(1)</td>
+            <td class="text-center">(2)</td>
+            <td class="text-center">(3)</td>
+            <td class="text-center">(4)</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
     <!-- Where the criteria will be displayed -->
     <div id="criterialist" class="p-3">

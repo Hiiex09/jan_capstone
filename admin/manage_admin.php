@@ -57,6 +57,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "<div>Can not create admin</div>";
   }
 }
+
+if (isset($_GET['delete_id'])) {
+  $admin_id = $_GET['delete_id'];
+
+  // Ensure the ID is numeric to prevent SQL injection
+  if (is_numeric($admin_id)) {
+    $sql = "DELETE FROM `admin` WHERE `id` = '$admin_id'";
+
+    if (mysqli_query($conn, $sql)) {
+      echo "<script>alert('Admin deleted successfully.'); window.location.href = 'manage_admin.php';</script>";
+      exit();
+    } else {
+      echo "<script>alert('Failed to delete admin.');</script>";
+    }
+  }
+}
 ?>
 
 
@@ -288,7 +304,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                   <td class="flex justify-center flex-row gap-2">
                     <a class="btn btn-xs btn-warning max-w-2xl"
                       href="../admin/manage_update_admin.php?adminid=<?php echo $row['id']; ?>">Update</a>
-                    <a class="btn btn-xs btn-error max-w-2xl" href="#delete">Remove</a>
+                    <a class="btn btn-xs btn-error max-w-2xl" href="?delete_id=<?php echo $row['id']; ?>">Remove</a>
                   </td>
                 </tr>
               <?php } ?>
