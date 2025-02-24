@@ -51,7 +51,7 @@ $student_id = $row['student_id'];
     <div class="grid grid-cols-1 md:grid-rows-1">
       <div class="navbar bg-base-100 flex justify-start items-center p-5 border-b shadow h-16">
         <div>
-          <a class="btn btn-sm   btn-neutral btn-outline text-lg rounded-md" href="../student/student_dashboard.php">Cebu Eastern College</a>
+          <a class="btn btn-sm btn-neutral btn-outline text-lg rounded-md" href="../student/student_dashboard.php">Cebu Eastern College</a>
         </div>
       </div>
     </div>
@@ -80,8 +80,8 @@ $student_id = $row['student_id'];
                   class="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto object-cover mt-4 rounded-md">
               </div>
               <div class="flex flex-col justify-center items-center w-full p-3">
-                <div class="text-center text-lg"><?php echo $fullname; ?></div>
-                <div class="text-sm">Student Name</div>
+                <div class="text-center text-3xl"><?php echo $fullname; ?></div>
+                <div class="text-xs">Student Name</div>
               </div>
             </li>
             <li>
@@ -92,6 +92,15 @@ $student_id = $row['student_id'];
               <?php else: ?>
                 <p>Academic year and semester not set. Please set the active semester.</p>
               <?php endif; ?>
+            </li>
+            <li>
+              <div class="text-xs text-start hidden">
+                Theme Settings
+                <input
+                  type="checkbox"
+                  id="theme-toggle"
+                  class="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1 mt-1" />
+              </div>
             </li>
             <li>
               <a href="../student/update_student.php?update_student_id=<?= $_SESSION['school_id'] ?>" class="cursor-pointer text-sm hover:text-blue-600">
@@ -108,8 +117,8 @@ $student_id = $row['student_id'];
       </div>
     </aside>
     <section>
-      <h2 class="text-5xl"> <br>Welcome, <?= htmlspecialchars($_SESSION['name']) ?></h2>
-      <p class="text-justify leading-relaxed m-2">
+      <h2 class="text-3xl"> <br>Welcome, <?= htmlspecialchars($_SESSION['name']) ?></h2>
+      <p class="leading-relaxed m-2">
         Your Feedback plays a crucial role in helping us understand what works in the classroom and where we can improve. <br>
         We value your insights and encourage you to share your thoughts openly and respectfully <br>
         to help create a better learning experience For Everyone.
@@ -120,6 +129,27 @@ $student_id = $row['student_id'];
       </a>
     </section>
   </main>
+
+  <script>
+    // Function to apply theme
+    function applyTheme(theme) {
+      document.documentElement.setAttribute("data-theme", theme);
+      localStorage.setItem("theme", theme);
+    }
+
+    // Load theme from localStorage
+    document.addEventListener("DOMContentLoaded", () => {
+      const savedTheme = localStorage.getItem("theme") || "night";
+      applyTheme(savedTheme);
+      document.getElementById("theme-toggle").checked = savedTheme === "pastel";
+    });
+
+    // Toggle theme and save to localStorage
+    document.getElementById("theme-toggle").addEventListener("change", function() {
+      const newTheme = this.checked ? "pastel" : "night";
+      applyTheme(newTheme);
+    });
+  </script>
 </body>
 
 </html>
