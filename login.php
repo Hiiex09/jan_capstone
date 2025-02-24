@@ -60,72 +60,69 @@ $conn->close();
     <div class="text-2xl text-white" style="font-family: Outfit;">Cebu Eastern College</div>
   </div>
 
-
-  <div class="hero min-h-screen relative z-50">
-    <div class="hero-content grid grid-cols-2 w-full rounded-md absolute">
-      <div class="card bg-base-100 w-full shrink-0 border p-20 shadow-lg shadow-base-300">
-        <div class="flex flex-col justify-center items-center">
-          <div class="text-center text-2xl p-5">
-            <h1 class="text-3xl" style="font-family: Outfit;">Student Evaluation System</h1>
-          </div>
-          <div class="mt-5">
-            <img
-              src="../Capstone/admin/tools/Images/CEC.png"
-              alt="cec_logo"
-              class="h-40 w-40 rounded-full">
-          </div>
+  <div class="hero-content grid sm:grid-cols-1 md:grid-cols-2 w-full p-5 rounded-md place-items-center">
+    <div class="card bg-base-100 w-full shrink-0 border p-20 shadow-lg shadow-base-300">
+      <div class="flex flex-col justify-center items-center">
+        <div class="text-center text-2xl p-5">
+          <h1 class="text-3xl" style="font-family: Outfit;">Student Evaluation System</h1>
         </div>
-        <form
-          action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>"
-          method="post"
-          class="card-body">
-          <div class="form-control">
-            <label class="floating-label">
-              <span>Username</span>
-              <input
-                type="text"
-                placeholder="Username"
-                class="input input-lg w-full shadow-lg"
-                required
-                autocomplete="off"
-                name="username"
-                style="font-family: Outfit;" />
-            </label>
-          </div>
-          <div class="form-control">
+        <div class="mt-5">
+          <img
+            src="../Capstone/admin/tools/Images/CEC.png"
+            alt="cec_logo"
+            class="h-40 w-40 rounded-full">
+        </div>
+      </div>
+      <form
+        action="<?php htmlspecialchars($_SERVER['PHP_SELF']); ?>"
+        method="post"
+        class="card-body">
+        <div class="form-control">
+          <label class="floating-label">
+            <span>Username</span>
+            <input
+              type="text"
+              placeholder="Username"
+              class="input input-lg w-full shadow-lg"
+              required
+              autocomplete="off"
+              name="username"
+              style="font-family: Outfit;" />
+          </label>
+        </div>
+        <div class="form-control">
 
-            <label class="floating-label">
-              <span>Password</span>
-              <input
-                type="password"
-                placeholder="Password"
-                class="input input-lg w-full shadow-lg"
-                required
-                autocomplete="off"
-                name="password"
-                style="font-family: Outfit;" />
-            </label>
+          <label class="floating-label">
+            <span>Password</span>
+            <input
+              type="password"
+              placeholder="Password"
+              class="input input-lg w-full shadow-lg"
+              required
+              autocomplete="off"
+              name="password"
+              style="font-family: Outfit;" />
+          </label>
+        </div>
+        <div class="form-control mt-6">
+          <button
+            type="submit"
+            class="btn bg-blue-900 btn-outline text-white text-lg w-full"
+            name="submit"
+            style="font-family: 'Outfit';">Login</button>
+        </div>
+        <?php if (isset($error)): ?>
+          <div role="alert" class="alert bg-red-900">
+            <p class="text-xl text-white text-center h-8"><?php echo $error; ?></p>
           </div>
-          <div class="form-control mt-6">
-            <button
-              type="submit"
-              class="btn bg-blue-900 btn-outline text-white text-lg w-full"
-              name="submit"
-              style="font-family: 'Outfit';">Login</button>
-          </div>
-          <?php if (isset($error)): ?>
-            <div role="alert" class="alert bg-red-900">
-              <p class="text-xl text-white text-center h-8"><?php echo $error; ?></p>
-            </div>
-          <?php endif; ?>
-        </form>
-      </div>
-      <div class="h-full">
-        <img
-          src="../Capstone/admin/tools/Images/front_page.png"
-          alt="cebu_eastern_college"
-          class=" h-full object-cover animate-pulse" />
-      </div>
+        <?php endif; ?>
+      </form>
+    </div>
+    <div class="h-full ml-5">
+      <img
+        src="../Capstone/admin/tools/Images/front_page.png"
+        alt="cebu_eastern_college"
+        class=" h-full object-cover animate-pulse" />
     </div>
   </div>
   <script src="https://cdn.tailwindcss.com"></script>
