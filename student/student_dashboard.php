@@ -114,7 +114,8 @@ $student_id = $row['student_id'];
         We value your insights and encourage you to share your thoughts openly and respectfully <br>
         to help create a better learning experience For Everyone.
       </p>
-      <a href="../student/manage_evaluation.php?student_id=<?php echo $_SESSION['school_id']; ?>" class="btn btn-sm btn-outline rounded-md">
+      <a href="../student/manage_evaluation.php?student_id=<?php echo $_SESSION['school_id']; ?>"
+        class="btn btn-sm btn-outline rounded-md mx-2">
         Start Evaluate
       </a>
     </section>
