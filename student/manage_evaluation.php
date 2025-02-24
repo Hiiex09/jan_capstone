@@ -464,6 +464,7 @@ if ($all_evaluated) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Your Assigned Teachers</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.23/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
     #toast-container {
@@ -518,19 +519,17 @@ if ($all_evaluated) {
 
 
   <div class="grid grid-cols-1 p-5 gap-6">
-    <div class="border rounded-md p-5">
-      <div>
-        <h1 class="text-center text-4xl text-gray-800">Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?> -
+    <div class="p-5 h-80 border rounded-md flex flex-col justify-center">
+      <div class="w-full">
+        <h1 class="text-center text-4xl">Welcome, <?php echo htmlspecialchars($_SESSION['name']); ?>
           <span class="text-blue-500"><? //php echo htmlspecialchars($_SESSION['school_id']); 
                                       ?></span>
         </h1>
-        <h2 class="text-center text-2xl text-slate-900 mt-2">Your Assigned Teachers and Subjects</h2>
+        <h2 class="text-center text-sm mt-2">Your Assigned Teachers and Subjects</h2>
       </div>
-    </div>
-    <div class="border p-4">
-      <div class="m-2 p-2">
+      <div class="p-2 w-full">
         <?php if (!empty($teachers)): ?>
-          <div class="grid sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-8 gap-6 mt-6 h-20">
+          <div class="grid sm:grid-cols-3 md:grid-cols-6 gap-6 mt-6 h-20">
             <?php foreach ($teachers as $teacher): ?>
 
               <?php
@@ -552,6 +551,8 @@ if ($all_evaluated) {
           <p class="text-center text-gray-600 mt-4">You have no assigned teachers yet.</p>
         <?php endif; ?>
       </div>
+    </div>
+    <div class="border p-4 rounded-md">
       <div class="mt-16 p-1">
         <div class="m-2">
           <h1 class="text-sm">Evaluating Teacher: <?php echo htmlspecialchars($currentTeacher['teacher_name']); ?></h1>
@@ -608,7 +609,7 @@ if ($all_evaluated) {
             <textarea id="comment" name="comment[<?php echo htmlspecialchars($currentTeacher['teacher_id']); ?>]" rows="5" cols="50" placeholder="Type your comment here..." oninput="updateCharCount()" class="w-full p-3 border border-gray-300 rounded-md bg-gray-50 text-gray-700"></textarea>
             <p id="letterCount" class="text-sm text-gray-600 mt-2">Letter Count: 0 / 50</p>
             <p id="charLimitWarning" class="text-sm text-red-500 mt-2" style="display: none;">You have reached the maximum character limit!</p>
-            <input type="submit" value="Submit Evaluation" class="mt-4 w-full bg-green-500 text-white py-2 px-4 rounded-md cursor-pointer hover:bg-green-600 transition-all">
+            <input type="submit" value="Submit Evaluation" class="mt-4 w-full btn btn-md btn-neutral btn-outline">
           </div>
         </form>
       </div>
