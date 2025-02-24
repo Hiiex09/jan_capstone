@@ -27,21 +27,21 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   // Create action
   if ($action == "create" && !empty($subject) && !empty($subjectDepartmentId)) {
     createSubject($subject, $subjectType, $subjectDepartmentId); // Include department
-    header('Location: subject_create.php');
+    header('Location: manage_subject.php');
     exit(); // Always call exit after header redirect
   }
 
   // Update action
   if ($action == "update" && !empty($subjectId) && !empty($subject) && !empty($subjectDepartmentId)) {
     updateSubject($subjectId, $subject, $subjectType, $subjectDepartmentId); // Include department
-    header('Location: subject_create.php');
+    header('Location: manage_subject.php');
     exit();
   }
 
   // Delete action
   if ($action == "delete" && !empty($subjectId)) {
     deleteSubject($subjectId); // Correct function name
-    header('Location: subject_create.php');
+    header('Location: manage_subject.php');
     exit();
   }
 }
@@ -66,7 +66,7 @@ if (isset($_GET['edit'])) {
 if (isset($_GET['delete'])) {
   $subjectId = $_GET['delete'];
   deleteSubject($subjectId); // Correct function name
-  header('Location: subject_create.php');
+  header('Location: manage_subject.php');
   exit();
 }
 
@@ -87,7 +87,7 @@ function getDepartments()
 function getDepartmentName($departmentId)
 {
   global $conn;
-  $query = "SELECT department_name FROM tbldepartment WHERE department_id = '$departmentId'";
+  $query = "SELECT department_name FROM `tbldepartment` WHERE department_id = '$departmentId'";
   $result = mysqli_query($conn, $query);
   return mysqli_fetch_assoc($result);
 }
@@ -106,7 +106,7 @@ function getDepartmentName($departmentId)
 
 
 <body>
-  <div class="z-10 px-20">
+  <div class="z-10 p-5 rounded-md shadow border m-10">
     <div class="mt-5 mb-4">
       <h1 class="text-3xl">Create Subject</h1>
     </div>
@@ -121,16 +121,16 @@ function getDepartmentName($departmentId)
           name="subject"
           placeholder="Enter a subject"
           value="<?php echo htmlspecialchars($selectedSubject); ?>"
-          class="border px-4 py-3 w-[400px] rounded-md text-lg"
-          required>
+          class="input input-bordered w-full max-w-sm"
+          required />
 
-        <select name="subject_type" class="border px-4 py-3 w-[150px] rounded-md text-lg">
+        <select name="subject_type" class="select select-bordered w-full max-w-xs" required>
           <option value="Major" <?php echo ($subjectType == 'Major') ? 'selected' : ''; ?>>Major</option>
           <option value="Minor" <?php echo ($subjectType == 'Minor') ? 'selected' : ''; ?>>Minor</option>
         </select>
 
-        <select name="department_id" class="border px-4 py-3 w-[150px] rounded-md text-lg" required>
-          <option value="">Select Department</option>
+        <select name="department_id" class="select select-bordered w-full max-w-xs" required>
+          <option disabled selected>Select Department</option>
           <?php foreach ($departments as $department): ?>
             <option value="<?php echo htmlspecialchars($department['department_id']); ?>"
               <?php echo ($department['department_id'] == $subjectDepartmentId) ? 'selected' : ''; ?>>
@@ -138,57 +138,53 @@ function getDepartmentName($departmentId)
             </option>
           <?php endforeach; ?>
         </select>
-
         <input
           type="submit"
           value="Submit"
-          class="px-4 py-3 rounded-md text-white text-lg bg-blue-900 hover:bg-blue-500 cursor-pointer">
-
-
+          class="btn btn-md btn-neutral btn-outline cursor-pointer">
       </div>
     </form>
 
     <!-- Where the subject will be displayed -->
     <div id="subjectlist" class="overflow-x-auto mt-4">
       <?php if (count($subjectList) > 0): ?>
-        <table class="table-auto w-full border shadow">
-          <thead class="border bg-blue-900">
-            <tr class="bg-gray-100 text-left">
-              <th class="px-4 py-2 text-start">Subject Name</th>
-              <th class="px-4 py-2 text-start">Type</th>
-              <th class="px-4 py-2 text-start">Department</th>
-              <th class="px-4 py-2 text-start">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <?php foreach ($subjectList as $listsubject):
-              $department = getDepartmentName($listsubject['department_id']);
-            ?>
-              <tr class="border-b hover:bg-pink-50">
-                <td class="px-4 py-2 text-start border"><?php echo htmlspecialchars($listsubject['subject_name']); ?></td>
-                <td class="px-4 py-2 text-start border"><?php echo htmlspecialchars($listsubject['subject_type']); ?></td>
-                <td class="px-4 py-2 text-start border"><?php echo htmlspecialchars($department['department_name']); ?></td>
-                <td class="px-4 py-2 text-start border">
-                  <div class="flex justify-start gap-4">
+        <div class="overflow-x-auto">
+          <table class="table">
+            <!-- head -->
+            <thead>
+              <tr>
+                <th>Subject Name</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Department</th>
+                <th class="text-center">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <?php foreach ($subjectList as $listsubject):
+                $department = getDepartmentName($listsubject['department_id']);
+              ?>
+                <tr class="hover">
+                  <td><?php echo htmlspecialchars($listsubject['subject_name']); ?></td>
+                  <td class="text-center"><?php echo htmlspecialchars($listsubject['subject_type']); ?></td>
+                  <td class="text-center"><?php echo htmlspecialchars($department['department_name']); ?></td>
+                  <td class="text-center">
                     <a href="?edit=<?php echo $listsubject['subject_id']; ?>"
-                      class="inline-flex items-center justify-center bg-blue-900 hover:bg-blue-500 text-white px-4 py-2 rounded-md" title='Update'>
-                      <img src="../admin/Images/update.svg" alt="Update" class="w-5 h-5" title="Edit">
-
+                      class="btn btn-sm btn-success btn-outline" title='Update'> Edit
                     </a>
                     <a href="?delete=<?php echo $listsubject['subject_id']; ?>"
                       onclick="return confirm('Are you sure you want to delete this subject?');"
-                      class="inline-flex items-center justify-center bg-red-900 hover:bg-red-500 text-white px-4 py-2 rounded-md" title='Delete'>
-                      <img src="../admin/Images/delete.svg" alt="Delete" class="w-5 h-5" title="Delete">
+                      class="btn btn-sm btn-error btn-outline" title='Delete'> Delete
+
                     </a>
-                  </div>
-                </td>
-              </tr>
-            <?php endforeach; ?>
-          </tbody>
-        </table>
-      <?php else: ?>
-        <div class="text-center text-lg text-gray-500 mt-6">No subject Available</div>
-      <?php endif; ?>
+                  </td>
+                </tr>
+              <?php endforeach; ?>
+            </tbody>
+          </table>
+        <?php else: ?>
+          <div class="text-center text-lg text-gray-500 mt-6">No subject Available</div>
+        <?php endif; ?>
+        </div>
     </div>
   </div>
 </body>

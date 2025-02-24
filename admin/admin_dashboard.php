@@ -37,7 +37,7 @@ if ($schoolyear) {
 </head>
 
 <body>
-  <section class="h-full bg-base-300 rounded-md mx-5 p-5 flex grid grid-cols-4 gap-10">
+  <section class="h-full bg-base-300 rounded-md mx-5 p-5 flex grid sm:grid-cols-1 md:grid-cols-4 gap-10">
     <div class="h-40 bg-base-200 flex justify-center items-center rounded-md p-1 skeleton ">
       <div class="h-40 w-full p-2">
         <h1 class="text-2xl">Student</h1>

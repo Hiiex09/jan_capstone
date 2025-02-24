@@ -99,7 +99,7 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
       <table class="table-auto w-full border shadow">
       </table>
       <div>
-        <table class="table">
+        <table class="table overflow-y-auto">
           <!-- head -->
           <thead>
             <tr class="text-center hover cursor-pointer">

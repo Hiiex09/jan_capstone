@@ -259,7 +259,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
   <div id="toast-container"></div>
 
-  <div class="p-5 m-5 bg-base-300 rounded-md">
+  <div class="p-5 m-5 shadow border rounded-md">
     <section class="m-5">
       <!-- Open the modal using ID.showModal() method -->
       <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Student</button>
@@ -494,7 +494,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
           </form>
           <div class="modal-action">
             <form method="dialog">
-              <button class="btn btn-sm btn-outline">Close</button>
+              <button class="btn btn-sm btn-neutral">Close</button>
             </form>
           </div>
         </div>
@@ -538,26 +538,26 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
     </section>
     <section>
       <div class="overflow-y-auto m-3">
-        <table class="table border border-2 shadow">
+        <table class="table">
           <thead>
-            <tr class="text-center">
+            <tr>
               <th>School ID</th>
-              <th>Profile</th>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Department</th>
-              <th>Section</th>
-              <th>Year</th>
-              <th>Is_Regular</th>
-              <th>Action</th>
+              <th class="text-center">Profile</th>
+              <th class="text-center">Name</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Department</th>
+              <th class="text-center">Section</th>
+              <th class="text-center">Year</th>
+              <th class="text-center">Is_Regular</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             <?php if ($result->num_rows > 0): ?>
               <?php while ($row = $result->fetch_assoc()): ?>
-                <tr class="border-b hover cursor-pointer text-center">
-                  <td class="border"><?php echo htmlspecialchars($row['school_id']); ?></td>
-                  <td class="border">
+                <tr class="hover">
+                  <td><?php echo htmlspecialchars($row['school_id']); ?></td>
+                  <td>
                     <div class="flex justify-center items-center">
                       <div>
                         <?php if ($row['image']): ?>
@@ -570,13 +570,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
 
                     </div>
                   </td>
-                  <td class="border"><?php echo htmlspecialchars($row['name']); ?></td>
-                  <td class="border"><?php echo htmlspecialchars($row['email']); ?></td>
-                  <td class="border"><?php echo htmlspecialchars($row['department_name']); ?></td>
-                  <td class="border"><?php echo htmlspecialchars($row['section_name']); ?></td>
-                  <td class="border"><?php echo htmlspecialchars($row['year_level']); ?></td>
-                  <td class="border"><?php echo $row['is_regular'] ? 'Yes' : 'No'; ?></td>
-                  <td class="border">
+                  <td class="text-center"><?php echo htmlspecialchars($row['name']); ?></td>
+                  <td class="text-center"><?php echo htmlspecialchars($row['email']); ?></td>
+                  <td class="text-center"><?php echo htmlspecialchars($row['department_name']); ?></td>
+                  <td class="text-center"><?php echo htmlspecialchars($row['section_name']); ?></td>
+                  <td class="text-center"><?php echo htmlspecialchars($row['year_level']); ?></td>
+                  <td class="text-center"><?php echo $row['is_regular'] ? 'Yes' : 'No'; ?></td>
+                  <td class="text-center">
                     <a href="../admin/manage_student_delete.php?deleteId=<?php echo htmlspecialchars($row['student_id']); ?>"
                       class="btn btn-sm btn-outline btn-error">Remove</a>
                   </td>

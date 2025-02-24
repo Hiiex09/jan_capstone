@@ -160,7 +160,7 @@ if (isset($_GET['delete'])) {
 </head>
 
 <body>
-  <div class="p-5 bg-base-300 m-5 rounded-md">
+  <div class="p-5 bg-base-300 m-5 rounded-md relative">
     <div class="m-1 p-3">
       <h1 class="text-4xl">Create Criteria</h1>
     </div>
@@ -183,21 +183,21 @@ if (isset($_GET['delete'])) {
       </div>
     </form>
     <div class="p-4">
-      <table class="w-full">
+      <table class="w-full table">
         <thead>
-          <tr class="text-xs">
-            <th class="border p-2">Not Satisfied</th>
-            <th class="border p-2">Satisfied </th>
-            <th class="border p-2">Moderately Satisfied </th>
-            <th class="border p-2">Very Satisfied </th>
+          <tr class="text-center">
+            <th class="text-sm">Not Satisfied</th>
+            <th class="text-sm">Satisfied </th>
+            <th class="text-sm">Moderately Satisfied </th>
+            <th class="text-sm">Very Satisfied </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td class="text-center">(1)</td>
-            <td class="text-center">(2)</td>
-            <td class="text-center">(3)</td>
-            <td class="text-center">(4)</td>
+            <td class="text-center animate-pulse">(1)</td>
+            <td class="text-center animate-pulse">(2)</td>
+            <td class="text-center animate-pulse">(3)</td>
+            <td class="text-center animate-pulse">(4)</td>
           </tr>
         </tbody>
       </table>
@@ -243,6 +243,7 @@ if (isset($_GET['delete'])) {
       <?php endif; ?>
     </div>
   </div>
+
 </body>
 
 </html>

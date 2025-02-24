@@ -167,7 +167,7 @@ if (isset($_POST['update'])) {
           <div class="mt-8">
             <div>
               <button type="submit" name="update"
-                class=" btn btn-md btn-outline btn-primary mt-3 rounded-md w-full">
+                class=" btn btn-md btn-primary mt-3 rounded-md w-full">
                 Submit
               </button>
             </div>

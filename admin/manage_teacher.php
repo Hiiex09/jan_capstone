@@ -44,7 +44,7 @@ $result = $conn->query($sql);
 <body>
 
 
-  <div class="p-5 m-5 bg-base-300 rounded-md">
+  <div class="p-5 m-5 rounded-md shadow border">
     <section class="m-5">
       <!-- Open the modal using ID.showModal() method -->
       <button class="btn btn-sm btn-neutral" onclick="my_modal_2.showModal()">Add Teacher</button>
@@ -202,7 +202,7 @@ $result = $conn->query($sql);
                   <div class="mt-8">
                     <div>
                       <button type="submit" name="submit"
-                        class="w-full btn btn-md btn-outline btn-primary mt-3 rounded-md">
+                        class="w-full btn btn-md btn-primary mt-3 rounded-md">
                         Submit
                       </button>
                     </div>
@@ -228,7 +228,7 @@ $result = $conn->query($sql);
         <div class="flex justify-between items-center">
           <div class="flex justify-start items-center">
             <div>
-              <h1 class="font-semibold float-left sm:text-4xl md:text-4xl">Teacher Table</h1>
+              <h1 class="font-semibold float-left hidden md:block md:text-4xl">Teacher Table</h1>
             </div>
           </div>
           <div>
@@ -257,23 +257,23 @@ $result = $conn->query($sql);
     </section>
 
     <section>
-      <div class=" m-3">
-        <table class="table-auto w-full border shadow">
+      <div class="overflow-y-auto m-3">
+        <table class="table">
           <thead>
-            <tr class="text-center h-10">
-              <th class=" border">School ID</th>
-              <th class=" border">Profile</th>
-              <th class=" border">Name</th>
-              <th class=" border">Department</th>
-              <th class=" border">Action</th>
+            <tr>
+              <th class="text-start">School ID</th>
+              <th class="text-center">Profile</th>
+              <th class="text-center">Name</th>
+              <th class="text-center">Department</th>
+              <th class="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
             <?php if ($result->num_rows > 0): ?>
               <?php while ($row = $result->fetch_assoc()): ?>
-                <tr class="text-center">
-                  <td class="border border-2"><?php echo htmlspecialchars($row['school_id']); ?></td>
-                  <td class="border border-2">
+                <tr class="hover">
+                  <td><?php echo htmlspecialchars($row['school_id']); ?></td>
+                  <td class="text-center">
                     <div class="flex justify-center item-center">
                       <div class="m-1">
                         <?php if ($row['image']): ?>
@@ -285,10 +285,10 @@ $result = $conn->query($sql);
                       </div>
                     </div>
                   </td>
-                  <td class="border border-2"><?php echo htmlspecialchars($row['name']); ?></td>
-                  <td class="border border-2"><?php echo htmlspecialchars($row['department_name']); ?></td>
-                  <!-- <td class="text-center text-black border border-2 hidden"><?php echo htmlspecialchars($row['section_name']); ?></td> -->
-                  <td class="border border-2">
+                  <td class="text-center"><?php echo htmlspecialchars($row['name']); ?></td>
+                  <td class="text-center"><?php echo htmlspecialchars($row['department_name']); ?></td>
+                  <!-- <td class="text-center text-black  hidden"><?php echo htmlspecialchars($row['section_name']); ?></td> -->
+                  <td class="text-center">
                     <div class="w-full flex justify-between items-center gap-2 p-1">
                       <a href="manage_teacher_ratings.php?teacher_id=<?php echo htmlspecialchars($row['teacher_id']); ?>"
                         class="btn btn-sm btn-success flex-1">
@@ -309,7 +309,7 @@ $result = $conn->query($sql);
     <?php endwhile; ?>
   <?php else: ?>
     <tr>
-      <td colspan="8">No students found.</td>
+      <td colspan="8">No teacher found.</td>
     </tr>
   <?php endif; ?>
   </tbody>

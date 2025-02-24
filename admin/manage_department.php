@@ -105,7 +105,7 @@ include('../admin/header.php');
     <!-- Where the department will be displayed -->
     <div id="departmentlist">
       <?php if (count($departmentList) > 0): ?>
-        <div class="grid grid-cols-3 gap-2">
+        <div class="grid sm:grid-cols-1 md:grid-cols-3 gap-2">
           <?php foreach ($departmentList as $index => $listDepartment): ?>
             <div class="p-3 rounded-lg bg-base-300 skeleton">
               <div>
