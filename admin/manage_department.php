@@ -12,51 +12,63 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   $department = $_POST['department'];
   $deptId = $_POST['id'];
 
-  // Create action
+  // Create department
   if ($action == "create" && !empty($department)) {
-    createDepartment($department);
-    header('Location:../admin/manage_department.php'); // Redirect to the same page after creation
+    $sql = "INSERT INTO tbldepartment (department_name) VALUES (?)";
+    if ($stmt = $conn->prepare($sql)) {
+      $stmt->bind_param("s", $department);
+      $stmt->execute();
+      $stmt->close();
+    }
+    header('Location: manage_department.php');
     exit();
   }
 
-  // Update action
+  // Update department
   if ($action == "update" && !empty($deptId) && !empty($department)) {
-    updateDepartment($deptId, $department);
-    // header('Location: ../admin/department.php'); // Redirect to the same page after updating
-    // echo " window.location.href='../admin/department.php'";
-  }
-
-  // Delete action
-  if ($action == "delete" && !empty($deptId)) {
-    deleteCriteria($deptId);
-    // header('Location:../admin/department.php'); // Redirect to the same page after deletion
+    $sql = "UPDATE tbldepartment SET department_name = ? WHERE department_id = ?";
+    if ($stmt = $conn->prepare($sql)) {
+      $stmt->bind_param("si", $department, $deptId);
+      $stmt->execute();
+      $stmt->close();
+    }
+    header('Location: manage_department.php');
+    exit();
   }
 }
 
-// Get department list for display
-$departmentList = displayDepartment();
+// Soft delete a department and redirect to archive.php
+if (isset($_GET['delete'])) {
+  $deptId = $_GET['delete'];
+  $sql = "UPDATE tbldepartment SET deleted_at = NOW() WHERE department_id = ?";
+  if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $deptId);
+    $stmt->execute();
+    $stmt->close();
+  }
+  header('Location: manage_department.php'); // Redirect to the deleted departments page
+  exit();
+}
+
+// Fetch department list, excluding deleted records
+$sql = "SELECT * FROM tbldepartment WHERE deleted_at IS NULL";
+$result = $conn->query($sql);
+$departmentList = [];
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $departmentList[] = $row;
+  }
+}
 
 // Check if department is selected for editing
 if (isset($_GET['edit'])) {
   $deptId = $_GET['edit'];
-  // Assuming displayDepartment returns an array with id and name
   foreach ($departmentList as $departmentItem) {
     if ($departmentItem['department_id'] == $deptId) {
       $selectedDept = $departmentItem['department_name'];
       break;
     }
   }
-}
-
-// Handle delete action via GET request
-if (isset($_GET['delete'])) {
-  $deptId = $_GET['delete'];
-  deleteDepartment($deptId);
-  // header('Location: ../admin/department.php'); // Redirect to the same page after deletion
-  echo "<script>
-        window.location.href='../admin/manage_department.php'; 
-        </script>";
-  exit();
 }
 ?>
 <?php

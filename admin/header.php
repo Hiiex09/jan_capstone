@@ -221,7 +221,7 @@ include('../database/models/dbconnect.php');
             <span class="text-lg">Manage Archive</span>
           </div>
           <div class="collapse-content p-2">
-            <a href="#viewArchive" class="hover:font-semibold hover:text-red-900">View Archive</a>
+            <a href="../admin/archive.php" class="hover:font-semibold hover:text-red-900">View Archive</a>
           </div>
         </div>
 

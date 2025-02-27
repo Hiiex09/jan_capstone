@@ -5,6 +5,11 @@ session_start();
 
 // Pagination settings
 $results_per_page = 7;
+
+// **Search Filtering**
+$searchTerm = '';
+$whereClause = " WHERE s.deleted_at IS NULL "; // Ensuring soft-deleted students don't appear
+
 if (isset($_GET["page"])) {
   $page = $_GET["page"];
 } else {
@@ -17,12 +22,13 @@ $sql = "SELECT s.student_id, s.school_id, s.name, s.email, s.year_level, s.image
         FROM tblstudent s
         LEFT JOIN `tbldepartment` d ON s.department_id = d.department_id
         LEFT JOIN `tblstudent_section` ss ON s.student_id = ss.student_id
-        LEFT JOIN `tblsection` sec ON ss.section_id = sec.section_id";
+        LEFT JOIN `tblsection` sec ON ss.section_id = sec.section_id
+         $whereClause";
 
 // Search functionality with pagination
 if (isset($_GET['search']) && !empty($_GET['search'])) {
   $searchTerm = $conn->real_escape_string($_GET['search']);
-  $sql .= " WHERE s.name LIKE '%$searchTerm%' OR s.school_id LIKE '%$searchTerm%'";
+  $whereClause .= " AND (s.name LIKE '%$searchTerm%' OR s.school_id LIKE '%$searchTerm%')";
 }
 
 $sql_with_limit = $sql . " LIMIT $start_from, $results_per_page"; // Add LIMIT clause for pagination
@@ -195,6 +201,25 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
   );
 }
 
+?>
+
+<?php
+if (isset($_GET['delete_id'])) {
+  $delete_id = $_GET['delete_id'];
+
+  // Soft delete by setting `deleted_at`
+  $stmt = $conn->prepare("UPDATE tblstudent SET deleted_at = NOW() WHERE student_id = ?");
+  $stmt->bind_param("i", $delete_id);
+
+  if ($stmt->execute()) {
+    echo "<script>
+            window.location.href='manage_student.php';
+        </script>";
+  } else {
+    echo "<script>alert('Error deleting student.');</script>";
+  }
+  $stmt->close();
+}
 ?>
 <?php include('../admin/header.php'); ?>
 <!DOCTYPE html>
@@ -577,7 +602,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['submit'])) {
                   <td class="text-center"><?php echo htmlspecialchars($row['year_level']); ?></td>
                   <td class="text-center"><?php echo $row['is_regular'] ? 'Yes' : 'No'; ?></td>
                   <td class="text-center">
-                    <a href="../admin/manage_student_delete.php?deleteId=<?php echo htmlspecialchars($row['student_id']); ?>"
+                    <a href="?delete_id=<?php echo htmlspecialchars($row['student_id']); ?>"
                       class="btn btn-sm btn-outline btn-error">Remove</a>
                   </td>
                 </tr>

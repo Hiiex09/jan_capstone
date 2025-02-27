@@ -21,7 +21,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   // Update action
   if ($action == "update" && !empty($criteriaId) && !empty($criteria)) {
     updateCriteria($criteriaId, $criteria);
-    header('Location: manage_criteria.php'); // Redirect to the same page after updating
+    // header('Location: manage_criteria.php'); // Redirect to the same page after updating
+    echo "<script>
+    window.location.href='./manage_criteria.php'
+    </script>";
     exit();
   }
 
@@ -30,6 +33,120 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     deleteCriteria($criteriaId);
     header('Location: manage_criteria.php'); // Redirect to the same page after deletion
     exit();
+  }
+}
+
+// Get criteria list for display
+$criteriaList = displayCriteria();
+
+// Check if criteria is selected for editing
+if (isset($_GET['edit'])) {
+  $criteriaId = $_GET['edit'];
+  // Assuming displayCriteria returns an array with id and name
+  foreach ($criteriaList as $criteriaItem) {
+    if ($criteriaItem['criteria_id'] == $criteriaId) {
+      $selectedCriteria = $criteriaItem['criteria'];
+      break;
+    }
+  }
+}
+
+// Soft delete a criteria and redirect to archive.php
+if (isset($_GET['delete'])) {
+  $deptId = $_GET['delete'];
+  $sql = "UPDATE tblcriteria SET deleted_at = NOW() WHERE criteria_id = ?";
+  if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $deptId);
+    $stmt->execute();
+    $stmt->close();
+  }
+  header('Location: manage_criteria.php'); // Redirect to the deleted criterias page
+  exit();
+}
+
+// Fetch criteria list, excluding deleted records
+$sql = "SELECT * FROM tblcriteria WHERE deleted_at IS NULL";
+$result = $conn->query($sql);
+$criteriaList = [];
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $criteriaList[] = $row;
+  }
+}
+
+// Check if criteriat is selected for editing
+if (isset($_GET['edit'])) {
+  $deptId = $_GET['edit'];
+  foreach ($criteriaList as $criteriaItem) {
+    if ($criteriaItem['criteria_id'] == $deptId) {
+      $selectedDept = $criteriaItem['criteria'];
+      break;
+    }
+  }
+}
+
+function createCriteria($criteria)
+{
+  global $conn; // Access the $conn variable from the global scope
+  try {
+
+    $csql = "SELECT * FROM tblcriteria WHERE criteria =?";
+    $stmtc = $conn->prepare($csql);
+    $stmtc->bind_param("s", $criteria);
+    $stmtc->execute();
+    $stmtc->store_result();
+
+    if ($stmtc->num_rows() > 0) {
+      echo "<script>
+              alert('Criteria already exists.');
+              window.location.href='manage_criteria.php';
+            </script>";
+    } else {
+      $sql = "INSERT INTO tblcriteria (criteria) VALUES (?)";
+      $stmt = $conn->prepare($sql);
+      $stmt->bind_param("s", $criteria);
+      if ($stmt->execute()) {
+        // Success message
+        echo "<script>
+             alert('Criteria successfully created.');
+              window.location.href='manage_criteria.php';
+            </script>";
+      } else {
+        // Handle the failure
+        echo "Error: Unable to insert criteria.";
+      }
+      // Close the statement
+      $stmt->close();
+    }
+    $stmtc->close();
+  } catch (mysqli_sql_exception $e) {
+    // Log error and display a generic message
+    error_log("Insert Failed: " . $e->getMessage());
+    echo "Error during criteria creation.";
+  }
+}
+
+
+function displayCriteria()
+{
+  global $conn; // Access the $conn variable from the global scope
+  try {
+    $sql = "SELECT criteria_id, criteria FROM tblcriteria";
+    $stmt = $conn->prepare($sql);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $criteriaList = [];
+
+    if ($result->num_rows > 0) {
+      while ($row = $result->fetch_assoc()) {
+        $criteriaList[] = $row; // Assuming 'criteria' is the column name
+      }
+    }
+    return $criteriaList;
+  } catch (mysqli_sql_exception $e) {
+    error_log("Error fetching criteria: " . $e->getMessage());
+    return [];
   }
 }
 
@@ -59,93 +176,6 @@ function deleteCriteria($criteriaId)
   } else {
     return false; // Deletion failed
   }
-}
-
-function displayCriteria()
-{
-  global $conn; // Access the $conn variable from the global scope
-  try {
-    $sql = "SELECT criteria_id, criteria FROM tblcriteria";
-    $stmt = $conn->prepare($sql);
-    $stmt->execute();
-    $result = $stmt->get_result();
-
-    $criteriaList = [];
-
-    if ($result->num_rows > 0) {
-      while ($row = $result->fetch_assoc()) {
-        $criteriaList[] = $row; // Assuming 'criteria' is the column name
-      }
-    }
-    return $criteriaList;
-  } catch (mysqli_sql_exception $e) {
-    error_log("Error fetching criteria: " . $e->getMessage());
-    return [];
-  }
-}
-
-function createCriteria($criteria)
-{
-  global $conn; // Access the $conn variable from the global scope
-  try {
-
-    $csql = "SELECT * FROM tblcriteria WHERE criteria =?";
-    $stmtc = $conn->prepare($csql);
-    $stmtc->bind_param("s", $criteria);
-    $stmtc->execute();
-    $stmtc->store_result();
-
-    if ($stmtc->num_rows() > 0) {
-      echo "<script>
-              alert('Criteria already exists.');
-              window.location.href='criteria_create.php';
-            </script>";
-    } else {
-      $sql = "INSERT INTO tblcriteria (criteria) VALUES (?)";
-      $stmt = $conn->prepare($sql);
-      $stmt->bind_param("s", $criteria);
-      if ($stmt->execute()) {
-        // Success message
-        echo "<script>
-             alert('Criteria successfully created.');
-              window.location.href='criteria_create.php';
-            </script>";
-      } else {
-        // Handle the failure
-        echo "Error: Unable to insert criteria.";
-      }
-      // Close the statement
-      $stmt->close();
-    }
-    $stmtc->close();
-  } catch (mysqli_sql_exception $e) {
-    // Log error and display a generic message
-    error_log("Insert Failed: " . $e->getMessage());
-    echo "Error during criteria creation.";
-  }
-}
-
-// Get criteria list for display
-$criteriaList = displayCriteria();
-
-// Check if criteria is selected for editing
-if (isset($_GET['edit'])) {
-  $criteriaId = $_GET['edit'];
-  // Assuming displayCriteria returns an array with id and name
-  foreach ($criteriaList as $criteriaItem) {
-    if ($criteriaItem['criteria_id'] == $criteriaId) {
-      $selectedCriteria = $criteriaItem['criteria'];
-      break;
-    }
-  }
-}
-
-// Handle delete action via GET request
-if (isset($_GET['delete'])) {
-  $criteriaId = $_GET['delete'];
-  deleteCriteria($criteriaId);
-  header('Location: manage_criteria.php'); // Redirect to the same page after deletion
-  exit();
 }
 ?>
 <?php include('../admin/header.php'); ?>

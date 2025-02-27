@@ -62,15 +62,41 @@ if (isset($_GET['edit'])) {
   }
 }
 
-// Handle delete action via GET request
+// Soft delete a subject and redirect to archive.php
 if (isset($_GET['delete'])) {
   $subjectId = $_GET['delete'];
-  deleteSubject($subjectId); // Correct function name
-  header('Location: manage_subject.php');
+  $sql = "UPDATE tblsubject SET deleted_at = NOW() WHERE subject_id = ?";
+  if ($stmt = $conn->prepare($sql)) {
+    $stmt->bind_param("i", $subjectId);
+    $stmt->execute();
+    $stmt->close();
+  }
+  header('Location: manage_subject.php'); // Redirect to the deleted subjects page
   exit();
 }
 
-// Function to fetch departments from the database
+// Fetch subject list, excluding deleted records
+$sql = "SELECT * FROM tblsubject WHERE deleted_at IS NULL";
+$result = $conn->query($sql);
+$subjectList = [];
+if ($result->num_rows > 0) {
+  while ($row = $result->fetch_assoc()) {
+    $subjectList[] = $row;
+  }
+}
+
+// Check if subject is selected for editing
+if (isset($_GET['edit'])) {
+  $subjectId = $_GET['edit'];
+  foreach ($subjectList as $subjectItem) {
+    if ($subjectItem['subject_id'] == $subjectId) {
+      $selectedDept = $subjectItem['subject_name'];
+      break;
+    }
+  }
+}
+
+// Function to fetch subjects from the database
 function getDepartments()
 {
   global $conn;
@@ -87,10 +113,11 @@ function getDepartments()
 function getDepartmentName($departmentId)
 {
   global $conn;
-  $query = "SELECT department_name FROM `tbldepartment` WHERE department_id = '$departmentId'";
+  $query = "SELECT department_name FROM tbldepartment WHERE department_id = '$departmentId'";
   $result = mysqli_query($conn, $query);
   return mysqli_fetch_assoc($result);
 }
+
 
 ?>
 <?php include('../admin/header.php'); ?>

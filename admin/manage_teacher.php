@@ -18,7 +18,8 @@ $sql = "SELECT t.teacher_id, t.school_id, t.name, t.image, d.department_name
 FROM tblteacher t
 LEFT JOIN tbldepartment d ON t.department_id = d.department_id
 LEFT JOIN tblteacher_section ts ON t.teacher_id = ts.teacher_id
-LEFT JOIN tblsection sec ON ts.section_id = sec.section_id";
+LEFT JOIN tblsection sec ON ts.section_id = sec.section_id
+WHERE t.deleted_at IS NULL";
 
 
 if (isset($_GET['search']) && !empty($_GET['search'])) {
@@ -298,7 +299,7 @@ $result = $conn->query($sql);
                         class="btn btn-sm btn-primary flex-1">
                         Update
                       </a>
-                      <a href="../admin/manage_delete_teacher.php?deleteId=<?php echo $row['teacher_id']; ?>"
+                      <a href="?delete_id=<?php echo $row['teacher_id']; ?>"
                         class="btn btn-sm btn-error flex-1">
                         Remove
                       </a>
@@ -373,6 +374,27 @@ $result = $conn->query($sql);
 
 
 <?php
+
+
+if (isset($_GET['delete_id'])) {
+  $teacher_id = intval($_GET['delete_id']);
+
+  // Soft delete the teacher (set is_deleted = 1)
+  $deleteQuery = "UPDATE tblteacher SET deleted_at = NOW() WHERE teacher_id = ?";
+  $stmt = $conn->prepare($deleteQuery);
+  $stmt->bind_param("i", $teacher_id);
+
+  if ($stmt->execute()) {
+    echo "<script>
+          window.location.href = 'manage_teacher.php'; // Refresh page after delete
+      </script>";
+  } else {
+    echo "<script>alert('Error deleting teacher.');</script>";
+  }
+
+  $stmt->close();
+}
+
 function addTeacher($conn, $school_id, $fname, $lname, $department_id, $file)
 {
   // Combine first and last names

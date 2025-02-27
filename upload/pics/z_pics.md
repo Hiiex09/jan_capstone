@@ -853,6 +853,4 @@ if ($all_evaluated) {
 
 // Example: If all teachers have been evaluated, show a message
 
-
-
 ?>

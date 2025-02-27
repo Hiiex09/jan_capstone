@@ -1,44 +1,60 @@
 <?php
 include('../database/models/dbconnect.php');
 session_start();
+
 // Handle adding, editing, or deleting sections based on POST data
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
   $action = $_POST['action'];
   $section_name = $_POST['section_name'] ?? '';
   $year_level = $_POST['year_level'] ?? '';
   $section_id = $_POST['section_id'] ?? '';
+  $dept = $_POST['department_id'] ?? '';
 
   if ($action == 'add') {
-    $stmt = $conn->prepare("INSERT INTO tblsection (section_name, year_level) VALUES (?, ?)");
-    $stmt->bind_param("si", $section_name, $year_level);
+    $stmt = $conn->prepare("INSERT INTO tblsection (section_name, year_level, department_id) VALUES (?, ?, ?)");
+    $stmt->bind_param("sii", $section_name, $year_level, $dept);
   } elseif ($action == 'edit') {
-    $stmt = $conn->prepare("UPDATE tblsection SET section_name = ?, year_level = ? WHERE section_id = ?");
-    $stmt->bind_param("sii", $section_name, $year_level, $section_id);
+    $stmt = $conn->prepare("UPDATE tblsection SET section_name = ?, year_level = ?, department_id = ? WHERE section_id = ?");
+    $stmt->bind_param("siii", $section_name, $year_level, $dept, $section_id);
   } elseif ($action == 'delete') {
-    $stmt = $conn->prepare("DELETE FROM tblsection WHERE section_id = ?");
+    $stmt = $conn->prepare("UPDATE tblsection SET deleted_at = NOW() WHERE section_id = ?");
     $stmt->bind_param("i", $section_id);
-    // echo "<script> window.location.href='../admin/section.php'; </script>";
   }
 
-  $stmt->execute();
-  $stmt->close();
-  header("Location:../admin/manage_section.php"); // Redirect to avoid resubmission
-  exit();
+  if ($stmt->execute()) {
+    $stmt->close();
+    header("Location: manage_section.php"); // Redirect to avoid resubmission
+    exit();
+  } else {
+    echo "Error: " . $stmt->error;
+  }
 }
 
-// Fetch all sections
-$sections = $conn->query("SELECT * FROM tblsection");
+// Fetch all sections (excluding soft-deleted ones)
+$sections = $conn->query("SELECT s.*, d.department_name 
+                          FROM tblsection s
+                          LEFT JOIN tbldepartment d ON s.department_id = d.department_id
+                          WHERE s.deleted_at IS NULL");
 
-// Set default form action to add
+// Set default form action
 $form_action = 'add';
-$section_id = $section_name = $year_level = '';
+$section_id = $section_name = $year_level = $dept = '';
 
 // If editing, prefill form fields
-if (isset($_GET['action']) && $_GET['action'] == 'edit') {
-  $form_action = 'edit';
-  $section_id = $_GET['section_id'];
-  $section_name = $_GET['section_name'];
-  $year_level = $_GET['year_level'];
+if (isset($_GET['edit'])) {
+  $sectionId = $_GET['edit'];
+  $editQuery = $conn->prepare("SELECT * FROM tblsection WHERE section_id = ?");
+  $editQuery->bind_param("i", $sectionId);
+  $editQuery->execute();
+  $editResult = $editQuery->get_result();
+  if ($row = $editResult->fetch_assoc()) {
+    $form_action = 'edit';
+    $section_id = $row['section_id'];
+    $section_name = $row['section_name'];
+    $year_level = $row['year_level'];
+    $dept = $row['department_id'];
+  }
+  $editQuery->close();
 }
 ?>
 <?php include('../admin/header.php'); ?>
@@ -84,6 +100,21 @@ if (isset($_GET['action']) && $_GET['action'] == 'edit') {
               required
               autocomplete="off" class="input input-bordered w-full max-w-xs" />
           </div>
+        </div>
+        <div class="mt-1">
+          <label class="text-2xl">Department</label>
+          <select class="select select-bordered w-full max-w-xs" name="department_id" required>
+            <option value="" disabled>Select Department</option>
+            <?php
+            $department = $conn->query("SELECT * FROM tbldepartment");
+            while ($row = $department->fetch_assoc()) :
+              $selected = ($dept == $row['department_id']) ? "selected" : "";
+            ?>
+              <option value="<?php echo $row['department_id']; ?>" <?php echo $selected; ?>>
+                <?php echo htmlspecialchars($row['department_name']); ?>
+              </option>
+            <?php endwhile; ?>
+          </select>
         </div>
         <div>
           <input

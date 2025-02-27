@@ -8,6 +8,7 @@ $edit_id = null;
 $edit_year = '';
 $edit_semester = '';
 
+// Handle form submission for adding or updating
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
   $year = $_POST['year'];
   $semester = $_POST['semester'];
@@ -60,19 +61,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['save'])) {
   }
 }
 
-
-// Handle delete operation
+// Soft delete a school year (mark as deleted)
 if (isset($_GET['delete_id'])) {
   $delete_id = $_GET['delete_id'];
-  $stmt = $conn->prepare("DELETE FROM tblschoolyear WHERE schoolyear_id = ?");
+  $stmt = $conn->prepare("UPDATE tblschoolyear SET deleted_at = NOW() WHERE schoolyear_id = ?");
   $stmt->bind_param("i", $delete_id);
   if ($stmt->execute()) {
-    echo "<script>window.location.href='manage_academic.php';</script>";
+    echo "<script>alert('School year archived successfully!'); window.location.href='manage_academic.php';</script>";
   } else {
-    echo "<script>alert('Error deleting school year.');</script>";
+    echo "<script>alert('Error archiving school year.');</script>";
   }
   $stmt->close();
 }
+
 
 // Fetch record for editing
 if (isset($_GET['editid'])) {
