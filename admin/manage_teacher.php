@@ -2,31 +2,31 @@
 include('../database/models/dbconnect.php');
 session_start();
 
-$limit = 5; // Number of records per page
+$limit = 5; // Mag set ta ug page 
 $page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-// Count total records
+
 $totalQuery = "SELECT COUNT(*) as total FROM tblteacher";
 $totalResult = $conn->query($totalQuery);
 $totalRow = $totalResult->fetch_assoc();
 $totalRecords = $totalRow['total'];
 $totalPages = ceil($totalRecords / $limit);
 
-// Modify SQL query to include LIMIT and OFFSET
+
 $sql = "SELECT t.teacher_id, t.school_id, t.name, t.image, d.department_name
 FROM tblteacher t
 LEFT JOIN tbldepartment d ON t.department_id = d.department_id
 LEFT JOIN tblteacher_section ts ON t.teacher_id = ts.teacher_id
 LEFT JOIN tblsection sec ON ts.section_id = sec.section_id";
 
-// Check if search term exists
+
 if (isset($_GET['search']) && !empty($_GET['search'])) {
   $searchTerm = $conn->real_escape_string($_GET['search']);
   $sql .= " WHERE t.name LIKE '%$searchTerm%' OR t.school_id LIKE '%$searchTerm%'";
 }
 
-// Add pagination
+
 $sql .= " LIMIT $limit OFFSET $offset";
 
 $result = $conn->query($sql);

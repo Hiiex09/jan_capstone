@@ -27,7 +27,7 @@ if (isset($_POST['update'])) {
   $fullname = $_POST['name'];
   $email = $_POST['email'];
   $username = $_POST['username'];
-  $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Hash the password
+  $password = password_hash($_POST['password'], PASSWORD_DEFAULT); // Ma_hash nato ang password
 
   // Validate email format
   if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {

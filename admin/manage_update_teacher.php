@@ -6,7 +6,7 @@ if (!isset($_GET['teacher_id']) || empty($_GET['teacher_id'])) {
   die("Invalid request: teacher_id is missing.");
 }
 
-$update_id = intval($_GET['teacher_id']); // Ensure it's an integer
+$update_id = intval($_GET['teacher_id']);
 
 $sql = "SELECT * FROM `tblteacher` WHERE teacher_id = $update_id";
 $result = mysqli_query($conn, $sql);
@@ -17,17 +17,17 @@ if (!$result || mysqli_num_rows($result) == 0) {
 
 $row = mysqli_fetch_assoc($result);
 
-// Use null coalescing operator to prevent undefined index warnings
+
 $school_id = $row['teacher_id'] ?? '';
 $fullname = $row['name'] ?? '';
 $department = $row['department_id'] ?? '';
-$image = $row['image'] ?? 'default.png'; // Set a default image if none is found
+$image = $row['image'] ?? 'default.png'; 
 
 if (isset($_POST['update'])) {
   $school_id = $_POST['school_id'];
   $department = $_POST['department_id'];
 
-  // Handle image upload safely
+  
   if (!empty($_FILES['hen']['name'])) {
     $image = $_FILES['hen']['name'];
     $target = "../upload/pics/" . basename($image);
