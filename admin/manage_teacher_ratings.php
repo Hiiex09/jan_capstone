@@ -2,11 +2,11 @@
 include("../database/models/dbconnect.php");
 session_start();
 
-// Check if the teacher_id is provided in the URL
-if (isset($_GET['teacher_id'])) {
-  $teacher_id = $_GET['teacher_id']; // Get the teacher ID from the URL parameter
 
-  // SQL query to fetch criteria names, ratings, and comments for the specified teacher
+if (isset($_GET['teacher_id'])) {
+  $teacher_id = $_GET['teacher_id']; 
+
+  
   $query = "
         SELECT 
             c.criteria, 
@@ -19,13 +19,13 @@ if (isset($_GET['teacher_id'])) {
         WHERE e.teacher_id = ? 
         ORDER BY c.criteria";
 
-  // Prepare and execute the statement using MySQLi
+  
   $stmt = mysqli_prepare($conn, $query);
   mysqli_stmt_bind_param($stmt, "i", $teacher_id);
   mysqli_stmt_execute($stmt);
   $result = mysqli_stmt_get_result($stmt);
 
-  // Fetch all results and organize by criteria
+  
   $ratings = [];
   $comments = [];
   $teacher_name = "";
@@ -37,20 +37,20 @@ if (isset($_GET['teacher_id'])) {
 
   while ($row = mysqli_fetch_assoc($result)) {
     if (empty($teacher_name)) {
-      // Store teacher details (name and image) only once
+    
       $teacher_name = $row['teacher_name'];
       $teacher_image = $row['teacher_image'];
     }
 
     $criteria = $row['criteria'];
 
-    // Add ratings and comments
+  
     $ratings[$criteria][] = [
       'rating' => $row['ratings'],
       'comment' => $row['comment']
     ];
 
-    // Add to comment array if not empty or "0"
+   
     if (!empty($row['comment']) && $row['comment'] !== '0') {
       $comments[] = $row['comment'];
     }
