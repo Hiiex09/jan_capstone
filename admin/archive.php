@@ -348,6 +348,7 @@ ob_end_flush();
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Deleted Departments</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@4.12.24/dist/full.min.css" rel="stylesheet" type="text/css" />
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
@@ -357,28 +358,28 @@ ob_end_flush();
 
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
       <!-- Deleted Departments -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Departments</h2>
-        <a href="manage_department.php" class="text-blue-600 mb-2 inline-block">Back to Active Departments</a>
+        <a href="manage_department.php" class="btn btn-sm btn-neutral inline-block">Back to Active Departments</a>
         <div id="deletedDepartments">
           <?php if (count($deletedDepartments) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Department Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm">Department Name</th>
+                    <th class="p-2 text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedDepartments as $deletedDepartment): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedDepartment['department_name']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?restore=" . $deletedDepartment['department_id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?delete=" . $deletedDepartment['department_id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this department?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?restore=" . $deletedDepartment['department_id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?delete=" . $deletedDepartment['department_id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this department?');">Delete</a>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -392,28 +393,28 @@ ob_end_flush();
       </div>
 
       <!-- Deleted Criteria -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Criteria</h2>
-        <a href="manage_criteria.php" class="text-blue-600 mb-2 inline-block">Back to Active Criteria</a>
+        <a href="manage_criteria.php" class="btn btn-sm btn-neutral inline-block">Back to Active Criteria</a>
         <div id="deletedCriteria">
           <?php if (count($deletedCriteria) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Criteria Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm">Criteria Name</th>
+                    <th class="p-2 text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedCriteria as $deletedCriterias): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedCriterias['criteria']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?criter=" . $deletedCriterias['criteria_id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletes=" . $deletedCriterias['criteria_id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this criteria?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?criter=" . $deletedCriterias['criteria_id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletes=" . $deletedCriterias['criteria_id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this criteria?');">Delete</a>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -427,28 +428,28 @@ ob_end_flush();
       </div>
 
       <!-- Deleted Subjects -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Subjects</h2>
-        <a href="manage_subject.php" class="text-blue-600 mb-2 inline-block">Back to Active Subjects</a>
+        <a href="manage_subject.php" class="btn btn-sm btn-neutral inline-block">Back to Active Subjects</a>
         <div id="deletedSubject">
           <?php if (count($deletedSubject) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Subject Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm">Subject Name</th>
+                    <th class="p-2 text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedSubject as $deletedSubjects): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedSubjects['subject_name']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?sub=" . $deletedSubjects['subject_id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletesub=" . $deletedSubjects['subject_id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this subject?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?sub=" . $deletedSubjects['subject_id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletesub=" . $deletedSubjects['subject_id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this subject?');">Delete</a>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -462,28 +463,28 @@ ob_end_flush();
       </div>
 
       <!-- Deleted Section -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Section</h2>
-        <a href="manage_section.php" class="text-blue-600 mb-2 inline-block">Back to Active Section</a>
+        <a href="manage_section.php" class="btn btn-sm btn-neutral inline-block">Back to Active Section</a>
         <div id="deletedSection">
           <?php if (count($deletedSection) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Section Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm">Section Name</th>
+                    <th class="p-2 text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedSection as $deletedSections): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedSections['section_name']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?sec=" . $deletedSections['section_id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletesec=" . $deletedSections['section_id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this section?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?sec=" . $deletedSections['section_id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletesec=" . $deletedSections['section_id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this section?');">Delete</a>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -497,28 +498,28 @@ ob_end_flush();
       </div>
 
       <!-- Deleted Academic -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Academic</h2>
-        <a href="manage_academic.php" class="text-blue-600 mb-2 inline-block">Back to Active Schoolyear</a>
+        <a href="manage_academic.php" class="btn btn-sm btn-neutral inline-block">Back to Active Schoolyear</a>
         <div id="deletedAcademic">
           <?php if (count($deletedAcademic) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Academic Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm">Academic Name</th>
+                    <th class="p-2 text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedAcademic as $deletedAcademics): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedAcademics['school_year']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?sc=" . $deletedAcademics['schoolyear_id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletesc=" . $deletedAcademics['schoolyear_id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this schoolyear?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?sc=" . $deletedAcademics['schoolyear_id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletesc=" . $deletedAcademics['schoolyear_id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this schoolyear?');">Delete</a>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -533,28 +534,28 @@ ob_end_flush();
 
 
       <!-- Deleted Admin -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Admin</h2>
-        <a href="manage_admin.php" class="text-blue-600 mb-2 inline-block">Back to Active Admin</a>
+        <a href="manage_admin.php" class="btn btn-sm btn-neutral inline-block">Back to Active Admin</a>
         <div id="deletedAdmin">
           <?php if (count($deletedAdmin) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Admin Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm text-sm text-sm">Admin Name</th>
+                    <th class="p-2 text-sm text-sm text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedAdmin as $deletedAdmins): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedAdmins['name']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?ad=" . $deletedAdmins['id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletead=" . $deletedAdmins['id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this Admin?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?ad=" . $deletedAdmins['id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletead=" . $deletedAdmins['id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this Admin?');">Delete</a>
                       </td>
                     </tr>
                   <?php endforeach; ?>
@@ -568,28 +569,28 @@ ob_end_flush();
       </div>
 
       <!-- Deleted Student -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Student</h2>
-        <a href="manage_student.php" class="text-blue-600 mb-2 inline-block">Back to Active Student</a>
+        <a href="manage_student.php" class="btn btn-sm btn-neutral inline-block">Back to Active Student</a>
         <div id="deletedStudent">
           <?php if (count($deletedStudent) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Student Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm text-sm">Student Name</th>
+                    <th class="p-2 text-sm text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedStudent as $deletedStudents): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedStudents['name']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?stud=" . $deletedStudents['student_id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletestud=" . $deletedStudents['student_id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this Student?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?stud=" . $deletedStudents['student_id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deletestud=" . $deletedStudents['student_id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this Student?');">Delete</a>
 
                       </td>
                     </tr>
@@ -605,28 +606,28 @@ ob_end_flush();
 
 
       <!-- Deleted Teacher -->
-      <div class="bg-white p-4 shadow-md rounded-lg">
+      <div class="bg-base-300 p-4 shadow-md rounded-lg hover:border-red-300 hover:border">
         <h2 class="text-2xl mb-2">Deleted Teacher</h2>
-        <a href="manage_teacher.php" class="text-blue-600 mb-2 inline-block">Back to Active Teacher</a>
+        <a href="manage_teacher.php" class="btn btn-sm btn-neutral inline-block">Back to Active Teacher</a>
         <div id="deletedTeacher">
           <?php if (count($deletedTeacher) > 0): ?>
             <div class="overflow-x-auto">
-              <table class="w-full mt-2 shadow-lg border border-gray-300">
-                <thead class="bg-red-700 text-white">
+              <table class="table">
+                <thead class="text-center">
                   <tr>
-                    <th class="px-4 py-2 border">Teacher Name</th>
-                    <th class="px-4 py-2 border">Actions</th>
+                    <th class="p-2 text-sm">Teacher Name</th>
+                    <th class="p-2 text-sm">Actions</th>
                   </tr>
                 </thead>
                 <tbody>
                   <?php foreach ($deletedTeacher as $deletedTeachers): ?>
-                    <tr class="bg-red-300">
-                      <td class="px-4 py-2 text-center text-white font-semibold border">
+                    <tr class="bg-base-300">
+                      <td class="p-2 text-center">
                         <?php echo htmlspecialchars($deletedTeachers['name']); ?>
                       </td>
-                      <td class="px-4 py-2 border text-center">
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?teach=" . $deletedTeachers['teacher_id']; ?>" class="bg-blue-600 text-white px-2 py-1 rounded-md text-sm">Restore</a>
-                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deleteteach=" . $deletedTeachers['teacher_id']; ?>" class="bg-red-600 text-white px-2 py-1 rounded-md text-sm" onclick="return confirm('Are you sure you want to permanently delete this Teacher?');">Delete</a>
+                      <td class="p-2 text-center">
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?teach=" . $deletedTeachers['teacher_id']; ?>" class="btn btn-sm btn-primary">Restore</a>
+                        <a href="<?php echo $_SERVER['PHP_SELF'] . "?deleteteach=" . $deletedTeachers['teacher_id']; ?>" class="btn btn-sm btn-error" onclick="return confirm('Are you sure you want to permanently delete this Teacher?');">Delete</a>
                       </td>
                     </tr>
                   <?php endforeach; ?>

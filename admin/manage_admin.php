@@ -90,47 +90,65 @@ if (isset($_GET['delete_id'])) {
 
 <body>
   <div class="p-5">
-    <a href="archive.php" class="text-blue-600 mt-4 inline-block">View Deleted Admin</a>
     <h1 class="text-3xl">Admin Table</h1>
+    <!-- <a href="archive.php" class="btn btn-sm btn-primary mt-4">View Deleted Admin</a> -->
   </div>
 
-  <div class="p-5">
-    <button class="m-2 px-4 py-2 bg-blue-900 text-lg hover:bg-blue-500 text-white rounded-md" onclick="my_modal_2.showModal()">Add Admin</button>
+  <div class="p-5 m-3">
+    <button class="btn btn-sm btn-primary" onclick="my_modal_2.showModal()">Add Admin</button>
     <dialog id="my_modal_2" class="modal">
-      <div class="modal-box max-w-2xl">
-        <form action="" method="post" enctype="multipart/form-data">
-          <h1 class="text-2xl">Personal Info</h1>
+      <div class="modal-box w-11/12 max-w-5xl bg-primary-content">
+        <h1 class="text-2xl font-bold text-white flex items-center gap-2 mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="h-8 w-8 opacity-70 animate-bounce">
+            <path d="M8 .5a1 1 0 0 1 .515.14l5 3A1 1 0 0 1 14 4.5v3a7.5 7.5 0 0 1-6.22 7.426 1 1 0 0 1-.56 0A7.5 7.5 0 0 1 1 7.5v-3a1 1 0 0 1 .485-.86l5-3A1 1 0 0 1 8 .5Zm0 1.234L3 4.18V7.5a6.5 6.5 0 0 0 5 6.326A6.5 6.5 0 0 0 13 7.5V4.18l-5-2.446Z" />
+          </svg>
+          Personal Info
+        </h1>
+        <form action="" method="post" enctype="multipart/form-data" class="flex justify-evenly items-center text-white">
           <div>
-            <label>Name:</label>
-            <input type="text" name="name" required>
+            <div class="flex flex-col justify-center items-center">
+              <h1 class="text-lg font-semibold">Image Preview</h1>
+              <img id="image-preview" src="../admin/tools/Images/def_logo.png" alt="Image Preview" class="w-64 h-64 object-cover mt-4 rounded-md border shadow-md">
+              <label for="hen" class="btn btn-md btn-outline btn-primary w-full cursor-pointer mt-4">Upload Image</label>
+              <input type="file" id="hen" class="hidden" accept="image/*" onchange="previewImage(event)" required name="image" value="" accept=".jpeg, .jpg, .png, .svg">
+            </div>
           </div>
-          <div>
-            <label>Email:</label>
-            <input type="email" name="email" required>
+          <div class="grid grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-semibold mb-1">Name</label>
+              <input type="text" class="input input-bordered w-full" placeholder="Name" name="name" autocomplete="off">
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-1">Email</label>
+              <input type="text" class="input input-bordered w-full" placeholder="Email" name="email" autocomplete="off" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-1">Username</label>
+              <input type="text" class="input input-bordered w-full" placeholder="Username" name="username" autocomplete="off" required>
+            </div>
+
+            <div>
+              <label class="block text-sm font-semibold mb-1">Password</label>
+              <input type="password" class="input input-bordered w-full" placeholder="Password" name="password" autocomplete="off" required>
+            </div>
+
+            <button type="submit" class="btn btn-md btn-primary w-full">Add Admin</button>
           </div>
-          <div>
-            <label>Username:</label>
-            <input type="text" name="username" required>
-          </div>
-          <div>
-            <label>Password:</label>
-            <input type="password" name="password" required>
-          </div>
-          <div>
-            <label>Upload Image:</label>
-            <input type="file" name="image" accept=".jpeg, .jpg, .png, .svg">
-          </div>
-          <button type="submit">Add Admin</button>
         </form>
+        <div class="modal-action">
+          <button class="btn btn-md btn-secondary" onclick="my_modal_2.close()">Close</button>
+        </div>
       </div>
-      <button onclick="my_modal_2.close()">Close</button>
     </dialog>
   </div>
+
 
   <section>
     <div class="overflow-x-auto p-5 shadow-lg m-5">
       <?php
-      
+
 
       // Set number of records per page
       $records_per_page = 5;
@@ -156,54 +174,59 @@ if (isset($_GET['delete_id'])) {
       $result = mysqli_query($conn, $sql);
       ?>
 
-      <table class="table">
-        <thead class="bg-blue-900 text-white">
-          <tr>
-            <th class="px-4 py-2 text-center border">ID</th>
-            <th class="px-4 py-2 text-center border">Image</th>
-            <th class="px-4 py-2 text-center border">Name</th>
-            <th class="px-4 py-2 text-center border">Username</th>
-            <th class="px-4 py-2 text-center border">Email</th>
-            <th class="px-4 py-2 text-center border">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <?php if (mysqli_num_rows($result) > 0) { ?>
-            <?php while ($row = mysqli_fetch_assoc($result)) { ?>
-              <tr>
-                <td class="text-center text-black border"><?php echo htmlspecialchars($row['id']); ?></td>
-                <td class="text-center border">
-                  <div class="flex justify-center items-center">
-                    <div class="avatar">
-                      <div class="mask mask-squircle h-12 w-12">
-                        <img src="../<?php echo htmlspecialchars($row['image']); ?>"
-                          alt="Admin Image" class="object-cover w-12 h-12">
-                      </div>
-                    </div>
-                  </div>
-                </td>
-                <td class="text-center text-black border"><?php echo htmlspecialchars($row['name']); ?></td>
-                <td class="text-center text-black border"><?php echo htmlspecialchars($row['username']); ?></td>
-                <td class="text-center text-black border"><?php echo htmlspecialchars($row['email']); ?></td>
-                <td class="text-center text-black border">
-                  <a href="../admin/manage_update_admin.php?adminid=<?php echo $row['id']; ?>"
-                    class="btn btn-xs btn-warning" title="Edit Admin">Edit</a>
-                  <a href="?delete_id=<?php echo $row['id']; ?>"
-                    class="btn btn-xs btn-error"
-                    title="Delete Admin"
-                    onclick="return confirm('Are you sure you want to delete this admin?');">
-                    Delete
-                  </a>
-                </td>
-              </tr>
-            <?php } ?>
-          <?php } else { ?>
+      <section>
+        <div class="overflow-y-auto- m-3">
+          <table class="table"
+            <thead class="bg-blue-900 text-white">
             <tr>
-              <td colspan="6" class="text-center text-2xl py-4 font-bold">No admin available</td>
+              <!-- <th>ID</th> -->
+              <th class="text-center">Image</th>
+              <th class="text-center">Name</th>
+              <th class="text-center">Username</th>
+              <th class="text-center">Email</th>
+              <th class="text-center">Actions</th>
             </tr>
-          <?php } ?>
-        </tbody>
-      </table>
+            </thead>
+            <tbody>
+              <?php if (mysqli_num_rows($result) > 0) { ?>
+                <?php while ($row = mysqli_fetch_assoc($result)) { ?>
+                  <tr>
+                    <!-- <td><//?php echo htmlspecialchars($row['id']); ?></td> -->
+                    <td class="text-center">
+                      <div class="flex justify-center items-center">
+                        <div class="avatar">
+                          <div class="mask mask-squircle h-12 w-12">
+                            <img src="../<?php echo htmlspecialchars($row['image']); ?>"
+                              alt="Admin Image" class="object-cover w-12 h-12">
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td class="text-center"><?php echo htmlspecialchars($row['name']); ?></td>
+                    <td class="text-center"><?php echo htmlspecialchars($row['username']); ?></td>
+                    <td class="text-center"><?php echo htmlspecialchars($row['email']); ?></td>
+                    <td class="text-center">
+                      <a href="../admin/manage_update_admin.php?adminid=<?php echo $row['id']; ?>"
+                        class="btn btn-xs btn-warning" title="Edit Admin">Edit</a>
+                      <a href="?delete_id=<?php echo $row['id']; ?>"
+                        class="btn btn-xs btn-error"
+                        title="Delete Admin"
+                        onclick="return confirm('Are you sure you want to delete this admin?');">
+                        Delete
+                      </a>
+                    </td>
+                  </tr>
+                <?php } ?>
+              <?php } else { ?>
+                <tr>
+                  <td colspan="6" class="text-center text-2xl py-4 font-bold">No admin available</td>
+                </tr>
+              <?php } ?>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
 
       <!-- Pagination Controls -->
       <div class="flex justify-center mt-5">
